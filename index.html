@@ -34,7 +34,7 @@
 
 <main id="main">
 <section class="hero" aria-label="Introduction" style="padding:0">
-  <div class="hero-media"><img src="img/hero.jpg" alt="The BIG recycling station on a new home building site" fetchpriority="high"></div>
+  <div class="hero-media"><video id="heroVid" autoplay muted loop playsinline preload="metadata" poster="img/hero.jpg" aria-label="The BIG recycling station on a new home building site"><source src="img/hero.mp4" type="video/mp4"></video></div>
   <div class="wrap">
     <h1><span class="w">Think BIG.</span><span class="sr"> Recycle better.</span></h1>
     <div class="hero-sub">
@@ -193,7 +193,7 @@
           </select></div>
         <div><label for="base">Recovered from your current mixed skips: <output id="baseOut">28</output>%</label>
           <input type="range" id="base" min="0" max="80" step="1" value="28">
-          <span class="hint">28% is the diversion rate one New Zealand study found for building-site waste. Use your own figure if your contractor reports one.</span></div>
+          <span class="hint">28% is the share of construction-site waste diverted from landfill in one study cited by BRANZ (New Zealand). Use your own figure if your contractor reports one.</span></div>
         <div><label for="target">Recovered with BIG: <output id="targetOut">78</output>%</label>
           <input type="range" id="target" min="40" max="95" step="1" value="78">
           <span class="hint">78% is everything except the general rubbish bay. The pilot measures the real figure.</span></div>

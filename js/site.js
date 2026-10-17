@@ -3,6 +3,10 @@ const $ = (s, r = document) => r.querySelector(s);
 const fmt = (n, d = 0) => n.toLocaleString('en-AU', { maximumFractionDigits: d, minimumFractionDigits: d });
 const money = (n) => '$' + fmt(Math.round(n));
 
+// hero video: respect reduced motion
+const hv = document.getElementById('heroVid');
+if (hv && matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
+
 // menu
 const menuBtn = $('.menu');
 menuBtn?.addEventListener('click', () => {
