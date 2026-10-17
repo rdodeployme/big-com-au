@@ -295,6 +295,11 @@ if RENDER in ("hero", "all"):
     lights()
     setup_render("hero.png", (8.6, -7.4, 3.3), (math.radians(78), 0, math.radians(49)), lens=38)
 
+if RENDER == "side":
+    lights(strength=0.9)
+    scene.render.resolution_x = RES
+    setup_render("side.png", (0, -14, 1.35), (math.radians(90), 0, 0), ortho=7.6, transparent=True)
+
 if RENDER in ("plan", "all"):
     # remove flaps for a clear plan view
     for o in list(bpy.data.objects):

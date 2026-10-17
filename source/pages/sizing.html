@@ -1,9 +1,55 @@
 <main id="main">
-<div class="page-hero"><div class="wrap">
-  <p class="kicker">How the bays are sized</p>
-  <h1>We let the numbers set the size.</h1>
-  <p>Each bay's size is its share of the loose volume that building a new home produces. Here is the data, the conversion, and every assumption, so anyone can check it. Pilot weighbridge data replaces these estimates as it comes in.</p>
-</div></div>
+<section class="phero phero-plain" style="padding:0">
+  <div class="wrap phero-in">
+    <p class="kicker">How it's sized</p>
+    <h1>Size bins by weight and you get it backwards.</h1>
+    <p>Bricks and concrete are the heaviest thing a new home throws out, but they barely take up room. Cardboard weighs almost nothing and fills a skip. Bins fill by space, so every BIG bay is sized by space. Here's the data, the conversion and every assumption.</p>
+  </div>
+</section>
+
+<section class="light" id="sizing">
+  <div class="wrap">
+    <div class="flip">
+      <div>
+        <div class="toggle" role="group" aria-label="Show share by">
+          <button type="button" aria-pressed="true" data-mode="volume">By space</button>
+          <button type="button" aria-pressed="false" data-mode="weight">By weight</button>
+        </div>
+        <svg class="slope" id="slope" viewBox="0 0 560 420" role="img" aria-label="Each stream's share of waste by weight compared with its share by volume"></svg>
+      </div>
+      <div>
+        <div class="plan" id="plan"><img src="img/plan.jpg" alt="Top-down view of the station with the lid off, showing the eight bays at their sized lengths" loading="lazy"><svg viewBox="0 0 1800 1116" preserveAspectRatio="none" aria-hidden="true" id="planSvg"></svg></div>
+        <p class="plan-cap">Lid off, from above. Each bay's length is its share of the loose volume a new home produces. The smallest bays are held at a 0.6 m minimum so they can still be loaded by hand.</p>
+      </div>
+    </div>
+
+    <div class="house">
+      <div>
+        <label for="area">Floor area of the home: <output id="areaOut">240</output> m²</label>
+        <input class="range" type="range" id="area" min="120" max="450" step="10" value="240">
+        <div class="readout">
+          <div><b id="tOut">7.7 t</b><span>surplus material</span></div>
+          <div><b id="vOut">41 m³</b><span>loose volume</span></div>
+          <div><b id="lOut">1.6</b><span>station change-overs</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="skips" id="skips" aria-hidden="true"></div>
+        <p class="skips-cap" id="skipsCap">That's about seven 6 m³ skips of mixed waste, or under two BIG change-overs, already sorted.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="perhome">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>One home, stream by stream.</h2>
+      <p>What a 240 m² home produces in each bay, at the central estimate. Move the floor area slider above and these update.</p>
+    </div>
+    <div class="streambars" id="streamBars"></div>
+  </div>
+</section>
 
 <section class="light">
   <div class="wrap">
@@ -67,5 +113,4 @@ document.querySelector('#resultTbl tbody').innerHTML=m.streams.map(s=>`<tr><td><
 const cols=[['low2024','Low et al. 2024 (measured, NZ)'],['branz','BRANZ Bulletin 671'],['yourhome','Your Home table (NSW 2007)']];
 document.querySelector('#srcTbl thead').innerHTML=`<tr><th>Bay</th>${cols.map(c=>`<th class="n">${c[1]}</th>`).join('')}<th class="n">BIG central</th></tr>`;
 document.querySelector('#srcTbl tbody').innerHTML=m.streams.map(s=>`<tr><td>${String(s.n).padStart(2,'0')} ${s.name}</td>${cols.map(c=>`<td class="n">${f(m.sources[c[0]][s.id]||0,1)}</td>`).join('')}<td class="n"><b>${f(s.weight,1)}</b></td></tr>`).join('');
-document.querySelector('.menu')?.addEventListener('click',e=>{const o=document.getElementById('nav').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)});
 </script>

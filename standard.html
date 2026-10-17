@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The BIG Standard — recycle to standard</title>
 <meta name="description" content="A model subcontract clause, stage checks and trade sheet for recycling on new home sites.">
-<meta property="og:title" content="BIG — Think BIG. Recycle better.">
-<meta property="og:description" content="One recycling station per new home. Eight streams. Sized by the data.">
+<meta property="og:title" content="The BIG Standard — recycle to standard">
+<meta property="og:description" content="A model subcontract clause, stage checks and trade sheet for recycling on new home sites.">
 <meta property="og:image" content="img/og.jpg">
+<meta name="theme-color" content="#0E1114">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,24 +20,29 @@
   <div class="wrap">
     <a class="mark" href="./" aria-label="BIG home"><b>BIG</b><span>A Recycle Group initiative</span></a>
     <nav class="nav" id="nav" aria-label="Main">
-      <a href="./#station">The station</a>
-      <a href="method.html">How it's sized</a>
-      <a href="./#savings">Savings</a>
+      <a href="station.html">The station</a>
+      <a href="sizing.html">How it's sized</a>
+      <a href="savings.html">Savings</a>
       <a href="standard.html" aria-current="page">The BIG Standard</a>
       <a href="your-home.html">Your Home</a>
-      <a href="./#pilot">Pilot</a>
+      <a href="pilot.html">Pilot</a>
+      <a class="nav-cta" href="pilot.html#form">Start a pilot</a>
     </nav>
-    <a class="btn btn-cu" href="./#pilot">Start a pilot</a>
+    <a class="btn btn-cu" href="pilot.html#form">Start a pilot</a>
     <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
   </div>
 </header>
 <main id="main">
-<div class="page-hero"><div class="wrap">
-  <p class="kicker">The BIG Standard</p>
-  <h1>Recycle to standard.</h1>
-  <p>Every trade on a new home already works to a standard: plaster to a finish level, tiles to a tolerance, paint to a spec. The BIG Standard adds one more. Builders write it into their subcontracts, and recycling gets checked and signed off at each stage like any other work.</p>
-  <div class="cta-row no-print" style="margin-top:28px"><button class="btn btn-cu" onclick="print()">Print or save as PDF</button><a class="btn btn-ghost" href="./#pilot">Start a pilot</a></div>
-</div></div>
+<section class="phero" style="padding:0">
+  <img class="phero-img" src="img/trade.jpg" alt="A plasterer sliding offcuts into bay 03 of the station" fetchpriority="high" style="object-position:40% 40%">
+  <div class="wrap phero-in">
+    <p class="kicker">The BIG Standard</p>
+    <h1>Recycle to standard.</h1>
+    <p>Every trade on a new home already works to a standard: plaster to a finish level, tiles to a tolerance, paint to a spec. The BIG Standard adds one more. Builders write it into their subcontracts, and recycling gets checked and signed off at each stage like any other work.</p>
+    <div class="cta-row no-print" style="margin-top:26px"><a class="btn btn-cu" href="#clause">Read the clause</a><button class="btn btn-ghost" type="button" onclick="print()">Print or save as PDF</button></div>
+  </div>
+</section>
+
 
 <section class="light">
   <div class="wrap std">
@@ -65,6 +71,7 @@
         <li><b>Records.</b> The Builder may use station weight records to report recycling by trade, stage and home.</li>
       </ol>
       <p class="src" style="margin-top:16px">Timeframes, rates and the charge-back method are proposed and set by each builder.</p>
+      <div class="row no-print"><button class="btn btn-ink" type="button" id="copyClause">Copy the clause</button><span class="copied" id="copied" aria-live="polite"></span></div>
     </div>
   </div>
 </section>
@@ -95,6 +102,46 @@
     <p class="src" style="margin-top:18px">Never in the station: asbestos, fibro, chemicals, paint, solvents, liquids, batteries, gas bottles or any hazardous waste.</p>
   </div>
 </section>
+
+<section id="scorecard">
+  <div class="wrap">
+    <div class="sec-head"><h2>The trade scorecard.</h2><p>Because every bay is weighed, a builder can see which stages, and which trades, recycle cleanly. A simple scorecard turns that into recognition, not just charge-backs. <span class="tag" style="color:var(--dim)">Proposed</span></p></div>
+    <div class="score">
+      <div class="score-card">
+        <p class="sc-h">Example layout · demo figures</p>
+        <table class="tbl dark-tbl">
+          <thead><tr><th>Trade</th><th>Stage</th><th class="n">Contamination checks passed</th><th class="n">Rating</th></tr></thead>
+          <tbody>
+            <tr><td>Concreter</td><td>Slab</td><td class="n">5 of 5</td><td class="n"><span class="rate r3">Clean</span></td></tr>
+            <tr><td>Carpenter</td><td>Frame</td><td class="n">6 of 6</td><td class="n"><span class="rate r3">Clean</span></td></tr>
+            <tr><td>Bricklayer</td><td>Lock-up</td><td class="n">4 of 5</td><td class="n"><span class="rate r2">Watch</span></td></tr>
+            <tr><td>Plasterer</td><td>Fixing</td><td class="n">5 of 5</td><td class="n"><span class="rate r3">Clean</span></td></tr>
+            <tr><td>Cabinet maker</td><td>Fixing</td><td class="n">3 of 5</td><td class="n"><span class="rate r1">Fix</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="ticks ticks-dark">
+        <li>Clean trades get named in the builder's preferred-trade list</li>
+        <li>Repeat contamination is raised like any other defect pattern</li>
+        <li>Supervisors see the problem stage, not just a dirty bin at the end</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="faq">
+  <div class="wrap">
+    <div class="sec-head"><h2>Questions trades ask.</h2><p>And the straight answers.</p></div>
+    <div class="faq">
+      <details><summary>Does this take longer than throwing it in a skip?</summary><p>No. The bays are numbered and a few steps from where you work. Most trades only use two or three bays for their whole stage.</p></details>
+      <details><summary>What if someone else contaminates a bay?</summary><p>Contamination is traced to the stage and the work, not guessed. Stage checks happen while your trade is on site, so it's clear whose material is whose.</p></details>
+      <details><summary>What if I'm not sure which bay something goes in?</summary><p>It goes in 07 General, or ask the supervisor. General is the only bay where a mistake doesn't spoil a recycling stream.</p></details>
+      <details><summary>Can I still take my own offcuts to reuse?</summary><p>Yes, by agreement with the supervisor. Clause 4 only stops waste leaving site to be dumped or binned somewhere else.</p></details>
+      <details><summary>Who pays for the station?</summary><p>The builder. Trades don't pay to use it. The only cost to a trade is sorting their own contamination if they leave it.</p></details>
+      <details><summary>Is the clause legally checked?</summary><p>It's model wording to start from. Every builder should have their own lawyer review it against their subcontract before using it.</p></details>
+    </div>
+  </div>
+</section>
 </main>
 <script>
 const SHEET=[["01 Plastics","Wrap and film, strapping, pipe and conduit offcuts, plastic packaging, empty dry buckets","Polystyrene, anything with paint, sealant or food"],
@@ -106,16 +153,19 @@ const SHEET=[["01 Plastics","Wrap and film, strapping, pipe and conduit offcuts,
 ["07 General","Anything that can't go in another bay: mixed offcuts, sweepings, fibre cement","Hazardous waste of any kind"],
 ["08 Steel & metals","Steel and metal offcuts, mesh, roofing, flashing, copper, aluminium","Gas bottles, aerosols, anything with liquid in it"]];
 document.querySelector('#tradeSheet tbody').innerHTML=SHEET.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
-document.querySelector('.menu')?.addEventListener('click',e=>{const o=document.getElementById('nav').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)});
 </script>
-
+<script>
+document.getElementById('copyClause')?.addEventListener('click',async()=>{const t=[...document.querySelectorAll('#clause ol li')].map((li,i)=>`${i+1}. ${li.innerText}`).join('\n');try{await navigator.clipboard.writeText('BIG Standard: recycling and site waste clause\n\n'+t);document.getElementById('copied').textContent='Copied';}catch(e){document.getElementById('copied').textContent='Select the text to copy it';}});
+</script>
+<a class="next" href="your-home.html"><span class="wrap"><small>Next</small><b>Your Home</b></span></a>
 <footer>
   <div class="wrap">
     <div><a class="mark" href="./"><b>BIG</b></a><p style="margin-top:12px">Think BIG. Recycle better.<br>A Recycle Group initiative.</p></div>
-    <ul><li><a href="./#station">The station</a></li><li><a href="method.html">How it's sized</a></li><li><a href="standard.html">The BIG Standard</a></li><li><a href="your-home.html">Your Home</a></li></ul>
-    <ul><li><a href="./#pilot">Start a pilot</a></li><li><a href="https://recycle.net.au" rel="noopener">recycle.net.au</a></li></ul>
-    <p class="fine">BIG doesn't accept asbestos, chemicals or other hazardous waste. Figures are estimates from published studies and are replaced by measured pilot data. BIG is not endorsed by the Australian Government.</p>
+    <ul><li><a href="station.html">The station</a></li><li><a href="sizing.html">How it's sized</a></li><li><a href="savings.html">Savings</a></li></ul>
+    <ul><li><a href="standard.html">The BIG Standard</a></li><li><a href="your-home.html">Your Home</a></li><li><a href="pilot.html">Pilot</a></li><li><a href="https://recycle.net.au" rel="noopener">recycle.net.au</a></li></ul>
+    <p class="fine">BIG doesn't accept asbestos, chemicals or other hazardous waste. Figures are estimates from published studies and are replaced by measured pilot data. Images marked illustrative are AI-generated. BIG is an independent Recycle Group initiative and is not endorsed by the Australian Government.</p>
   </div>
 </footer>
+<script type="module" src="js/site.js"></script>
 </body>
 </html>

@@ -31,7 +31,7 @@ let MODEL;
 fetch('data/model.json').then((r) => r.json()).then((m) => { MODEL = m; initAll(); });
 
 function initAll() {
-  initBays(); initSlope(); initPlan(); initHouse(); initCalc();
+  initBays(); initSlope(); initPlan(); initHouse(); initCalc(); initBayGrid(); initElevation(); initReport();
 }
 
 // ---------- bays + 3D ----------
@@ -153,6 +153,7 @@ function initHouse() {
     const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen'];
     const n = Math.round(skips);
     $('#skipsCap').textContent = `That's about ${words[n] || n} 6 m³ skips of mixed waste, or ${fmt(lifts, 1)} BIG change-overs, already sorted.`;
+    drawStreamBars('#streamBars', t, 'home');
   };
   r.addEventListener('input', upd); upd();
 }
@@ -170,8 +171,92 @@ function initCalc() {
     $('#cS1').textContent = money(s1); $('#cSy').textContent = money(s1 * homes);
     $('#cV1').textContent = fmt(v1) + ' m³'; $('#cVy').textContent = fmt(v1 * homes) + ' m³';
     $('#cSave').textContent = money(s1 * homes);
+    // truck visits
+    const mixed = Math.ceil(v1 / 6) * homes, big = Math.ceil(v1 / (MODEL.stationInternalM3 * 0.85)) * homes;
+    if ($('#tkMixed')) {
+      $('#tkMixed').textContent = fmt(mixed); $('#tkBig').textContent = fmt(big);
+      $('#tkMixedBar').style.width = '100%'; $('#tkBigBar').style.width = (mixed ? 100 * big / mixed : 0) + '%';
+    }
+    drawStreamBars('#streamBarsYear', t1 * homes, 'year');
+    drawLevyChart(d1 * homes);
+    const sc = $('#scenTbl tbody');
+    if (sc) sc.innerHTML = [100, 250, 1000, 2500].map((h) => {
+      const tv = Math.ceil(v1 / 6) * h - Math.ceil(v1 / (MODEL.stationInternalM3 * 0.85)) * h;
+      return `<tr${h === homes ? ' class="hl"' : ''}><td><b>${fmt(h)}</b></td><td class="n">${fmt(t1 * h)} t</td><td class="n">${fmt(d1 * h)} t</td><td class="n">${money(s1 * h)}</td><td class="n">${fmt(tv)}</td></tr>`;
+    }).join('');
   };
   f.addEventListener('input', upd); upd();
+}
+
+// ---------- stream bars (big numbers, real scale) ----------
+function drawStreamBars(sel, tonnes, mode) {
+  const el = $(sel); if (!el) return;
+  const rows = MODEL.streams.map((s) => ({ ...s, t: tonnes * s.weight / 100, v: tonnes * MODEL.m3PerTonne * s.volume / 100 }));
+  const maxV = Math.max(...rows.map((r) => r.v));
+  el.innerHTML = rows.map((r) => `<div class="sb"><p class="sb-n"><b>${String(r.n).padStart(2, '0')}</b>${r.name}</p>
+    <div class="sb-bar"><i style="width:${(100 * r.v / maxV).toFixed(1)}%"></i></div>
+    <p class="sb-v"><b>${fmt(r.v, mode === 'home' && r.v < 10 ? 1 : 0)} m³</b><span>${fmt(r.t, r.t < 0.1 ? 2 : (r.t < 10 ? 1 : 0))} t</span></p></div>`).join('')
+    + `<p class="sb-foot">Bar length is space, because that's what fills a bin. ${mode === 'home' ? 'Per home.' : 'Per year, across your program.'}</p>`;
+}
+
+// ---------- levy chart (Qld legislated schedule) ----------
+function drawLevyChart(tonnesKept) {
+  const svg = $('#lvChart'); if (!svg) return;
+  const yrs = [['2025–26', 125], ['2026–27', 135], ['2027–28', 145], ['2028–29', 155], ['2029–30', 165]];
+  const vals = yrs.map(([, r]) => tonnesKept * r), max = Math.max(...vals) || 1;
+  const W = 560, H = 300, b = 250, bw = 76, gap = (W - bw * 5) / 6;
+  svg.innerHTML = yrs.map(([y], i) => {
+    const h = 200 * vals[i] / max, x = gap + i * (bw + gap);
+    return `<rect x="${x}" y="${b - h}" width="${bw}" height="${h}" rx="3" fill="${i === 4 ? '#5E3A22' : '#0E1114'}"/>
+      <text x="${x + bw / 2}" y="${b - h - 10}" text-anchor="middle" font-size="15" font-weight="700" font-family="Inter" fill="#0E1114">${money(vals[i])}</text>
+      <text x="${x + bw / 2}" y="${b + 22}" text-anchor="middle" font-size="13" font-family="Inter" fill="rgba(14,17,20,.7)">${y}</text>`;
+  }).join('') + `<line x1="0" x2="${W}" y1="${b}" y2="${b}" stroke="rgba(14,17,20,.3)"/>`;
+}
+
+// ---------- station page: bay grid ----------
+function initBayGrid() {
+  const g = $('#bayGrid'); if (!g) return;
+  g.innerHTML = MODEL.streams.map((s) => { const b = BAY[s.id]; return `<article class="bg">
+    <img src="img/bay-${s.id}.jpg" alt="" loading="lazy">
+    <div class="bg-b"><h3><span>${String(s.n).padStart(2, '0')}</span>${s.name}</h3>
+    <p class="bg-m">${fmt(s.bayM3, 1)} m³ bay · ${fmt(s.volume, s.volume < 3 ? 1 : 0)}% of the space · ${fmt(s.weight, s.weight < 1 ? 1 : 0)}% of the weight</p>
+    <dl><dt>Goes in</dt><dd>${b.in}</dd><dt>Stays out</dt><dd>${b.out}</dd><dt>Where it goes</dt><dd>${b.where}</dd></dl></div></article>`; }).join('');
+}
+
+// ---------- station page: dimensioned side elevation ----------
+function initElevation() {
+  const svg = $('#elevSvg'); if (!svg) return;
+  fetch('data/bays.json').then((r) => r.json()).then(({ bays }) => {
+    const k = 1800 / 7.6, X = (x) => 900 + x * k, Z = (z) => 558 - (z - 1.35) * k;
+    const ink = '#0E1114', sw = 2.5, fs = 26;
+    const dimH = (x0, x1, y, label) => `<line x1="${X(x0)}" x2="${X(x1)}" y1="${y}" y2="${y}" stroke="${ink}" stroke-width="${sw}" marker-start="url(#ar)" marker-end="url(#ar)"/>
+      <line x1="${X(x0)}" x2="${X(x0)}" y1="${y - 16}" y2="${y + 16}" stroke="${ink}" stroke-width="1.5"/><line x1="${X(x1)}" x2="${X(x1)}" y1="${y - 16}" y2="${y + 16}" stroke="${ink}" stroke-width="1.5"/>
+      <rect x="${(X(x0) + X(x1)) / 2 - label.length * 8 - 10}" y="${y - 20}" width="${label.length * 16 + 20}" height="40" fill="#ECEFF1"/>
+      <text x="${(X(x0) + X(x1)) / 2}" y="${y + 9}" text-anchor="middle" font-family="Inter" font-weight="600" font-size="${fs}" fill="${ink}">${label}</text>`;
+    const dimV = (z0, z1, x, label) => `<line x1="${x}" x2="${x}" y1="${Z(z0)}" y2="${Z(z1)}" stroke="${ink}" stroke-width="${sw}" marker-start="url(#ar)" marker-end="url(#ar)"/>
+      <line x1="${x - 16}" x2="${x + 16}" y1="${Z(z0)}" y2="${Z(z0)}" stroke="${ink}" stroke-width="1.5"/><line x1="${x - 16}" x2="${x + 16}" y1="${Z(z1)}" y2="${Z(z1)}" stroke="${ink}" stroke-width="1.5"/>
+      <text x="${x - 22}" y="${(Z(z0) + Z(z1)) / 2 + 9}" text-anchor="end" font-family="Inter" font-weight="600" font-size="${fs}" fill="${ink}">${label}</text>`;
+    let h = `<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="${ink}"/></marker><marker id="arw" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#EEF1F3"/></marker></defs>`;
+    h += `<line x1="60" x2="1740" y1="${Z(0)}" y2="${Z(0)}" stroke="${ink}" stroke-width="2" stroke-dasharray="10 8"/>`;
+    h += dimH(-3.15, 3.15, 120, '6,300');
+    h += dimV(0, 2.42, 110, '2,420');
+    const lx = X(-0.55), wht = '#EEF1F3';
+    h += `<line x1="${lx}" x2="${lx}" y1="${Z(0)}" y2="${Z(1.22)}" stroke="${wht}" stroke-width="${sw}" marker-start="url(#arw)" marker-end="url(#arw)"/>
+      <line x1="${lx - 16}" x2="${lx + 16}" y1="${Z(1.22)}" y2="${Z(1.22)}" stroke="${wht}" stroke-width="1.5"/>
+      <text x="${lx - 20}" y="${Z(0.72)}" text-anchor="end" font-family="Inter" font-weight="600" font-size="${fs}" fill="${wht}">1,220</text>
+      <text x="${lx - 20}" y="${Z(0.72) + 28}" text-anchor="end" font-family="Inter" font-size="20" fill="rgba(238,241,243,.7)">loading lip</text>`;
+    const side = bays.filter((b) => b.side === 'B').sort((a, b) => a.x0 - b.x0);
+    for (const b of side) h += dimH(b.x0, b.x0 + b.len, Z(0) + 70, fmt(Math.round(b.len * 1000 / 10) * 10));
+    svg.innerHTML = h;
+  });
+}
+
+// ---------- pilot page: example report bars (demo) ----------
+function initReport() {
+  const el = $('#rpBars'); if (!el) return;
+  const demo = { plastic: 0.18, timber: 1.92, plaster: 0.86, card: 0.31, eps: 0.04, rubble: 2.29, general: 1.55, steel: 0.25 };
+  const max = Math.max(...Object.values(demo));
+  el.innerHTML = MODEL.streams.map((s) => `<div class="rb"><span>${String(s.n).padStart(2, '0')} ${s.name}</span><div><i style="width:${100 * demo[s.id] / max}%"></i></div><b>${fmt(demo[s.id], 2)} t</b></div>`).join('');
 }
 
 // ---------- pilot form → email ----------
