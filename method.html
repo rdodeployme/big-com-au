@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How BIG bays are sized</title>
+<meta name="description" content="The data, conversion and assumptions behind the size of each BIG bay.">
+<meta property="og:title" content="BIG — Think BIG. Recycle better.">
+<meta property="og:description" content="One recycling station per new home. Eight streams. Sized by the data.">
+<meta property="og:image" content="img/og.jpg">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/big.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="./" aria-label="BIG home"><b>BIG</b><span>A Recycle Group initiative</span></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="./#station">The station</a>
+      <a href="method.html" aria-current="page">How it's sized</a>
+      <a href="./#savings">Savings</a>
+      <a href="standard.html">The BIG Standard</a>
+      <a href="your-home.html">Your Home</a>
+      <a href="./#pilot">Pilot</a>
+    </nav>
+    <a class="btn btn-cu" href="./#pilot">Start a pilot</a>
+    <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+<main id="main">
+<div class="page-hero"><div class="wrap">
+  <p class="kicker">How the bays are sized</p>
+  <h1>We let the numbers set the size.</h1>
+  <p>Each bay's size is its share of the loose volume that building a new home produces. Here is the data, the conversion, and every assumption, so anyone can check it. Pilot weighbridge data replaces these estimates as it comes in.</p>
+</div></div>
+
+<section class="light">
+  <div class="wrap">
+    <div class="sec-head"><h2>The result.</h2><p>Central estimate for an Australian brick-veneer, slab-on-ground home. Weight share is our blend of the published sources below. Space share uses measured loose unit weights.</p></div>
+    <table class="tbl" id="resultTbl">
+      <thead><tr><th>Bay</th><th class="n">% of weight</th><th class="n">Range in sources</th><th class="n">Loose kg/m³</th><th class="n">% of space</th><th class="n">Built bay</th><th class="n">Bay m³</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="src" style="margin-top:12px">"Built bay" applies a 0.6 m minimum bay length so polystyrene and steel can be loaded by hand; the extra room comes off the other bays in proportion. Bay volumes assume the 6.3 × 2.45 × 2.2 m concept body, about 31 m³ inside.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><h2>How we got there.</h2><p>Six steps, all run in code. The same model drives the Blender station and the numbers on this site.</p></div>
+    <ol class="steps" style="border-color:var(--line)">
+      <li style="border-color:var(--line)"><b>Collect the splits</b><p class="muted">Material shares by weight from three published sources, mapped onto the eight BIG streams.</p></li>
+      <li style="border-color:var(--line)"><b>Blend for Australia</b><p class="muted">NZ builds are mostly timber-clad. Australian homes add brick veneer and more concrete, so we carry more rubble than the NZ studies show.</p></li>
+      <li style="border-color:var(--line)"><b>Convert to space</b><p class="muted">Divide each stream's weight by its loose unit weight from the BRANZ REBRI conversion chart.</p></li>
+      <li style="border-color:var(--line)"><b>Size the bays</b><p class="muted">Each bay gets its share of the station, so all eight fill at roughly the same rate over a build.</p></li>
+      <li style="border-color:var(--line)"><b>Set the floor</b><p class="muted">No bay shorter than 0.6 m. The two rows are balanced so each side holds about half the volume.</p></li>
+      <li style="border-color:var(--line)"><b>Replace with real data</b><p class="muted">Every pilot change-over is weighed by stream. The split, and the bay sizes, update from that.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="light">
+  <div class="wrap">
+    <div class="sec-head"><h2>The sources, side by side.</h2><p>Percent by weight, mapped to BIG bays. None of these is a perfect match for an Australian new home, which is why the central estimate is a blend and the pilot measures the real thing.</p></div>
+    <table class="tbl" id="srcTbl"><thead></thead><tbody></tbody></table>
+    <p class="src" style="margin-top:10px">BRANZ lists five categories totalling 88%. Its 5% "packaging" is shown under cardboard and covers cardboard, plastic and polystyrene together; its 45% "other" is shown under general. Low et al.'s timber includes fence palings; its general includes builder's waste, fibre cement, fixtures and sweepings.</p>
+    <div class="prose" style="margin-top:28px">
+      <h3>How much a home produces</h3>
+      <p>A study of New Zealand detached homes measured 32.2 kg of construction waste per m² of floor area for single-storey homes and 24.8 kg/m² for double-storey (Domingo and Batty 2021, as reported by Low et al. 2024). Auckland Council puts an average house build at 4.5 tonnes. BRANZ cites about 4 tonnes. We use 32.2 kg/m² as the central rate, which gives 7.7 tonnes for a 240 m² home. Brick-veneer homes on slabs may run higher, so the site also shows a high case of 45 kg/m² (an assumption, not a measurement).</p>
+      <p>At 5.34 m³ of loose volume per tonne of mixed new-home waste, 7.7 tonnes is about 41 m³: around seven 6 m³ skips, or 1.6 change-overs of a BIG station filled to 85%.</p>
+      <h3>What we assumed</h3>
+      <ul>
+        <li>Rubble at 30% of weight, between the NZ studies (near zero) and Your Home's general building waste table (37%). <span class="tag tag-a">Assumption</span></li>
+        <li>Polystyrene at 13% of plastics, from the measured NZ build. <span class="tag tag-a">Measured, NZ</span></li>
+        <li>Brick and concrete rubble at 1,100 kg/m³, between BRANZ's concrete rubble (1,165.56) and hardfill (995.46). Plastics at 55 kg/m³, a blend of soft plastic (36.96) and PVC (99.88). Metals at 250 kg/m³, between clean light gauge (194.2) and general metal (379.6). <span class="tag tag-a">Assumption</span></li>
+        <li>Excavated soil is excluded. It is handled separately and never goes in the station.</li>
+      </ul>
+      <h3>Sources</h3>
+      <ol class="src">
+        <li>Low et al. (2024), <a href="https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2024.1455480/full" rel="noopener">Frontiers in Sustainability</a>. Measured waste from eight terraced homes, by weight and by volume.</li>
+        <li>Australian Government, <a href="https://www.yourhome.gov.au/materials/waste-minimisation" rel="noopener">Your Home: Waste minimisation</a>. Typical building waste table (NSW DECC 2007).</li>
+        <li>BRANZ, <a href="https://www.branz.co.nz/documents/4083/Bulletin_671_reducing_construction_waste-web_1.pdf" rel="noopener">Bulletin 671: Reducing construction waste</a>.</li>
+        <li>BRANZ REBRI, <a href="https://nzgbc.org.nz/hubfs/240924_BRANZ_REBRI_Waste_Minimisation_Plan%20(2).pdf?hsLang=en" rel="noopener">Waste Minimisation Plan template</a>, material conversion chart (unit weights).</li>
+        <li>OneRoof, <a href="https://www.oneroof.co.nz/news/the-end-of-the-builders-skip-and-a-568-935-tonne-problem-for-nz-41698" rel="noopener">The end of the builder's skip</a>, quoting Auckland Council on waste per house build.</li>
+        <li>EPA Victoria, <a href="https://www.epa.vic.gov.au/node/43639" rel="noopener">Waste levy rates</a>, 2025–26 and 2026–27.</li>
+        <li>Queensland Government, <a href="https://www.qld.gov.au/environment/waste-reduction-recycling/disposal-levy/about/levy-rates" rel="noopener">Waste levy rates</a>.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+</main>
+<script type="module">
+const m = await (await fetch('data/model.json')).json();
+const f=(n,d=0)=>n.toLocaleString('en-AU',{maximumFractionDigits:d,minimumFractionDigits:d});
+document.querySelector('#resultTbl tbody').innerHTML=m.streams.map(s=>`<tr><td><b>${String(s.n).padStart(2,'0')} ${s.name}</b></td><td class="n">${f(s.weight,1)}</td><td class="n">${f(s.range[0],1)}–${f(s.range[1],1)}</td><td class="n">${f(s.density)}</td><td class="n"><b>${f(s.volume,1)}</b></td><td class="n">${f(s.built,1)}</td><td class="n">${f(s.bayM3,1)}</td></tr>`).join('');
+const cols=[['low2024','Low et al. 2024 (measured, NZ)'],['branz','BRANZ Bulletin 671'],['yourhome','Your Home table (NSW 2007)']];
+document.querySelector('#srcTbl thead').innerHTML=`<tr><th>Bay</th>${cols.map(c=>`<th class="n">${c[1]}</th>`).join('')}<th class="n">BIG central</th></tr>`;
+document.querySelector('#srcTbl tbody').innerHTML=m.streams.map(s=>`<tr><td>${String(s.n).padStart(2,'0')} ${s.name}</td>${cols.map(c=>`<td class="n">${f(m.sources[c[0]][s.id]||0,1)}</td>`).join('')}<td class="n"><b>${f(s.weight,1)}</b></td></tr>`).join('');
+document.querySelector('.menu')?.addEventListener('click',e=>{const o=document.getElementById('nav').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)});
+</script>
+
+<footer>
+  <div class="wrap">
+    <div><a class="mark" href="./"><b>BIG</b></a><p style="margin-top:12px">Think BIG. Recycle better.<br>A Recycle Group initiative.</p></div>
+    <ul><li><a href="./#station">The station</a></li><li><a href="method.html">How it's sized</a></li><li><a href="standard.html">The BIG Standard</a></li><li><a href="your-home.html">Your Home</a></li></ul>
+    <ul><li><a href="./#pilot">Start a pilot</a></li><li><a href="https://recycle.net.au" rel="noopener">recycle.net.au</a></li></ul>
+    <p class="fine">BIG doesn't accept asbestos, chemicals or other hazardous waste. Figures are estimates from published studies and are replaced by measured pilot data. BIG is not endorsed by the Australian Government.</p>
+  </div>
+</footer>
+</body>
+</html>

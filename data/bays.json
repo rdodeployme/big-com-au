@@ -1,0 +1,61 @@
+{
+ "bays": [
+  {
+   "id": "general",
+   "side": "A",
+   "x0": -3.11,
+   "len": 2.703,
+   "vol_m3": 6.8
+  },
+  {
+   "id": "plastic",
+   "side": "A",
+   "x0": -0.407,
+   "len": 0.978,
+   "vol_m3": 2.46
+  },
+  {
+   "id": "eps",
+   "side": "A",
+   "x0": 0.57,
+   "len": 0.574,
+   "vol_m3": 1.44
+  },
+  {
+   "id": "card",
+   "side": "A",
+   "x0": 1.144,
+   "len": 1.966,
+   "vol_m3": 4.95
+  },
+  {
+   "id": "timber",
+   "side": "B",
+   "x0": -3.11,
+   "len": 3.869,
+   "vol_m3": 9.74
+  },
+  {
+   "id": "rubble",
+   "side": "B",
+   "x0": 0.759,
+   "len": 0.626,
+   "vol_m3": 1.58
+  },
+  {
+   "id": "steel",
+   "side": "B",
+   "x0": 1.385,
+   "len": 0.612,
+   "vol_m3": 1.54
+  },
+  {
+   "id": "plaster",
+   "side": "B",
+   "x0": 1.997,
+   "len": 1.113,
+   "vol_m3": 2.8
+  }
+ ],
+ "internal_m3_each_bay_total": 31.31
+}

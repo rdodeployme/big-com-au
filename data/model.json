@@ -1,0 +1,166 @@
+{
+ "streams": [
+  {
+   "n": 1,
+   "id": "plastic",
+   "name": "Plastics",
+   "weight": 2.5,
+   "range": [
+    1.7,
+    3
+   ],
+   "density": 55,
+   "densityNote": "blend of soft plastic 36.96 and PVC 99.88",
+   "volume": 8.5,
+   "built": 8.1,
+   "bayM3": 2.54
+  },
+  {
+   "n": 2,
+   "id": "timber",
+   "name": "Timber",
+   "weight": 25,
+   "range": [
+    20,
+    55
+   ],
+   "density": 148.17,
+   "densityNote": "",
+   "volume": 31.6,
+   "built": 30.1,
+   "bayM3": 9.42
+  },
+  {
+   "n": 3,
+   "id": "plaster",
+   "name": "Plasterboard",
+   "weight": 12,
+   "range": [
+    4,
+    13
+   ],
+   "density": 247.1,
+   "densityNote": "",
+   "volume": 9.1,
+   "built": 8.7,
+   "bayM3": 2.71
+  },
+  {
+   "n": 4,
+   "id": "card",
+   "name": "Cardboard",
+   "weight": 4,
+   "range": [
+    3,
+    5
+   ],
+   "density": 43.76,
+   "densityNote": "",
+   "volume": 17.1,
+   "built": 16.3,
+   "bayM3": 5.11
+  },
+  {
+   "n": 5,
+   "id": "eps",
+   "name": "Polystyrene",
+   "weight": 0.5,
+   "range": [
+    0.2,
+    1
+   ],
+   "density": 47.0,
+   "densityNote": "",
+   "volume": 2.0,
+   "built": 4.8,
+   "bayM3": 1.49
+  },
+  {
+   "n": 6,
+   "id": "rubble",
+   "name": "Bricks & concrete",
+   "weight": 30,
+   "range": [
+    0,
+    37
+   ],
+   "density": 1100,
+   "densityNote": "between concrete rubble 1,165.56 and hardfill 995.46",
+   "volume": 5.1,
+   "built": 4.9,
+   "bayM3": 1.52
+  },
+  {
+   "n": 7,
+   "id": "general",
+   "name": "General rubbish",
+   "weight": 22,
+   "range": [
+    18,
+    33
+   ],
+   "density": 175.07,
+   "densityNote": "",
+   "volume": 23.5,
+   "built": 22.4,
+   "bayM3": 7.02
+  },
+  {
+   "n": 8,
+   "id": "steel",
+   "name": "Steel & metals",
+   "weight": 4,
+   "range": [
+    3.4,
+    5.7
+   ],
+   "density": 250,
+   "densityNote": "between clean light gauge 194.2 and metal 379.6",
+   "volume": 3.0,
+   "built": 4.8,
+   "bayM3": 1.49
+  }
+ ],
+ "m3PerTonne": 5.337,
+ "kgPerM2": {
+  "low": 24.8,
+  "central": 32.2,
+  "high": 45
+ },
+ "stationInternalM3": 31.3,
+ "sources": {
+  "low2024": {
+   "label": "Measured NZ build (Low et al. 2024)",
+   "timber": 60.1,
+   "plaster": 11.1,
+   "card": 3.9,
+   "plastic": 2.78,
+   "eps": 0.42,
+   "steel": 3.4,
+   "rubble": 0.0,
+   "general": 17.9
+  },
+  "yourhome": {
+   "label": "Your Home typical building waste (NSW 2007)",
+   "timber": 20.0,
+   "plaster": 3.7,
+   "card": 3.2,
+   "plastic": 2.9,
+   "eps": 0.0,
+   "steel": 5.7,
+   "rubble": 37.3,
+   "general": 27.2
+  },
+  "branz": {
+   "label": "BRANZ Bulletin 671 (Auckland study)",
+   "timber": 20,
+   "plaster": 13,
+   "card": 5,
+   "plastic": 0,
+   "eps": 0,
+   "steel": 5,
+   "rubble": 0,
+   "general": 45
+  }
+ }
+}

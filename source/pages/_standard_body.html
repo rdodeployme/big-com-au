@@ -1,0 +1,78 @@
+<main id="main">
+<div class="page-hero"><div class="wrap">
+  <p class="kicker">The BIG Standard</p>
+  <h1>Recycle to standard.</h1>
+  <p>Every trade on a new home already works to a standard: plaster to a finish level, tiles to a tolerance, paint to a spec. The BIG Standard adds one more. Builders write it into their subcontracts, and recycling gets checked and signed off at each stage like any other work.</p>
+  <div class="cta-row no-print" style="margin-top:28px"><button class="btn btn-cu" onclick="print()">Print or save as PDF</button><a class="btn btn-ghost" href="./#pilot">Start a pilot</a></div>
+</div></div>
+
+<section class="light">
+  <div class="wrap std">
+    <div class="prose">
+      <h2 style="margin-top:0">Why a standard, not a sign</h2>
+      <p>A sign on a skip asks people to sort. A standard in a contract makes it part of the job. Trades already know how that works. The work gets inspected, defects get fixed, and the stage gets paid once it passes.</p>
+      <p>The Australian Government's Your Home guide tells builders to put waste minimisation and recycling clauses in their contracts, to use written contracts with all trades that include them, and to require trades to deal with their own waste. The BIG Standard turns that advice into one clause a builder can drop into a subcontract.</p>
+      <h3>What it costs a trade that does it right</h3>
+      <p>Nothing. The station is already on the lot, a few steps from where they work. Doing it right is easier than a tip run.</p>
+      <h3>What it costs a trade that doesn't</h3>
+      <p>The sorting. Contamination found at the stage check is treated like any other defect: the trade fixes it, or the builder recovers the cost.</p>
+    </div>
+    <div class="clause" id="clause">
+      <h3>BIG Standard: recycling and site waste clause</h3>
+      <p class="src" style="margin-bottom:14px">Model wording for a builder's subcontract. Have your own lawyer review it before use.</p>
+      <ol>
+        <li><b>Station.</b> The Builder provides a BIG recycling station on the lot from slab to handover.</li>
+        <li><b>Use.</b> The Subcontractor places all surplus material, offcuts, packaging and waste from its work into the matching numbered bay of the station, before leaving site each day.</li>
+        <li><b>Clean streams.</b> Material goes into its bay free of other streams, food and liquids. Cardboard is flattened. Plasterboard and cardboard are kept dry. Flaps are closed after use.</li>
+        <li><b>No removal.</b> No site waste leaves the lot in the Subcontractor's vehicle and no waste is placed in any other bin, except by written agreement with the site supervisor.</li>
+        <li><b>Excluded waste.</b> Asbestos, chemicals, paint, solvents, liquids, batteries, gas bottles and any other hazardous waste must never be placed in the station. The Subcontractor manages these under its own lawful arrangements and tells the site supervisor.</li>
+        <li><b>Inspection.</b> The station is checked at each stage inspection. Contamination traced to the Subcontractor's work is a defect.</li>
+        <li><b>Rectification.</b> The Subcontractor rectifies a contamination defect within one working day of notice. If it does not, the Builder may sort it and deduct the cost from money owed to the Subcontractor.</li>
+        <li><b>Sign-off.</b> The Subcontractor's stage claim includes a recycling sign-off from the site supervisor.</li>
+        <li><b>Induction.</b> The Subcontractor makes sure everyone working for it on site has read the BIG trade sheet.</li>
+        <li><b>Records.</b> The Builder may use station weight records to report recycling by trade, stage and home.</li>
+      </ol>
+      <p class="src" style="margin-top:16px">Timeframes, rates and the charge-back method are proposed and set by each builder.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><h2>Stage checks.</h2><p>Recycling is checked at the same inspections the supervisor already does. These are the bays to look at, stage by stage.</p></div>
+    <table class="tbl" style="color:var(--text)">
+      <thead><tr><th>Stage</th><th>Main streams</th><th>Bays to check</th><th>Sign-off</th></tr></thead>
+      <tbody>
+        <tr><td><b>Slab</b></td><td>Concrete washout and overpour, reo and mesh offcuts, formwork timber, plastic membrane</td><td>06, 08, 02, 01</td><td>Concreter, plumber</td></tr>
+        <tr><td><b>Frame</b></td><td>Framing offcuts, pallets, strapping, wrap</td><td>02, 01, 08</td><td>Carpenter</td></tr>
+        <tr><td><b>Lock-up</b></td><td>Brick and tile breakage, roofing and flashing offcuts, window packaging</td><td>06, 08, 04, 05</td><td>Bricklayer, roofer, windows</td></tr>
+        <tr><td><b>Fixing</b></td><td>Plasterboard offcuts, cornice, insulation packaging, door and cabinet cartons</td><td>03, 04, 05, 01</td><td>Plasterer, fixer, cabinet maker</td></tr>
+        <tr><td><b>Completion</b></td><td>Appliance and fitting packaging, final clean sweepings</td><td>04, 05, 01, 07</td><td>Electrician, plumber, painter, cleaner</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="light">
+  <div class="wrap">
+    <div class="sec-head"><h2>The trade sheet.</h2><p>One page for the site shed and the induction. If it's not on this sheet, ask the supervisor before it goes in.</p></div>
+    <table class="tbl" id="tradeSheet">
+      <thead><tr><th>Bay</th><th>Goes in</th><th>Stays out</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="src" style="margin-top:18px">Never in the station: asbestos, fibro, chemicals, paint, solvents, liquids, batteries, gas bottles or any hazardous waste.</p>
+  </div>
+</section>
+</main>
+<script>
+const SHEET=[["01 Plastics","Wrap and film, strapping, pipe and conduit offcuts, plastic packaging, empty dry buckets","Polystyrene, anything with paint, sealant or food"],
+["02 Timber","Framing offcuts, untreated timber, pallets, dunnage, formwork","Painted, laminated or treated timber (General until confirmed)"],
+["03 Plasterboard","Clean, dry offcuts and broken sheets","Wet or painted board, cornice cement tubs"],
+["04 Cardboard","Boxes and packaging, flattened","Wet or waxed board, food packaging, plastic-lined board"],
+["05 Polystyrene","White packaging and clean offcuts","Food trays, polystyrene with tape, glue or render"],
+["06 Bricks & concrete","Broken bricks, concrete, mortar, tiles, pavers","Soil, plasterboard, never asbestos or fibro"],
+["07 General","Anything that can't go in another bay: mixed offcuts, sweepings, fibre cement","Hazardous waste of any kind"],
+["08 Steel & metals","Steel and metal offcuts, mesh, roofing, flashing, copper, aluminium","Gas bottles, aerosols, anything with liquid in it"]];
+document.querySelector('#tradeSheet tbody').innerHTML=SHEET.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+document.querySelector('.menu')?.addEventListener('click',e=>{const o=document.getElementById('nav').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)});
+</script>

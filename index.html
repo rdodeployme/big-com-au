@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIG — Think BIG. Recycle better.</title>
+<meta name="description" content="One recycling station on every new home site. Eight streams, each bay sized to what a house build actually throws out. A Recycle Group initiative.">
+<meta property="og:title" content="BIG — Think BIG. Recycle better.">
+<meta property="og:description" content="One recycling station per new home. Eight streams. Sized by the data.">
+<meta property="og:image" content="img/og.jpg">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/big.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="./" aria-label="BIG home"><b>BIG</b><span>A Recycle Group initiative</span></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#station">The station</a>
+      <a href="#sizing">How it's sized</a>
+      <a href="#savings">Savings</a>
+      <a href="standard.html">The BIG Standard</a>
+      <a href="your-home.html">Your Home</a>
+      <a href="#pilot">Pilot</a>
+    </nav>
+    <a class="btn btn-cu" href="#pilot">Start a pilot</a>
+    <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-label="Introduction" style="padding:0">
+  <div class="hero-media"><img src="img/hero.jpg" alt="The BIG recycling station on a new home building site" fetchpriority="high"></div>
+  <div class="wrap">
+    <h1><span class="w">Think BIG.</span><span class="sr"> Recycle better.</span></h1>
+    <div class="hero-sub">
+      <div><p class="tagline" aria-hidden="true">Recycle better.</p>
+      <p><strong>One recycling station on every new home site.</strong> Eight streams in one footprint, each bay sized to what a house build actually throws out.</p></div>
+      <div class="cta-row"><a class="btn btn-cu" href="#pilot">Start a pilot</a><a class="btn btn-ghost" href="#station">See the station</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="ledger">
+  <div class="wrap">
+    <div><b>44%</b><p>of Australia's waste comes from construction and demolition.</p><small>Your Home, Australian Government</small></div>
+    <div><b>$177.19</b><p>a tonne. Victoria's metro landfill levy from 1 July 2026, on top of the gate fee.</p><small>EPA Victoria</small></div>
+    <div><b>8 in 1</b><p>Eight separated streams, one station, one hook-lift truck to change it over.</p><small>BIG station design</small></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap problem">
+    <div>
+      <p class="kicker">The problem with one big skip</p>
+      <h2>A mixed skip is a sorting job you pay someone else to do. Or nobody does.</h2>
+      <ul>
+        <li><b>It all gets mixed</b><span>Plasterboard, timber, cardboard and brick go in together. Once it's mixed, every tonne is harder and dearer to recover.</span></li>
+        <li><b>It gets wet</b><span>An open skip in the rain ruins plasterboard and cardboard for recycling. Polystyrene and wrap blow down the street.</span></li>
+        <li><b>The levy lands on you</b><span>Whatever ends up in landfill carries the state levy, and that rises every year.</span></li>
+        <li><b>Separate skips don't fit</b><span>Your Home recommends separate, labelled recycling skips. A narrow estate block rarely has room for more than one.</span></li>
+      </ul>
+    </div>
+    <figure><img src="img/problem.jpg" alt="An overflowing mixed skip outside a new house under construction" loading="lazy"><figcaption>Illustrative image</figcaption></figure>
+  </div>
+</section>
+
+<section id="station" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Eight bays. One station. Every home.</h2>
+      <p>A weatherproof, hook-lift station that sits on the lot from slab to handover. Trades drop each material into its numbered bay. Spin it, or tap a bay to see what goes in.</p>
+    </div>
+    <div class="station">
+      <div class="viewer" id="viewer" data-model="model/big-station.glb">
+        <img class="poster" src="img/station-hero.jpg" alt="">
+        <div class="loading">Loading 3D station…</div>
+        <span class="hint">Drag to turn · tap a bay</span>
+      </div>
+      <div class="bays">
+        <ul class="bay-list" id="bayList"></ul>
+        <div class="bay-detail" id="bayDetail" aria-live="polite"></div>
+      </div>
+    </div>
+    <dl class="specs">
+      <div><dt>Footprint</dt><dd>6.3 × 2.45 m</dd></div>
+      <div><dt>Internal volume</dt><dd>About 31 m³</dd></div>
+      <div><dt>Loading height</dt><dd>Side flaps from 1.0 m</dd></div>
+      <div><dt>Change-over</dt><dd>One hook-lift truck</dd></div>
+    </dl>
+    <p class="muted" style="margin-top:18px;font-size:14px">Concept design, modelled in Blender. Final dimensions, hook height and weight limits are confirmed with the fabricator.</p>
+  </div>
+</section>
+
+<section id="sizing" class="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Size bins by weight and you get it backwards.</h2>
+      <p>Bricks and concrete are the heaviest thing a new home throws out, but they barely take up room. Cardboard weighs almost nothing and fills a skip. Bins fill by space, so we sized every bay by space.</p>
+    </div>
+    <div class="flip">
+      <div>
+        <div class="toggle" role="group" aria-label="Show share by">
+          <button type="button" aria-pressed="true" data-mode="volume">By space</button>
+          <button type="button" aria-pressed="false" data-mode="weight">By weight</button>
+        </div>
+        <svg class="slope" id="slope" viewBox="0 0 560 420" role="img" aria-label="Each stream's share of waste by weight compared with its share by volume"></svg>
+      </div>
+      <div>
+        <div class="plan" id="plan"><img src="img/plan.jpg" alt="Top-down view of the station with the lid off, showing the eight bays at their sized lengths" loading="lazy"><svg viewBox="0 0 1800 1116" preserveAspectRatio="none" aria-hidden="true" id="planSvg"></svg></div>
+        <p class="plan-cap">Lid off, from above. Each bay's length is its share of the loose volume a new home produces. The smallest bays are held at a 0.6 m minimum so they can still be loaded by hand.</p>
+      </div>
+    </div>
+
+    <div class="house">
+      <div>
+        <label for="area">Floor area of the home: <output id="areaOut">240</output> m²</label>
+        <input class="range" type="range" id="area" min="120" max="450" step="10" value="240">
+        <div class="readout">
+          <div><b id="tOut">7.7 t</b><span>surplus material</span></div>
+          <div><b id="vOut">41 m³</b><span>loose volume</span></div>
+          <div><b id="lOut">1.6</b><span>station change-overs</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="skips" id="skips" aria-hidden="true"></div>
+        <p class="skips-cap" id="skipsCap">That's about seven 6 m³ skips of mixed waste, or under two BIG change-overs, already sorted.</p>
+      </div>
+    </div>
+    <p style="margin-top:28px"><a class="btn btn-ink" href="method.html">See the full method and sources</a></p>
+  </div>
+</section>
+
+<section id="wins">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Everyone on the job comes out ahead.</h2>
+      <p>The value comes from never mixing the waste in the first place. Sorted at the source, each stream is worth more and costs less to deal with.</p>
+    </div>
+    <div class="wins">
+      <article><h3>Builders</h3><ul>
+        <li>Less levy, because sorted streams stay out of landfill</li>
+        <li>One footprint and one truck instead of a row of skips</li>
+        <li>A cleaner, safer site at every stage inspection</li>
+        <li>Tonnes per home, by stream, for council plans and sustainability reporting</li></ul></article>
+      <article><h3>Trades</h3><ul>
+        <li>One place to drop everything, right at the lot</li>
+        <li>Numbered bays, so there's no guessing</li>
+        <li>No end-of-job sort, no tip runs in the ute</li>
+        <li>A clear standard to meet, like any finish</li></ul></article>
+      <article><h3>Homebuyers</h3><ul>
+        <li>Less spent on waste means less built into the price</li>
+        <li>A home built by a builder that recycles to a standard</li>
+        <li>A recycling record for their home at handover <span class="tag tag-a" style="color:var(--dim)">Proposed</span></li></ul></article>
+      <article><h3>The street</h3><ul>
+        <li>No polystyrene and wrap blowing across the estate</li>
+        <li>Fewer truck movements per home</li>
+        <li>More timber, plasterboard, cardboard and steel back into use</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<section id="estate" style="padding-top:0">
+  <div class="wrap">
+    <div class="estate">
+      <img src="img/estate.jpg" alt="Aerial view of a new estate with one BIG station in front of every lot" loading="lazy">
+      <div class="cap"><h2>One home. One station.</h2><p class="muted" style="max-width:52ch;margin-top:10px">The station arrives at slab and leaves at handover. Every lot on the estate runs the same system, so every trade learns it once.</p></div>
+    </div>
+    <p class="muted" style="margin-top:10px;font-size:13px">Illustrative image</p>
+  </div>
+</section>
+
+<section id="savings" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What BIG keeps out of landfill, and off your bill.</h2>
+      <p>Put in your build volume. The estimate counts the levy you avoid on material that's recovered instead of landfilled. Disposal and service pricing is set in the pilot, so it isn't included here.</p>
+    </div>
+    <div class="calc">
+      <form id="calc" onsubmit="return false">
+        <div><label for="homes">Homes a year</label><input type="number" id="homes" min="1" step="1" value="250" inputmode="numeric"></div>
+        <div><label for="farea">Average floor area (m²)</label><input type="number" id="farea" min="80" step="5" value="240" inputmode="numeric"></div>
+        <div><label for="levy">Landfill levy</label>
+          <select id="levy">
+            <option value="177.19">Victoria, metro: $177.19/t (2026–27)</option>
+            <option value="155.95">Victoria, rural industrial: $155.95/t (2026–27)</option>
+            <option value="135">Queensland, metro levy zone: $135/t (2026–27)</option>
+            <option value="100">Queensland, regional levy zone: $100/t (2026–27)</option>
+          </select></div>
+        <div><label for="base">Recovered from your current mixed skips: <output id="baseOut">28</output>%</label>
+          <input type="range" id="base" min="0" max="80" step="1" value="28">
+          <span class="hint">28% is the diversion rate one New Zealand study found for building-site waste. Use your own figure if your contractor reports one.</span></div>
+        <div><label for="target">Recovered with BIG: <output id="targetOut">78</output>%</label>
+          <input type="range" id="target" min="40" max="95" step="1" value="78">
+          <span class="hint">78% is everything except the general rubbish bay. The pilot measures the real figure.</span></div>
+      </form>
+      <div class="out" aria-live="polite">
+        <div class="hero-out"><b id="cSave">$0</b><span>levy avoided a year</span></div>
+        <table>
+          <thead><tr><th></th><th>Per home</th><th>A year</th></tr></thead>
+          <tbody>
+            <tr><td>Surplus material</td><td id="cT1"></td><td id="cTy"></td></tr>
+            <tr><td>Extra tonnes kept out of landfill</td><td id="cD1"></td><td id="cDy"></td></tr>
+            <tr><td>Levy avoided</td><td id="cS1"></td><td id="cSy"></td></tr>
+            <tr><td>Loose volume</td><td id="cV1"></td><td id="cVy"></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Estimate only. Uses 32.2 kg of surplus per m² of floor area (a measured rate for single-storey detached homes in New Zealand; Australian brick-veneer homes may run higher) and the BIG material split. Levy rates from EPA Victoria and the Queensland Government. Gate fees, hire and transport aren't included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="standard" class="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Every trade finishes to a standard. Now they recycle to one.</h2>
+      <p>A plasterer doesn't get paid until the wall meets the finish level in the contract. BIG works the same way. Builders write the BIG Standard into every subcontract, and recycling gets checked at each stage like any other work.</p>
+    </div>
+    <div class="std">
+      <div>
+        <div class="compare" role="table" aria-label="Finish standard compared with the BIG Standard">
+          <div role="row"><span role="columnheader">Finish standard</span><span role="columnheader">BIG Standard</span></div>
+          <div role="row"><span role="cell">Written into the subcontract</span><span role="cell">Written into the subcontract</span></div>
+          <div role="row"><span role="cell">Checked at stage inspection</span><span role="cell">Bays checked at stage inspection</span></div>
+          <div role="row"><span role="cell">Defects rectified at the trade's cost</span><span role="cell">Contamination sorted or charged back</span></div>
+          <div role="row"><span role="cell">Sign-off before payment</span><span role="cell">Recycling sign-off with the stage claim</span></div>
+        </div>
+        <p class="muted" style="margin-top:22px">Your Home, the Australian Government's sustainable building guide, tells builders to use written contracts with all trades that include waste minimisation clauses. The BIG Standard is that clause, ready to use.</p>
+        <figure style="margin-top:28px;border-radius:6px;overflow:hidden;aspect-ratio:4/3"><img src="img/trade.jpg" alt="A plasterer sliding offcuts into bay 03 of the station" loading="lazy" style="width:100%;height:100%;object-fit:cover"></figure>
+        <p class="muted" style="margin-top:8px;font-size:13px">Illustrative image</p>
+      </div>
+      <div class="clause">
+        <h3>BIG Standard: subcontract clause (summary)</h3>
+        <ol>
+          <li>The subcontractor places all surplus material and waste from its work into the matching numbered bay of the BIG station on the lot.</li>
+          <li>Material goes in clean: no food, liquids or other streams mixed in. Cardboard is flattened. Plasterboard and cardboard are kept dry.</li>
+          <li>No site waste leaves the lot in the subcontractor's vehicle, except by agreement with the site supervisor.</li>
+          <li>Contamination found at stage inspection is a defect. The subcontractor sorts it, or pays the sorting cost.</li>
+          <li>Asbestos, chemicals, paint, liquids and other hazardous waste never go in the station.</li>
+        </ol>
+        <div class="row"><a class="btn btn-ink" href="standard.html">Read the full Standard</a></div>
+      </div>
+    </div>
+    <div class="stages" aria-label="When each stream peaks during the build">
+      <div><b>Slab</b><p>Concrete and steel offcuts, formwork timber, plastic. <i>Bays 06, 08, 02, 01</i></p></div>
+      <div><b>Frame</b><p>Framing offcuts and pallets. <i>Bay 02</i></p></div>
+      <div><b>Lock-up</b><p>Brick and tile breakage, roofing offcuts, wrap. <i>Bays 06, 08, 01</i></p></div>
+      <div><b>Fixing</b><p>Plasterboard, cornice and packaging. <i>Bays 03, 04, 05</i></p></div>
+      <div><b>Completion</b><p>Appliance and fitting packaging, final clean. <i>Bays 04, 05, 07</i></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="yourhome">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Built on the Australian Government's own advice.</h2>
+      <p>Your Home is the Australian Government's guide to sustainable homes. Its waste minimisation advice for builders reads like a brief for BIG.</p>
+    </div>
+    <div class="yh">
+      <div class="yh-row"><q>Plan for waste separation and sorting on site during construction.</q><p><b>BIG separates at the source.</b> Eight streams are sorted where they're made, never mixed.</p></div>
+      <div class="yh-row"><q>Provide recycling skips and colour code or label waste skips and protect them from contamination, rain and wind.</q><p><b>One station does all of that.</b> Numbered, labelled bays under a weatherproof lid, on one footprint.</p></div>
+      <div class="yh-row"><q>Use written contracts with all trades that include clauses requiring waste minimisation.</q><p><b>The BIG Standard</b> is a ready-made subcontract clause.</p></div>
+      <div class="yh-row"><q>Negotiate recycling paybacks with local resource recovery firms.</q><p><b>Recycle Group processes the streams.</b> Who gets the value of recovered material is set out in the pilot agreement.</p></div>
+    </div>
+    <p class="disclaim">Quotes from Your Home, Waste minimisation (yourhome.gov.au). BIG is an independent Recycle Group initiative. It isn't endorsed by or affiliated with the Australian Government. <a href="your-home.html">See how BIG lines up with Your Home</a></p>
+  </div>
+</section>
+
+<section id="pilot" class="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Start with a pilot on real homes.</h2>
+      <p>No long contract up front. We run BIG on a set of your homes next to your current skips, weigh everything, and report back.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Site check</b><p>We confirm where the station sits on your standard lot and driveway.</p></li>
+      <li><b>Baseline</b><p>We record what your current skips cost and recover, so there's something to compare with.</p></li>
+      <li><b>Station on at slab</b><p>The station arrives with the slab pour and stays until handover.</p></li>
+      <li><b>Trade induction</b><p>A one-page sheet and a five-minute walk-through for supervisors and trades.</p></li>
+      <li><b>Weighed change-overs</b><p>Each bay is weighed at our facility, so every tonne is recorded by stream.</p></li>
+      <li><b>Pilot report</b><p>Tonnes recovered, contamination, cost against your baseline, and what to change.</p></li>
+    </ol>
+    <div class="pilot-form">
+      <div>
+        <h3>Talk to us about a pilot.</h3>
+        <p class="muted" style="margin-top:14px">Tell us roughly how many homes you build and where. We'll come back to set up a site check.</p>
+      </div>
+      <form id="pilotForm" class="fields">
+        <div><label for="fn">Name</label><input id="fn" name="name" required autocomplete="name"></div>
+        <div><label for="fc">Company</label><input id="fc" name="company" required autocomplete="organization"></div>
+        <div><label for="fe">Email</label><input id="fe" name="email" type="email" required autocomplete="email"></div>
+        <div><label for="fp">Phone</label><input id="fp" name="phone" type="tel" autocomplete="tel"></div>
+        <div><label for="fh">Homes a year</label><select id="fh" name="homes"><option>Under 50</option><option>50–250</option><option>250–1,000</option><option>Over 1,000</option></select></div>
+        <div><label for="fr">Where you build</label><input id="fr" name="region" placeholder="e.g. Melbourne west, Geelong"></div>
+        <div class="full"><label for="fm">Anything else</label><textarea id="fm" name="message"></textarea></div>
+        <div class="full"><button class="btn btn-ink" type="submit">Request a pilot</button><p class="form-note">This opens an email to the BIG team with your details filled in.</p></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a class="mark" href="./"><b>BIG</b></a><p style="margin-top:12px">Think BIG. Recycle better.<br>A Recycle Group initiative.</p></div>
+    <ul><li><a href="#station">The station</a></li><li><a href="method.html">How it's sized</a></li><li><a href="standard.html">The BIG Standard</a></li><li><a href="your-home.html">Your Home</a></li></ul>
+    <ul><li><a href="#pilot">Start a pilot</a></li><li><a href="https://recycle.net.au" rel="noopener">recycle.net.au</a></li></ul>
+    <p class="fine">BIG doesn't accept asbestos, chemicals or other hazardous waste. Figures are estimates from published studies and are replaced by measured pilot data. BIG is not endorsed by the Australian Government.</p>
+  </div>
+</footer>
+<script type="module" src="js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+ "body": {
+  "length": 6.3,
+  "width": 2.45,
+  "height": 2.2
+ },
+ "open_flaps": {
+  "timber": 70,
+  "card": 70,
+  "general": 62,
+  "rubble": 62,
+  "steel": 62
+ },
+ "streams": [
+  {
+   "n": 1,
+   "id": "plastic",
+   "name": "Plastics",
+   "short": "Plastics",
+   "share": 0.0811,
+   "kind": "plastic"
+  },
+  {
+   "n": 2,
+   "id": "timber",
+   "name": "Timber",
+   "short": "Timber",
+   "share": 0.301,
+   "kind": "timber"
+  },
+  {
+   "n": 3,
+   "id": "plaster",
+   "name": "Plasterboard",
+   "short": "Plasterboard",
+   "share": 0.0866,
+   "kind": "plaster"
+  },
+  {
+   "n": 4,
+   "id": "card",
+   "name": "Cardboard",
+   "short": "Cardboard",
+   "share": 0.1631,
+   "kind": "card"
+  },
+  {
+   "n": 5,
+   "id": "eps",
+   "name": "Polystyrene",
+   "short": "Polystyrene",
+   "share": 0.0476,
+   "kind": "eps"
+  },
+  {
+   "n": 6,
+   "id": "rubble",
+   "name": "Bricks & concrete",
+   "short": "Bricks & rubble",
+   "share": 0.0487,
+   "kind": "rubble"
+  },
+  {
+   "n": 7,
+   "id": "general",
+   "name": "General rubbish",
+   "short": "General",
+   "share": 0.2242,
+   "kind": "general"
+  },
+  {
+   "n": 8,
+   "id": "steel",
+   "name": "Steel & metals",
+   "short": "Steel & metals",
+   "share": 0.0476,
+   "kind": "steel"
+  }
+ ]
+}
