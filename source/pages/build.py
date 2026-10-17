@@ -77,7 +77,8 @@ FOOTER = '''<footer>
 '''
 
 for out, (title, desc, three) in PAGES.items():
-    body = open(os.path.join("pages", out)).read()
+    src = "pages" if os.path.isdir("pages") else "."
+    body = open(os.path.join(src, out)).read()
     html = head(title, desc, three) + header(out) + body + (nextpage(out)) + FOOTER
     open(out, "w").write(html)
     print("wrote", out, len(html))
