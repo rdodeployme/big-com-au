@@ -144,8 +144,8 @@ for x in (-L/2, L/2):
     box(f"BandEnd{x}", (0.025, W + 0.02, 0.09), (x, 0, z0 + H - 0.045), M["copper"])
 
 # rear end branding
-text("RearBIG", "BIG", (-L/2 - 0.006, 0.0, z0 + 0.75), (math.pi/2, 0, -math.pi/2), 0.62, M["white"], align='CENTER', extrude=0.006)
-text("RearTag", "THINK BIG. RECYCLE BETTER.", (-L/2 - 0.006, 0.0, z0 + 0.48), (math.pi/2, 0, -math.pi/2), 0.11, M["copper"], align='CENTER')
+text("RearBrand", "BUILDBIN", (-L/2 - 0.006, 0.0, z0 + 0.75), (math.pi/2, 0, -math.pi/2), 0.34, M["white"], align='CENTER', extrude=0.006)
+text("RearTag", "EVERY MATERIAL. SORTED ON SITE.", (-L/2 - 0.006, 0.0, z0 + 0.5), (math.pi/2, 0, -math.pi/2), 0.09, M["copper"], align='CENTER')
 
 inner_L = L - 2 * WALL
 half_W = (W - 3 * WALL) / 2

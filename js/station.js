@@ -1,4 +1,4 @@
-// BIG station — interactive 3D viewer (model built in Blender, exported as GLB)
+// BuildBin station — interactive 3D viewer (model built in Blender, exported as GLB)
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
