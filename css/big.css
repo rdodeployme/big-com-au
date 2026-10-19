@@ -127,7 +127,7 @@ section{padding:clamp(72px,11vw,148px) 0}
 .bay-detail dd{margin:0;color:var(--muted);font-size:15.5px;line-height:1.5}
 .bay-detail dd strong{color:var(--text);font-weight:600}
 @media (max-width:960px){.station{grid-template-columns:1fr}.viewer{min-height:400px}.bays{border-left:0;border-top:1px solid var(--line)}}
-.specs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;border-top:1px solid var(--line)}
+.specs{display:grid;grid-template-columns:repeat(5,1fr);margin-top:28px;border-top:1px solid var(--line)}
 .specs div{padding:18px 18px 0 0}
 .specs dt{font-size:13px;color:var(--dim)} .specs dd{margin:4px 0 0;font:700 19px/1.25 var(--display)}
 @media (max-width:760px){.specs{grid-template-columns:1fr 1fr}}
