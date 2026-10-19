@@ -283,3 +283,10 @@ footer .fine{grid-column:1/-1;font-size:13px;color:var(--dim);border-top:1px sol
 @media (max-width:760px){.hero-media::after{background:linear-gradient(180deg,rgba(14,17,20,.82) 0%,rgba(14,17,20,.55) 26%,rgba(14,17,20,0) 46%,rgba(14,17,20,.8) 74%,var(--night) 100%)}}
 
 footer .mark b{color:var(--text)}
+
+.viewer-tools{display:flex;flex-wrap:wrap;gap:10px;padding:0 22px 22px}
+.viewer-tools .btn{min-height:42px;font-size:15px;padding:0 16px}
+.howgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:34px;border-top:1px solid var(--line);padding-top:26px}
+.howgrid h3{font-size:22px;font-stretch:106%;margin-bottom:8px}
+.howgrid p{color:var(--muted);font-size:15.5px}
+@media (max-width:860px){.howgrid{grid-template-columns:1fr}}

@@ -1,0 +1,149 @@
+<main id="main" class="specpage">
+<div class="page-hero"><div class="wrap">
+  <p class="kicker">Fabricator spec · Rev A · 19 October 2026</p>
+  <h1>Build it to this.</h1>
+  <p>The general arrangement, compartment schedule and component spec for one BuildBin station. Change the pod sizes below and every drawing, dimension and quantity updates. Print it or save it as a PDF to send with a quote request.</p>
+  <div class="cta-row" style="margin-top:28px"><button type="button" class="btn btn-cu" id="printBtn">Print / Save as PDF</button><button type="button" class="btn btn-ghost" id="linkBtn">Copy link to this layout</button></div>
+  <p class="status-key"><span class="st st-b">Design basis</span> set by this design &nbsp; <span class="st st-p">Proposed</span> our starting point, the fabricator can improve it &nbsp; <span class="st st-t">To confirm</span> needs the fabricator, engineer or operator</p>
+</div></div>
+
+<section class="cfg-sec" aria-labelledby="cfgTitle">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="cfgTitle">1. Set the compartment sizes</h2>
+    <p>Each side is ten 622 mm modules. A pod is one to six modules long. Use + and − to resize a pod, the arrows to move it along its side, and A/B to move it to the other side. Free modules show as gaps until you give them to a pod.</p></div>
+    <div class="cfg-top">
+      <div class="presets" role="group" aria-label="Layouts">
+        <button type="button" data-preset="default" class="chip is-on">Data-sized (default)</button>
+        <button type="button" data-preset="brick" class="chip">Double-brick estate</button>
+        <button type="button" data-preset="plaster" class="chip">Plaster-heavy</button>
+      </div>
+      <div class="opts">
+        <label>Body height <select id="hSel"><option value="2200">2,200 mm (standard)</option><option value="2400">2,400 mm (+ about 2.5 m³)</option></select></label>
+        <label>Pod rated load <select id="swlSel"><option value="1000">1,000 kg</option><option value="1500" selected>1,500 kg</option><option value="2000">2,000 kg</option></select></label>
+      </div>
+    </div>
+    <div class="cfg" id="cfg"></div>
+    <div class="totals" id="totals" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="paper-sec" aria-labelledby="gaTitle">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="gaTitle">2. General arrangement</h2><p>Drawn to scale from the layout above. All dimensions in millimetres. Not for construction until the fabricator's shop drawings are approved.</p></div>
+    <figure class="sheet"><svg id="dPlan" role="img" aria-label="Plan view, roof off"></svg><figcaption><b>GA-01</b> Plan, roof off <span>Hook end on the right</span></figcaption></figure>
+    <figure class="sheet"><svg id="dSideA" role="img" aria-label="Side A elevation"></svg><figcaption><b>GA-02</b> Side A elevation <span>As seen standing at side A</span></figcaption></figure>
+    <figure class="sheet"><svg id="dSideB" role="img" aria-label="Side B elevation"></svg><figcaption><b>GA-03</b> Side B elevation <span>As seen standing at side B</span></figcaption></figure>
+    <div class="sheet-row">
+      <figure class="sheet"><svg id="dSection" role="img" aria-label="Cross section through the bays"></svg><figcaption><b>GA-04</b> Section through bays <span>Looking toward the hook end</span></figcaption></figure>
+      <figure class="sheet"><svg id="dPod" role="img" aria-label="Typical pod"></svg><figcaption><b>GA-05</b> Typical pod <span id="podCap"></span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="paper-sec" aria-labelledby="schTitle">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="schTitle">3. Compartment schedule</h2><p>Pod sizes follow from the module count. Indicative full load uses loose densities from BRANZ REBRI (see <a href="method.html">how it's sized</a>). Where a full pod would pass its rated load, the schedule gives a painted fill line.</p></div>
+    <div class="tscroll"><table class="sched" id="sched"></table></div>
+    <p class="src" style="margin-top:12px">Pod external = modules × 622 − 70 (35 mm clearance each end) by 1,095 by body internal height − 120. Pod internal deducts a 20 mm wall and floor allowance. Gross bay = modules × 622 × 1,165 × internal height.</p>
+  </div>
+</section>
+
+<section class="paper-sec" aria-labelledby="specTitle">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="specTitle">4. Specification</h2><p>What each part has to do. Materials and sections are proposed starting points. The fabricator and a structural engineer set the final ones.</p></div>
+    <div class="clauses" id="clauses">
+
+<article><h3>4.1 Status and scope</h3><ul>
+<li><span class="st st-b">Design basis</span>One hook-lift station per new home, eight source-separated streams, delivered at slab and collected at handover or when full.</li>
+<li><span class="st st-b">Design basis</span>Concept design modelled in Blender. Dimensions here are design intent. The fabricator prepares shop drawings for approval before cutting steel.</li>
+<li><span class="st st-t">To confirm</span>Prototype quantity, then pilot run size.</li>
+</ul></article>
+
+<article><h3>4.2 Overall dimensions</h3><ul id="dimList"></ul></article>
+
+<article><h3>4.3 Body and chassis</h3><ul>
+<li><span class="st st-b">Design basis</span>Steel body 6,300 × 2,450 on two longitudinal chassis rails 220 high, with rear rollers and a hook A-frame at the front, as for a standard hook-lift bin.</li>
+<li><span class="st st-t">To confirm</span>Hook height, A-frame geometry, rail centres and roller size to suit the operator's hook-lift trucks. The station must load and unload exactly like the fleet's existing bins.</li>
+<li><span class="st st-p">Proposed</span>Floor plate on cross-members, lower side walls and end walls in plate on a welded frame, and a full-height centre spine wall 40 thick splitting side A from side B. Plate thickness and sections by the engineer for the loads in 4.6.</li>
+<li><span class="st st-p">Proposed</span>No internal fixed dividers. The pods form the compartments, so the body never changes when bay sizes change.</li>
+<li><span class="st st-p">Proposed</span>Drain holes at the low corners of the body floor so rain that gets past a flap runs out rather than ponding under the pods.</li>
+</ul></article>
+
+<article><h3>4.4 Module grid and side frame</h3><ul>
+<li><span class="st st-b">Design basis</span>Each side is 6,220 internal, divided into ten 622 mm modules. Module lines are the same on both sides.</li>
+<li><span class="st st-b">Design basis</span>Lower side wall is solid to a sill 1,000 above the underside of the body (1,220 above the ground). Above the sill the side is an open frame: a post at every module line, a sill rail and a top rail, so any module can sit behind any pod.</li>
+<li><span class="st st-p">Proposed</span>Posts in square hollow section, clear opening between posts about 570 wide. A drip hood or lip over each opening sheds rain past the flap.</li>
+<li><span class="st st-p">Proposed</span>Number plates clip or bolt to the sill rail at any module, so they move when pods move.</li>
+</ul></article>
+
+<article><h3>4.5 Lift-off roof</h3><ul>
+<li><span class="st st-b">Design basis</span>The roof is one piece and lifts straight off at the facility so every pod can be lifted out vertically.</li>
+<li><span class="st st-p">Proposed</span>Four lifting eyes, inset about 350 from each end and 300 from each side, sized for a four-leg chain sling. Fold-down or low-profile eyes so they don't snag.</li>
+<li><span class="st st-p">Proposed</span>Four locating cones or pins so the roof drops back on in the right place, plus four over-centre latches to hold it down on the road and in wind. Compressible seal on the body top rail.</li>
+<li><span class="st st-p">Proposed</span>Copper top band and centre ridge strip (see 4.10). Roof falls to both sides with a drip edge past the side frame.</li>
+<li><span class="st st-t">To confirm</span>Roof weight, eye rating and proof test, and whether the roof should also carry a small solar panel for the locks (see 4.8).</li>
+</ul></article>
+
+<article><h3>4.6 Pods (removable compartments)</h3><ul>
+<li><span class="st st-b">Design basis</span>Each bay is a removable, open-top steel pod, one to six modules long. Pod sizes are listed in the schedule. Clearance to the body is 35 at each end, each side and the spine; 120 above the pod to the roof.</li>
+<li><span class="st st-b">Design basis</span>Each pod carries its own front flaps (4.7). A full pod lifts out with its flaps closed, so nothing spills on the way to the tip floor.</li>
+<li><span class="st st-p">Proposed</span>Four lifting lugs at the top corners for a four-leg sling, and two forklift pockets under the floor running front to back. The front wall is solid up to the sill line and open above it behind the flaps.</li>
+<li><span class="st st-p">Proposed</span>Pod rated load as selected above for every pod size, so any pod can take any stream. The rated load and a fill line, where the schedule gives one, are painted inside the pod.</li>
+<li><span class="st st-p">Proposed</span>Sealed floor with a screw-in drain plug, so plasterboard and cardboard stay dry and can be drained before tipping.</li>
+<li><span class="st st-t">To confirm</span>How the facility tips pods: forklift with a rotating carriage, or crane with a tipping frame. This sets the lug and pocket details.</li>
+</ul></article>
+
+<article><h3>4.7 Loading flaps</h3><ul>
+<li><span class="st st-b">Design basis</span>One top-hinged flap per module, mounted on the pod's front wall and sitting just inside the body frame, so it swings out through the frame opening. Gravity closes it.</li>
+<li><span class="st st-p">Proposed</span>Clear opening about 1,000 high from the sill. Flap leaf laps the opening by about 25 all round. Hold-open stay or gas strut that releases before the pod is lifted.</li>
+<li><span class="st st-p">Proposed</span>No pinch point at the hinge or closing edge. Rubber closing strip on the leaf.</li>
+<li><span class="st st-t">To confirm</span>Leaf material and thickness, hinge type and how the leaf fits in the 35 clearance. The fabricator can propose a different flap if it keeps the two rules above: one per module, and it lifts out with the pod.</li>
+</ul></article>
+
+<article><h3>4.8 Central locking</h3><ul>
+<li><span class="st st-b">Design basis</span>No rods or bars. One electric latch per module on the body sill rail engages a keeper on the flap's bottom edge. The supervisor locks or unlocks every bay at once from a phone over Bluetooth.</li>
+<li><span class="st st-p">Proposed</span>One sealed controller and battery in a lockable box at the hook end, wired to every latch through the body (not the roof, which lifts off). Every lock and unlock is logged with time and user.</li>
+<li><span class="st st-p">Proposed</span>Keyed manual override at the controller box for a flat phone or battery. Latches release when the controller is unlocked at the facility so pods lift straight out.</li>
+<li><span class="st st-t">To confirm</span>Latch and controller hardware, IP rating, battery life between change-overs, charging (at the facility on each change-over, or a small solar panel), and whether latches fail locked or unlocked.</li>
+</ul></article>
+
+<article><h3>4.9 Weather and site</h3><ul>
+<li><span class="st st-b">Design basis</span>Closed station keeps rain and wind off every stream. Polystyrene and wrap can't blow out.</li>
+<li><span class="st st-p">Proposed</span>Seals at the roof, drip hoods over the flaps, drain holes in the body floor, drain plugs in the pods.</li>
+<li><span class="st st-p">Proposed</span>No footholds on the outside. Signage on both ends: no climbing, no asbestos, chemicals or hazardous waste.</li>
+</ul></article>
+
+<article><h3>4.10 Finish and marking</h3><ul>
+<li><span class="st st-p">Proposed</span>Body, roof, frame and flaps: charcoal, to match BuildBin steel <span class="sw" style="background:#14181C"></span>#14181C as closely as the paint system allows.</li>
+<li><span class="st st-p">Proposed</span>Top band, roof ridge strip, lifting eyes and bay numbers: copper <span class="sw" style="background:#C2804F"></span>#C2804F.</li>
+<li><span class="st st-p">Proposed</span>Bay number in copper and stream name in white on a plate at each pod's left-hand module. Stream name also painted inside each pod's front wall. "BUILDBIN" and "EVERY MATERIAL. SORTED ON SITE." on the rear end.</li>
+<li><span class="st st-t">To confirm</span>Paint system (prime and topcoat or powder coat) and corrosion protection for site and facility use.</li>
+</ul></article>
+
+<article><h3>4.11 Safety and compliance</h3><ul>
+<li><span class="st st-t">To confirm</span>The structure, hook-lift interface, roof lifting eyes and pod lifting lugs designed and certified by a qualified structural engineer to the relevant Australian Standards, with rated loads marked and proof-load testing as the engineer requires.</li>
+<li><span class="st st-t">To confirm</span>Loaded travel height on the operator's truck within the 4.3 m general access limit, and loaded mass within the truck's hook-lift rating.</li>
+<li><span class="st st-p">Proposed</span>No sharp edges, guarded pinch points, and loading flap sill at a height trades can reach from the ground without a step.</li>
+</ul></article>
+
+<article><h3>4.12 What we need back with the quote</h3><ul>
+<li>Shop drawings or a marked-up GA, with materials and sections.</li>
+<li>Tare weight of the body, the roof and each pod size.</li>
+<li>Rated load per pod and per station, and the engineer's certification approach.</li>
+<li>Lock hardware proposal and price.</li>
+<li>Unit price for 1 prototype, 10 and 50 stations, plus spare pods by size.</li>
+<li>Lead time for the prototype and for a pilot run.</li>
+</ul></article>
+
+    </div>
+  </div>
+</section>
+
+<section class="paper-sec" aria-labelledby="bomTitle">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="bomTitle">5. Main components per station</h2><p>Quantities follow the layout above.</p></div>
+    <div class="tscroll"><table class="sched bom" id="bom"></table></div>
+    <p class="src" style="margin-top:16px">Concept design for quotation. BuildBin is a Recycle Group initiative. Questions about this spec: <a href="mailto:toby@recycle.au?subject=BuildBin%20fabricator%20spec">toby@recycle.au</a>.</p>
+  </div>
+</section>
+</main>

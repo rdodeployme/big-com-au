@@ -12,8 +12,12 @@
    "density": 55,
    "densityNote": "blend of soft plastic 36.96 and PVC 99.88",
    "volume": 8.5,
-   "built": 8.1,
-   "bayM3": 2.54
+   "built": 10.0,
+   "bayM3": 3.13,
+   "modules": 2,
+   "side": "A",
+   "lengthMm": 1244,
+   "podNetM3": 2.42
   },
   {
    "n": 2,
@@ -27,8 +31,12 @@
    "density": 148.17,
    "densityNote": "",
    "volume": 31.6,
-   "built": 30.1,
-   "bayM3": 9.42
+   "built": 30.0,
+   "bayM3": 9.39,
+   "modules": 6,
+   "side": "B",
+   "lengthMm": 3732,
+   "podNetM3": 7.72
   },
   {
    "n": 3,
@@ -42,8 +50,12 @@
    "density": 247.1,
    "densityNote": "",
    "volume": 9.1,
-   "built": 8.7,
-   "bayM3": 2.71
+   "built": 10.0,
+   "bayM3": 3.13,
+   "modules": 2,
+   "side": "B",
+   "lengthMm": 1244,
+   "podNetM3": 2.42
   },
   {
    "n": 4,
@@ -57,8 +69,12 @@
    "density": 43.76,
    "densityNote": "",
    "volume": 17.1,
-   "built": 16.3,
-   "bayM3": 5.11
+   "built": 15.0,
+   "bayM3": 4.7,
+   "modules": 3,
+   "side": "A",
+   "lengthMm": 1866,
+   "podNetM3": 3.74
   },
   {
    "n": 5,
@@ -72,8 +88,12 @@
    "density": 47.0,
    "densityNote": "",
    "volume": 2.0,
-   "built": 4.8,
-   "bayM3": 1.49
+   "built": 5.0,
+   "bayM3": 1.57,
+   "modules": 1,
+   "side": "A",
+   "lengthMm": 622,
+   "podNetM3": 1.09
   },
   {
    "n": 6,
@@ -87,8 +107,12 @@
    "density": 1100,
    "densityNote": "between concrete rubble 1,165.56 and hardfill 995.46",
    "volume": 5.1,
-   "built": 4.9,
-   "bayM3": 1.52
+   "built": 5.0,
+   "bayM3": 1.57,
+   "modules": 1,
+   "side": "B",
+   "lengthMm": 622,
+   "podNetM3": 1.09
   },
   {
    "n": 7,
@@ -102,8 +126,12 @@
    "density": 175.07,
    "densityNote": "",
    "volume": 23.5,
-   "built": 22.4,
-   "bayM3": 7.02
+   "built": 20.0,
+   "bayM3": 6.26,
+   "modules": 4,
+   "side": "A",
+   "lengthMm": 2488,
+   "podNetM3": 5.07
   },
   {
    "n": 8,
@@ -117,17 +145,29 @@
    "density": 250,
    "densityNote": "between clean light gauge 194.2 and metal 379.6",
    "volume": 3.0,
-   "built": 4.8,
-   "bayM3": 1.49
+   "built": 5.0,
+   "bayM3": 1.57,
+   "modules": 1,
+   "side": "B",
+   "lengthMm": 622,
+   "podNetM3": 1.09
   }
  ],
  "m3PerTonne": 5.337,
+ "moduleMm": 622,
+ "modulesPerSide": 10,
+ "sideWidthMm": 1165,
+ "internalHeightMm": 2160,
+ "gapMm": 35.0,
+ "podWallMm": 20.0,
+ "podTopMm": 120.0,
  "kgPerM2": {
   "low": 24.8,
   "central": 32.2,
   "high": 45
  },
- "stationInternalM3": 31.3,
+ "stationInternalM3": 24.6,
+ "stationGrossM3": 31.3,
  "sources": {
   "low2024": {
    "label": "Measured NZ build (Low et al. 2024)",

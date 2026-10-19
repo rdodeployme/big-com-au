@@ -37,7 +37,10 @@ export function mountStation(el, { onPick, streams } = {}) {
   ground.rotation.x = -Math.PI / 2; scene.add(ground);
 
   const groups = {};     // stream id -> meshes
-  const flaps = {};      // stream id -> {obj, closed, open}
+  const flaps = {};      // stream id -> [{obj, closed, target}] (one flap per module)
+  const roof = [];       // roof, ridge and lifting eyes: lift off as one piece
+  const pods = {};       // stream id -> [pod, contents, flaps] that lift out together (flaps are mounted on the pod)
+  let roofUp = false;
   let model;
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
@@ -45,13 +48,15 @@ export function mountStation(el, { onPick, streams } = {}) {
     model = gltf.scene;
     // Blender Z-up -> glTF Y-up is handled by the exporter
     model.traverse((o) => {
-      const m = o.name.match(/^(Contents|Flap|Wall|Num|Lbl)_(\w+?)(?:\.\d+)?$/);
+      const m = o.name.match(/^(Contents|Flap|Wall|Num|Lbl|Pod)_([a-z]+)(?:_\d+)?(?:\.\d+)?$/);
       if (m) {
         const id = m[2];
         (groups[id] ||= []).push(o);
         o.userData.stream = id;
-        if (m[1] === 'Flap') flaps[id] = { obj: o, closed: o.rotation.x, target: o.rotation.x };
+        if (m[1] === 'Flap') (flaps[id] ||= []).push({ obj: o, closed: o.rotation.x, target: o.rotation.x });
+        if (m[1] === 'Pod' || m[1] === 'Contents' || m[1] === 'Flap') (pods[id] ||= []).push({ obj: o, y0: o.position.y, target: o.position.y });
       }
+      if (/^Roof/.test(o.name) && o.parent === gltf.scene) roof.push({ obj: o, y0: o.position.y, target: o.position.y });
       if (o.isMesh) { o.material = o.material.clone(); o.userData.baseEmissive = o.material.emissive?.clone(); }
     });
     scene.add(model);
@@ -91,9 +96,23 @@ export function mountStation(el, { onPick, streams } = {}) {
       });
     }
     // GLB is exported with every flap closed; open the picked bay's flap outward
-    for (const [sid, f] of Object.entries(flaps)) {
+    for (const [sid, list] of Object.entries(flaps)) for (const f of list) {
       f.target = sid === id ? f.closed + (f.obj.position.z > 0 ? -1.2 : 1.2) : f.closed;
     }
+  }
+
+  // facility view: the roof lifts off in one piece, then any pod lifts straight out
+  function setRoof(up) {
+    roofUp = up;
+    for (const r of roof) r.target = r.y0 + (up ? 2.2 : 0);
+    if (!up) for (const list of Object.values(pods)) for (const p of list) p.target = p.y0;
+    controls.autoRotate = false;
+    return roofUp;
+  }
+  function liftPod(id) {
+    if (!roofUp) setRoof(true);
+    for (const [sid, list] of Object.entries(pods)) for (const p of list) p.target = p.y0 + (sid === id && p.target === p.y0 ? 2.6 : 0);
+    select(id);
   }
 
   function resize() {
@@ -108,9 +127,11 @@ export function mountStation(el, { onPick, streams } = {}) {
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(el);
   renderer.setAnimationLoop(() => {
     if (!visible) return;
-    for (const f of Object.values(flaps)) f.obj.rotation.x += (f.target - f.obj.rotation.x) * 0.12;
+    for (const list of Object.values(flaps)) for (const f of list) f.obj.rotation.x += (f.target - f.obj.rotation.x) * 0.12;
+    for (const r of roof) r.obj.position.y += (r.target - r.obj.position.y) * 0.08;
+    for (const list of Object.values(pods)) for (const p of list) p.obj.position.y += (p.target - p.obj.position.y) * 0.08;
     if (camGoal) { camera.position.lerp(camGoal, 0.08); if (camera.position.distanceTo(camGoal) < 0.05) camGoal = null; }
     controls.update(); renderer.render(scene, camera);
   });
-  return { select };
+  return { select, setRoof, liftPod, isRoofUp: () => roofUp };
 }

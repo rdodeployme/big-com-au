@@ -53,6 +53,7 @@ M = {
     "copper": mat("BIG Copper", "#C2804F", 0.85, 0.32),
     "white": mat("BIG Label", "#EEF1F3", 0.0, 0.5),
     "chassis": mat("BIG Chassis", "#0B0D0F", 0.6, 0.5),
+    "pod": mat("Pod", "#3A4148", 0.4, 0.5),
     "ground": mat("Ground", "#8C8478", 0.0, 0.95),
     # contents (true-to-material colours)
     "timber": mat("Timber", "#C8A06A", 0, 0.8),
@@ -111,6 +112,10 @@ def order(side):
     s = sorted(side, key=lambda i: -streams[i]["share"])
     return s[0::2] + s[1::2][::-1]
 sides = [("A", order(sideA), +1), ("B", order(sideB), -1)]
+MOD = cfg.get("modular")
+if MOD:  # fixed module grid: each bay is a pod of whole modules, sides set in the config
+    byid = {s["id"]: i for i, s in enumerate(streams)}
+    sides = [("A", [byid[k] for k in MOD["sides"]["A"]], +1), ("B", [byid[k] for k in MOD["sides"]["B"]], -1)]
 
 # ---------- chassis ----------
 z0 = RAIL
@@ -137,6 +142,10 @@ box("Spine", (L - 2*WALL, WALL, H - WALL), (0, 0, z0 + WALL + (H - WALL)/2), M["
 # weatherproof roof (removed for plan cutaway)
 box("Roof", (L + 0.04, W + 0.04, 0.05), (0, 0, z0 + H + 0.025), M["body"])
 box("RoofRidge", (L + 0.04, 0.3, 0.03), (0, 0, z0 + H + 0.065), M["copper"])
+# four lifting eyes so the whole roof lifts off in one piece at the facility
+for i, (ex, ey) in enumerate([(-L/2 + 0.35, -W/2 + 0.3), (-L/2 + 0.35, W/2 - 0.3), (L/2 - 0.35, -W/2 + 0.3), (L/2 - 0.35, W/2 - 0.3)]):
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.07, minor_radius=0.018, location=(ex, ey, z0 + H + 0.12), rotation=(math.pi/2, 0, 0))
+    e = link(bpy.context.active_object); e.name = f"RoofEye{i}"; e.data.materials.append(M["copper"])
 # copper top band
 for y in (-W/2, W/2):
     box(f"Band{y}", (L + 0.02, 0.025, 0.09), (0, y, z0 + H - 0.045), M["copper"])
@@ -164,20 +173,23 @@ for side_name, order_idx, sgn in sides:
         # outer lower wall
         box(f"Wall_{s['id']}", (bl, WALL, FLAP_BOTTOM), (cx, y_out, z0 + FLAP_BOTTOM/2), M["body"])
         # divider at end of bay
-        if k < len(order_idx) - 1:
+        if k < len(order_idx) - 1 and not MOD:
             box(f"Div_{s['id']}", (WALL * 0.8, half_W + WALL, inner_H), (x + bl, y_mid, iz + inner_H/2), M["body_in"])
-        # top-hinged flap (open on some bays)
+        # top-hinged flaps: one per module on the modular grid (one per bay otherwise)
         fh = H - FLAP_BOTTOM - 0.09
         open_a = cfg.get("open_flaps", {}).get(s["id"], 0) * math.pi / 180
-        hinge = Vector((cx, y_out, z0 + H - 0.09))
-        bpy.ops.mesh.primitive_cube_add(size=1)
-        f = bpy.context.active_object; f.name = f"Flap_{s['id']}"
-        f.scale = (bl - 0.03, WALL, fh); bpy.ops.object.transform_apply(scale=True)
-        # move origin to hinge (top edge)
-        for v in f.data.vertices: v.co.z -= fh / 2
-        f.location = hinge
-        f.rotation_euler = Euler((sgn * open_a, 0, 0))
-        f.data.materials.append(M["flap"]); link(f)
+        nflap = s.get("modules", 1) if MOD else 1
+        fw = bl / nflap
+        for fk in range(nflap):
+            fcx = x + fw * (fk + 0.5)
+            hinge = Vector((fcx, y_out, z0 + H - 0.09))
+            bpy.ops.mesh.primitive_cube_add(size=1)
+            f = bpy.context.active_object; f.name = f"Flap_{s['id']}_{fk}"
+            f.scale = (fw - 0.03, WALL, fh); bpy.ops.object.transform_apply(scale=True)
+            for v in f.data.vertices: v.co.z -= fh / 2   # origin on the hinge (top edge)
+            f.location = hinge
+            f.rotation_euler = Euler((sgn * open_a, 0, 0))
+            f.data.materials.append(M["flap"]); link(f)
         # number + name on lower wall
         face_y = sgn * (W/2 + 0.003)
         rz = 0 if sgn < 0 else math.pi
@@ -188,6 +200,22 @@ for side_name, order_idx, sgn in sides:
         text(f"Lbl_{s['id']}", s["short"].upper(), (left_x, face_y, z0 + 0.22), (math.pi/2, 0, rz), lbl_size, M["white"], align='LEFT')
         bays.append({"id": s["id"], "side": side_name, "x0": round(x, 3), "len": round(bl, 3),
                      "vol_m3": round(bl * half_W * inner_H, 2)})
+        # removable pod: thin liner inside the bay, open top, with forklift pockets
+        g = 0.035; pw = bl - 2 * g; pd = half_W - 2 * g; ph = inner_H - 0.12; t = 0.02
+        pcx, pcy, pz0 = cx, y_mid, iz + 0.005
+        parts = [box("p", (pw, pd, t), (pcx, pcy, pz0 + t/2), M["pod"]),
+                 box("p", (pw, t, ph), (pcx, pcy - pd/2, pz0 + ph/2), M["pod"]),
+                 box("p", (pw, t, ph), (pcx, pcy + pd/2, pz0 + ph/2), M["pod"]),
+                 box("p", (t, pd, ph), (pcx - pw/2, pcy, pz0 + ph/2), M["pod"]),
+                 box("p", (t, pd, ph), (pcx + pw/2, pcy, pz0 + ph/2), M["pod"])]
+        for k2 in (-1, 1):  # forklift pockets
+            parts.append(box("p", (min(0.18, pw * 0.3), pd + 0.01, 0.08), (pcx + k2 * pw * 0.25, pcy, pz0 + 0.06), M["chassis"]))
+        for k2 in (-1, 1):  # lifting lugs on the rim
+            parts.append(box("p", (0.06, 0.06, 0.08), (pcx + k2 * (pw/2 - 0.08), pcy, pz0 + ph + 0.02), M["copper"]))
+        bpy.ops.object.select_all(action='DESELECT')
+        for o in parts: o.select_set(True)
+        bpy.context.view_layer.objects.active = parts[0]
+        bpy.ops.object.join(); parts[0].name = f"Pod_{s['id']}"
         # ---------- contents ----------
         fill = 0.45 + 0.25 * random.random()
         kind = s["kind"]
@@ -294,6 +322,14 @@ if RENDER in ("hero", "all"):
     g = bpy.context.active_object; g.data.materials.append(mat("Floor", "#1A1E22", 0.0, 0.85))
     lights()
     setup_render("hero.png", (8.6, -7.4, 3.3), (math.radians(78), 0, math.radians(49)), lens=38)
+
+if RENDER == "sideA":
+    lights(strength=0.9)
+    setup_render("sideA.png", (0, 14, 1.35), (math.radians(90), 0, math.radians(180)), ortho=7.6, transparent=True)
+
+if RENDER == "end":
+    lights(strength=0.9)
+    setup_render("end.png", (-14, 0, 1.35), (math.radians(90), 0, math.radians(-90)), ortho=7.6, transparent=True)
 
 if RENDER == "side":
     lights(strength=0.9)

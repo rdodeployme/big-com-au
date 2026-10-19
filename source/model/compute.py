@@ -77,8 +77,40 @@ for lab, r in KG_PER_M2.items():
     t = ex_area * r / 1000
     print(f"{lab:>8}: {ex_area} m2 house -> {t:.1f} t, {t*tot_v:.0f} m3 loose, ~{t*tot_v/(internal*0.85):.1f} station lifts")
 
+# ---------- modular grid: each side split into equal modules; each bay is a pod of whole modules ----------
+MODULES_PER_SIDE = 10
+WALL = 0.04
+int_L = BODY["length"] - 2 * WALL
+mod_len = int_L / MODULES_PER_SIDE
+side_w = (BODY["width"] - 3 * WALL) / 2
+int_H = BODY["height"] - WALL
+SIDES = {"A": ["general", "plastic", "eps", "card"], "B": ["timber", "rubble", "steel", "plaster"]}
+modules = {}
+for side, ids in SIDES.items():
+    tgt = {k: vshare[k] for k in ids}; tot = sum(tgt.values())
+    tgt = {k: v / tot * MODULES_PER_SIDE for k, v in tgt.items()}
+    alloc = {k: max(1, int(v)) for k, v in tgt.items()}
+    while sum(alloc.values()) < MODULES_PER_SIDE:
+        k = max(tgt, key=lambda k: tgt[k] - alloc[k]); alloc[k] += 1
+    while sum(alloc.values()) > MODULES_PER_SIDE:
+        k = min((k for k in alloc if alloc[k] > 1), key=lambda k: tgt[k] - alloc[k]); alloc[k] -= 1
+    modules.update(alloc)
+GAP, POD_WALL, POD_TOP = 0.035, 0.02, 0.12
+def bay_dims(n):
+    bl = n * mod_len
+    gross = bl * side_w * int_H
+    pod = (bl - 2 * GAP) * (side_w - 2 * GAP) * (int_H - POD_TOP)
+    pod_net = (bl - 2 * GAP - 2 * POD_WALL) * (side_w - 2 * GAP - 2 * POD_WALL) * (int_H - POD_TOP - POD_WALL)
+    return bl, gross, pod_net
+print(f"\nModule {mod_len*1000:.0f} mm; per side {MODULES_PER_SIDE}; side width {side_w*1000:.0f} mm; internal height {int_H*1000:.0f} mm")
+for side, ids in SIDES.items():
+    for k in ids:
+        bl, g, pn = bay_dims(modules[k])
+        print(f"{side} {k:<8} {modules[k]:>2} mod  {bl*1000:>5.0f} mm  gross {g:4.2f} m3  pod net {pn:4.2f} m3  data {vshare[k]*internal:4.2f}")
+
 cfg = {"body": BODY, "open_flaps": {"timber": 70, "card": 70, "general": 62, "rubble": 62, "steel": 62},
-       "streams": [{"n": n, "id": k, "name": name, "short": short, "share": round(built[k], 4), "kind": kind}
+       "modular": {"modules_per_side": MODULES_PER_SIDE, "sides": SIDES},
+       "streams": [{"n": n, "id": k, "name": name, "short": short, "share": round(modules[k] / (2 * MODULES_PER_SIDE), 4), "kind": kind, "modules": modules[k]}
                    for n, k, name, short, kind in STREAMS]}
 json.dump(cfg, open(os.path.join(HERE, "shares.json"), "w"), indent=1)
 v = dict(cfg); v["open_flaps"] = {}
@@ -88,7 +120,9 @@ os.makedirs(os.path.join(HERE, "..", "site", "data"), exist_ok=True)
 json.dump({
     "streams": [{"n": n, "id": k, "name": name, "weight": CENTRAL[k], "range": RANGE[k], "density": DENSITY[k],
                  "densityNote": DENS_NOTE.get(k, ""), "volume": round(vshare[k] * 100, 1),
-                 "built": round(built[k] * 100, 1), "bayM3": round(built[k] * internal, 2)} for n, k, name, *_ in STREAMS],
-    "m3PerTonne": round(tot_v, 3), "kgPerM2": KG_PER_M2, "stationInternalM3": round(internal, 1),
+                 "built": round(modules[k] / (2 * MODULES_PER_SIDE) * 100, 1), "bayM3": round(bay_dims(modules[k])[1], 2),
+                 "modules": modules[k], "side": next(sd for sd, ids in SIDES.items() if k in ids), "lengthMm": round(bay_dims(modules[k])[0] * 1000), "podNetM3": round(bay_dims(modules[k])[2], 2)} for n, k, name, *_ in STREAMS],
+    "m3PerTonne": round(tot_v, 3), "moduleMm": round(mod_len * 1000), "modulesPerSide": MODULES_PER_SIDE,
+    "sideWidthMm": round(side_w * 1000), "internalHeightMm": round(int_H * 1000), "gapMm": GAP * 1000, "podWallMm": POD_WALL * 1000, "podTopMm": POD_TOP * 1000, "kgPerM2": KG_PER_M2, "stationInternalM3": round(sum(bay_dims(modules[k])[2] for k in modules), 1), "stationGrossM3": round(internal, 1),
     "sources": {k: {kk: (round(vv, 2) if isinstance(vv, float) else vv) for kk, vv in s.items()} for k, s in SOURCES.items()},
 }, open(os.path.join(HERE, "..", "site", "data", "model.json"), "w"), indent=1)

@@ -51,7 +51,19 @@ function initBays() {
   }, { rootMargin: '200px' });
   io.observe(el);
 }
+let current = 'timber';
+document.getElementById('roofBtn')?.addEventListener('click', (e) => {
+  if (!viewer) return;
+  const up = viewer.setRoof(!viewer.isRoofUp());
+  e.currentTarget.textContent = up ? 'Put the roof back' : 'Lift the roof off';
+});
+document.getElementById('podBtn')?.addEventListener('click', () => {
+  if (!viewer) return;
+  viewer.liftPod(current);
+  const rb = document.getElementById('roofBtn'); if (rb) rb.textContent = 'Put the roof back';
+});
 function pick(id, from3d) {
+  current = id;
   const s = MODEL.streams.find((x) => x.id === id); const g = BAY[id];
   document.querySelectorAll('#bayList button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.id === id));
   $('#bayDetail').innerHTML = `<h3><span>${String(s.n).padStart(2, '0')}</span>${s.name}</h3>
