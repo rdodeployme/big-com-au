@@ -54,6 +54,7 @@ M = {
     "white": mat("BIG Label", "#EEF1F3", 0.0, 0.5),
     "chassis": mat("BIG Chassis", "#0B0D0F", 0.6, 0.5),
     "pod": mat("Pod", "#3A4148", 0.4, 0.5),
+    "lamp": mat("Sensor lamp", "#F4F1E8", 0.0, 0.2, emit="#FFF6E0"),
     "ground": mat("Ground", "#8C8478", 0.0, 0.95),
     # contents (true-to-material colours)
     "timber": mat("Timber", "#C8A06A", 0, 0.8),
@@ -151,6 +152,14 @@ for y in (-W/2, W/2):
     box(f"Band{y}", (L + 0.02, 0.025, 0.09), (0, y, z0 + H - 0.045), M["copper"])
 for x in (-L/2, L/2):
     box(f"BandEnd{x}", (0.025, W + 0.02, 0.09), (x, 0, z0 + H - 0.045), M["copper"])
+
+# three motion-sensor security lights on the body band (body-mounted, so they stay when the roof lifts off)
+for i, (lx, ly, rz) in enumerate([(0.0, W/2 + 0.05, 0.0), (0.0, -W/2 - 0.05, 0.0), (-L/2 - 0.05, 0.0, math.pi/2)]):
+    box(f"SensorLight{i}", (0.26, 0.07, 0.085), (lx, ly, z0 + H - 0.045), M["chassis"], rot=(0, 0, rz))
+    off = 0.036 if (ly > 0 or (ly == 0 and False)) else -0.036
+    dx, dy = (0, off) if rz == 0 else (-0.036, 0)
+    box(f"SensorLens{i}", (0.18, 0.006, 0.05), (lx + dx, ly + dy, z0 + H - 0.045), M["lamp"], rot=(0, 0, rz))
+    cyl(f"SensorPIR{i}", 0.022, 0.03, (lx + dx * 1.2 + (0.1 if rz == 0 else 0), ly + dy * 1.2 + (0.1 if rz != 0 else 0), z0 + H - 0.06), M["white"], rot=(math.pi/2, 0, rz), verts=16)
 
 # rear end branding
 text("RearBrand", "BUILDBIN", (-L/2 - 0.006, 0.0, z0 + 0.75), (math.pi/2, 0, -math.pi/2), 0.34, M["white"], align='CENTER', extrude=0.006)

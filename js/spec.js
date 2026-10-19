@@ -145,6 +145,10 @@ function drawPlan() {
     txt(svg, -90, y0 + SIDE_W / 2 + 40, side, 'sidelbl');
   }
   line(svg, WALL, WALL + SIDE_W + WALL / 2, L - WALL, WALL + SIDE_W + WALL / 2, 'spine');
+  for (const [lx, ly] of [[L / 2, -45], [L / 2, W + 45], [-45, W / 2]]) el(svg, 'circle', { cx: lx, cy: ly, r: 70, class: 'lampdot' });
+  txt(svg, L / 2 + 120, -70, 'SENSOR LIGHT', 'tiny', 'start');
+  txt(svg, L / 2 + 120, W + 110, 'SENSOR LIGHT', 'tiny', 'start');
+  txt(svg, -130, W / 2 + 230, 'LIGHT', 'tiny', 'end');
   dimH(svg, 0, L, -480, '6,300 overall body', 0);
   dimH(svg, WALL, L - WALL, W + 470, '6,220 internal = 10 × 622 modules', W);
   dimV(svg, 0, W, L + 380, '2,450', L);
@@ -192,6 +196,12 @@ function drawSide(side) {
     txt(svg, xl, Y(RAIL + 260), (p.n > 1 ? S[p.id].name : S[p.id].short).toUpperCase(), 'elname', 'start');
   }
   if (side === 'B') { txt(svg, -60, Y(RAIL + 800), 'BUILDBIN', 'note', 'end'); }
+  // sensor light centred on the band, controller and siren box at the hook end
+  rect(svg, L / 2 - 130, Y(top - 2), 260, 86, 'lamp');
+  txt(svg, L / 2, Y(g.roofTop + 150), 'SENSOR LIGHT', 'note');
+  const cbx = side === 'A' ? X(L - 120) : X(L - 120) - 380;
+  rect(svg, cbx, Y(RAIL + 760), 380, 300, 'ctrl');
+  txt(svg, cbx + 190, Y(RAIL + 560), 'LOCK · ALARM', 'tiny');
   // dims
   for (const p of placed(side)) { const a = X(WALL + p.start * MOD), b = X(WALL + (p.start + p.n) * MOD); dimH(svg, Math.min(a, b), Math.max(a, b), 200, fmt(p.n * MOD), 0, true); }
   dimH(svg, 0, L, 430, '6,300', 0);
@@ -295,7 +305,10 @@ function schedule() {
     ['Loading flaps (on pods)', mods, '1 per module in use'],
     ['Flap hold-open stays or gas struts', mods, '1 per flap'],
     ['Electric flap latches', mods, '1 per module, on the sill rail'],
-    ['Bluetooth lock controller, battery and override', 1, 'In a lockable box at the hook end'],
+    ['Bluetooth controller, battery and keyed override', 1, 'Runs locks, lights and alarm. In a lockable box at the hook end'],
+    ['Motion-sensor LED security lights', 3, 'One each long side, one rear end, on the top band'],
+    ['Alarm siren', 1, 'Arms on a schedule set in the app'],
+    ['Flap-open sensors', mods, '1 per flap, or built into the latch'],
     ['Bay number and stream name plates', pods, 'Movable, clip to sill rail'],
   ];
   $('#bom').innerHTML = `<thead><tr><th>Component</th><th>Qty</th><th>Note</th></tr></thead><tbody>${bom.map(([a, q, n, isMap]) => `<tr><td>${a}</td><td class="n">${q}</td><td>${isMap ? Object.entries(n).sort().map(([k, v]) => `${v} × ${k}`).join(', ') : n}</td></tr>`).join('')}</tbody>`;

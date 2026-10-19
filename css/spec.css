@@ -76,6 +76,11 @@
 .sheet .flapleaf{fill:#3A4148;stroke:#0E1114;stroke-width:8}
 .sheet .free{stroke:#9aa3ab;stroke-width:6;stroke-dasharray:30 20}
 .sheet text{font-family:var(--body);fill:#0E1114}
+.sheet .lamp{fill:#FFF3D6;stroke:#0E1114;stroke-width:10}
+.sheet .lampdot{fill:#FFF3D6;stroke:#0E1114;stroke-width:12}
+.sheet .ctrl{fill:#14181C;stroke:#C2804F;stroke-width:10}
+.sheet .tiny{font-weight:700;font-size:calc(64px * var(--k));letter-spacing:.05em;fill:#59626a}
+.sheet .ctrl + text.tiny{fill:#EEF1F3}
 .sheet .bayno{font:800 calc(260px * var(--k)) var(--display);fill:#5E3A22}
 .sheet .bayname{font-weight:600;font-size:calc(108px * var(--k))}
 .sheet .baysub{font-size:calc(90px * var(--k));fill:#59626a}
@@ -97,6 +102,7 @@
 .sched tfoot td{font-weight:700;border-bottom:0;border-top:2px solid var(--ink)}
 .bom td:first-child{white-space:normal}
 .clauses{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px}
+.clauses article.wide{grid-column:1/-1}
 .clauses article{background:#fff;border:1px solid var(--inkline);border-radius:6px;padding:22px 24px}
 .clauses h3{font-size:21px;font-stretch:110%;margin-bottom:12px}
 .clauses ul{list-style:none;padding:0}
