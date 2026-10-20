@@ -1,10 +1,10 @@
 // BuildBin fabricator spec, Rev B: hook skid + 8 stand-alone bins -> drawings, schedule, BOM
 const L = 6300, W = 2450, DECK = 100, RAIL_H = 100, RAIL_W = 50, CW = 50, REAR = 150, HOOKZ = 300;
 const MOD = 585, NMOD = 10, PER_SIDE = 4, GAP = 20, T = 4, DEPTH = 1150, MAXM = 6;
-const FT = 2000, BT = 1900, FB = 1200, PB = 300, PH = 100, FLOOR = 400;   // heights from the ground, bins on the skid
+const FT = 1900, BT = 2000, FB = 1200, PB = 300, PH = 100, FLOOR = 400;   // heights from the ground, bins on the skid
 const X0 = REAR, HOOK_Z = 1450;
 const IH_F = FT - T - (FLOOR + T), IH_B = BT - T - (FLOOR + T), IH = (IH_F + IH_B) / 2, ID = DEPTH - 2 * T;
-const DOOR = { z0: FLOOR + 60, z1: BT - 100, w: DEPTH - 120 };
+const DOOR = { z0: FLOOR + 60, z1: Math.min(FT, BT) - 100, w: DEPTH - 120 };
 const PRESETS = {
   default: { A: [['general', 4], ['plastic', 2], ['eps', 1], ['card', 3]], B: [['timber', 6], ['rubble', 1], ['steel', 1], ['plaster', 2]] },
   brick:   { A: [['general', 4], ['plastic', 2], ['eps', 1], ['card', 3]], B: [['timber', 5], ['rubble', 2], ['steel', 1], ['plaster', 2]] },
@@ -189,6 +189,7 @@ function drawSide(side) {
   txt(svg, X(50), Y(2010), 'LIGHT', 'tiny');
   for (const p of placed(side)) {
     [a, w] = R(p.x, p.x + p.w);
+    rect(svg, a, Y(BT), w, BT - FT, 'lidline');                                  // lid rising to the ridge behind
     rect(svg, a, Y(FT), w, FT - DECK, 'body');                                 // bin outline (front face)
     for (const k of [-1, 1]) { const [pa, pw] = R(p.x + p.w / 2 + k * p.pc / 2 - 100, p.x + p.w / 2 + k * p.pc / 2 + 100); rect(svg, pa, Y(PB + PH), pw, PH, 'pocket'); }
     const [sa, sw] = R(p.x + 40, p.x + p.w - 40);
@@ -209,9 +210,9 @@ function drawSide(side) {
   const sg = side === 'A' ? -1 : 1, ext = side === 'A' ? 0 : L, rx = (d) => (side === 'A' ? 0 : L) + sg * d;
   dimV(svg, Y(PB), 0, rx(300), '300', ext, true);
   dimV(svg, Y(FB), Y(PB), rx(300), '900', ext, true);
-  dimV(svg, Y(FT), Y(FB), rx(300), '800 flap', ext, true);
+  dimV(svg, Y(FT), Y(FB), rx(300), `${fmt(FT - FB)} flap`, ext, true);
   dimV(svg, Y(FB), 0, rx(560), '1,200', ext, true);
-  dimV(svg, Y(FT), 0, rx(800), '2,000 max', ext);
+  dimV(svg, Y(BT), 0, rx(800), '2,000 max at ridge', ext);
 }
 
 // ---------- GA-04 section across the skid ----------
@@ -235,14 +236,14 @@ function drawSection() {
     rect(svg, ya + 60, Y(DOOR.z1), DEPTH - 120, DOOR.z1 - DOOR.z0, 'doorface');
     txt(svg, (ya + yz) / 2, Y((DOOR.z0 + DOOR.z1) / 2), 'TRAP DOOR', 'tiny');
   }
-  txt(svg, W / 2, Y(BT + 160), 'FALLS TO CENTRE', 'tiny');
+  txt(svg, W / 2, Y(BT + 160), 'RIDGE · FALLS TO BOTH SIDES', 'tiny');
   dimH(svg, 0, W, 300, '2,450', 0);
   dimH(svg, RAIL_W, RAIL_W + DEPTH, 140, '1,150', 0, true);
   dimH(svg, W - RAIL_W - DEPTH, W - RAIL_W, 140, '1,150', 0, true);
   dimV(svg, Y(FLOOR), 0, -200, '400 floor', 0, true);
   dimV(svg, Y(FB), 0, -460, '1,200', 0, true);
-  dimV(svg, Y(FT), 0, -720, '2,000', 0);
-  dimV(svg, Y(BT), 0, W / 2 + 300, '1,900', W / 2, true);
+  dimV(svg, Y(FT), 0, -720, fmt(FT) + ' front', 0);
+  dimV(svg, Y(BT), 0, W / 2 + 300, '2,000 ridge', W / 2, true);
   dimV(svg, Y(DECK + RAIL_H), Y(DECK), W + 200, '100 rail', W, true);
   dimV(svg, Y(PB), Y(DECK), W + 460, '200 to pocket', W, true);
   txt(svg, -60, Y(FB + 180), 'LEDGE', 'tiny', 'end');
@@ -292,7 +293,7 @@ function schedule() {
     const s = S[p.id], full = p.net * s.density, over = full > state.swl;
     const fill = over ? Math.floor(state.swl / (s.density * (p.iw * ID / 1e6)) / 10) * 10 : null;
     net += p.net; load += over ? state.swl : full; tare += p.tare; mods += p.n; sizes[`${p.n}-module (${fmt(p.w)})`] = (sizes[`${p.n}-module (${fmt(p.w)})`] || 0) + 1;
-    rows.push(`<tr${over ? ' class="over"' : ''}><td class="n">${nn(p.id)}</td><td>${s.name}</td><td>${side}</td><td>${p.n}</td><td>${fmt(p.w)} × 1,150 × 1,900/1,800</td><td>${fmt(p.iw)} × ${fmt(ID)} × ${fmt(IH_F)}/${fmt(IH_B)}</td><td>${m3(p.net)}</td><td>${fmt(p.flapW)} × ${fmt(p.flapH)}</td><td>${fmt(DOOR.w)} × ${fmt(DOOR.z1 - DOOR.z0)}</td><td>${fmt(Math.round(p.tare / 10) * 10)}</td><td>${fmt(s.density)}</td><td>${fmt(full)}</td><td>${fill ? `${fmt(fill)} above floor` : 'To top'}</td></tr>`);
+    rows.push(`<tr${over ? ' class="over"' : ''}><td class="n">${nn(p.id)}</td><td>${s.name}</td><td>${side}</td><td>${p.n}</td><td>${fmt(p.w)} × 1,150 × ${fmt(FT - DECK)}/${fmt(BT - DECK)}</td><td>${fmt(p.iw)} × ${fmt(ID)} × ${fmt(IH_F)}/${fmt(IH_B)}</td><td>${m3(p.net)}</td><td>${fmt(p.flapW)} × ${fmt(p.flapH)}</td><td>${fmt(DOOR.w)} × ${fmt(DOOR.z1 - DOOR.z0)}</td><td>${fmt(Math.round(p.tare / 10) * 10)}</td><td>${fmt(s.density)}</td><td>${fmt(full)}</td><td>${fill ? `${fmt(fill)} above floor` : 'To top'}</td></tr>`);
   }
   $('#sched').innerHTML = `<thead><tr><th>Bin</th><th>Stream</th><th>Side</th><th>Modules</th><th>External W × D × H front/back</th><th>Internal W × D × H front/back</th><th>Net m³</th><th>Flap opening</th><th>Trap door</th><th>Tare kg (est.)</th><th>Loose kg/m³</th><th>Full load kg</th><th>Fill line</th></tr></thead><tbody>${rows.join('')}</tbody>
   <tfoot><tr><td colspan="3">Station</td><td>${mods}</td><td></td><td></td><td>${m3(net)}</td><td></td><td></td><td>${fmt(Math.round(tare / 10) * 10)}</td><td></td><td>${fmt(load)}</td><td></td></tr></tfoot>`;
@@ -301,8 +302,8 @@ function schedule() {
     (freeA + freeB ? `<p class="warn">${freeA + freeB} module${freeA + freeB > 1 ? 's are' : ' is'} unused. Give ${freeA + freeB > 1 ? 'them' : 'it'} to a bin or the skid carries empty space.</p>` : '');
   $('#dimList').innerHTML = [
     ['Design basis', 'Skid 6,300 long × 2,450 wide, deck 100 above the ground.'],
-    ['Design basis', 'Bins: 1,150 deep, modules × 585 − 20 wide, top 2,000 at the front and 1,900 at the back.'],
-    ['Design basis', 'Flap 1,200 to 2,000. Fork pockets 200 above the bin base (300 above the ground on the skid), floor at 400, rail 100 high on the deck.'],
+    ['Design basis', 'Bins: 1,150 deep, modules × 585 − 20 wide. Lid ridge 2,000 down the middle of the skid, falling to 1,900 at the front edge.'],
+    ['Design basis', 'Flap 1,200 to 1,900. Fork pockets 200 above the bin base (300 above the ground on the skid), floor at 400, rail 100 high on the deck.'],
     ['Design basis', `Usable volume ${m3(net)} m³ across eight bins.`],
     ['To confirm', 'Hook height, runner spacing and roller size on the operator\'s trucks.'],
   ].map(([t, s]) => `<li><span class="st ${t === 'To confirm' ? 'st-t' : 'st-b'}">${t}</span>${s}</li>`).join('');

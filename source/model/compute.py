@@ -85,7 +85,7 @@ for lab, r in KG_PER_M2.items():
 GEO = {
     "L": 6.3, "W": 2.45, "deck": 0.10, "rail_h": 0.10, "rail_w": 0.05, "centre_w": 0.05,
     "rear_zone": 0.15, "hook_zone": 0.30, "gap": 0.02, "plate": 0.004,
-    "front_top": 2.00, "back_top": 1.90, "flap_bot": 1.20, "pocket_bot": 0.30, "pocket_h": 0.10, "floor": 0.40,
+    "front_top": 1.90, "back_top": 2.00, "flap_bot": 1.20, "pocket_bot": 0.30, "pocket_h": 0.10, "floor": 0.40,
 }
 MODULES_PER_SIDE = 10
 bin_zone = GEO["L"] - GEO["rear_zone"] - GEO["hook_zone"]

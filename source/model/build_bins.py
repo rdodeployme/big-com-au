@@ -362,10 +362,10 @@ for side, sgn in (("A", +1), ("B", -1)):
         parts.append(box("lk", (0.12, 0.05, 0.05), (cx, yf + sgn * 0.02, FT - 0.04), M["chassis"]))
         parts.append(box("lkl", (0.03, 0.004, 0.012), (cx, yf + sgn * 0.046, FT - 0.04), M["cupaint"]))
         binobj = join_as(parts, f"Bin_{sid}")
-        # hard lid, 100 mm fall from the front (2.0 m) to the back (1.9 m)
+        # hard lid: ridge in the middle of the skid (2.0 m), falling 100 mm to the front edge (1.9 m)
         ang = math.atan2(FT - BT, DEPTH); ll = math.hypot(DEPTH, FT - BT) + 0.03
-        lid = box(f"Lid_{sid}", (w + 0.01, ll, T), (cx, ym + sgn * 0.0, (FT + BT)/2 + T/2), M["lid"], rot=(sgn * ang, 0, 0))
-        # drop-down front flap: bottom hinge at 1.2 m, closes to the 2.0 m mark
+        lid = box(f"Lid_{sid}", (w + 0.01, ll + 0.04, T), (cx, ym + sgn * 0.02, (FT + BT)/2 + T/2), M["lid"], rot=(sgn * ang, 0, 0))   # 50 mm drip overhang at the front
+        # drop-down front flap: bottom hinge at 1.2 m, closes under the lid's front edge
         fh = FT - 0.012 - FB; fw = w - 0.07
         f = box(f"Flap_{sid}", (fw, T, fh), (cx, yf + sgn * 0.006, FB + fh/2), M["flap"])
         set_origin(f, (cx, yf + sgn * 0.006, FB))
@@ -379,7 +379,7 @@ for side, sgn in (("A", +1), ("B", -1)):
         # trap door on the right-hand side (as you face the flap), hinged along its top edge
         xr = x if sgn > 0 else x + w            # right side: -x for side A, +x for side B
         out = -1 if sgn > 0 else 1
-        dz0, dz1 = FLOOR + 0.06, BT - 0.10
+        dz0, dz1 = FLOOR + 0.06, min(FT, BT) - 0.10
         dy0, dy1 = ya_ + 0.06, yb_ - 0.06
         d = box(f"Door_{sid}", (T, dy1 - dy0, dz1 - dz0), (xr + out * (T + 0.002), (dy0 + dy1)/2, (dz0 + dz1)/2), M["door"])
         hg = cyl("dh", 0.014, dy1 - dy0 - 0.1, (xr + out * 0.012, (dy0 + dy1)/2, dz1), M["hinge"], rot=(math.pi/2, 0, 0), verts=12)
@@ -410,6 +410,28 @@ if RENDER == "hero":
 if RENDER == "signs":
     floor_plane("#2A3036"); lights(world_hex="#4A525A", strength=1.0)
     setup_render("signs.png", (2.6, -4.8, 1.25), (math.radians(87), 0, math.radians(22)), lens=28)
+
+if RENDER == "rear34":
+    floor_plane(); lights()
+    setup_render("rear34.png", (-8.3, 7.0, 3.0), (math.radians(76), 0, math.radians(-130)), lens=38)
+
+if RENDER == "flap":
+    floor_plane("#2A3036"); lights(world_hex="#4A525A", strength=1.0)
+    setup_render("flap.png", (1.75, 4.9, 1.75), (math.radians(80), 0, math.radians(180)), lens=32)
+
+if RENDER == "door":
+    d = bpy.data.objects["Door_general"]; d.rotation_euler = Euler((0, math.radians(70), 0))
+    floor_plane("#2A3036"); lights(world_hex="#4A525A", strength=1.0)
+    setup_render("door.png", (-6.6, 3.9, 1.7), (math.radians(84), 0, math.radians(-128)), lens=34)
+
+if RENDER in ("hookend", "rearend"):
+    lights(strength=0.9)
+    cam = {"hookend": ((14, 0, 1.0), (math.radians(90), 0, math.radians(90))), "rearend": ((-14, 0, 1.0), (math.radians(90), 0, math.radians(-90)))}[RENDER]
+    sx = 1 if RENDER == "hookend" else -1
+    ld = bpy.data.lights.new("EndFill", 'AREA'); ld.energy = 450; ld.size = 4
+    lo = bpy.data.objects.new("EndFill", ld); lo.location = (sx * 6, -1.5, 2.6); scene.collection.objects.link(lo)
+    lo.rotation_euler = (Vector((0, 0, 1.0)) - lo.location).to_track_quat('-Z', 'Y').to_euler()
+    setup_render(RENDER + ".png", cam[0], cam[1], ortho=3.6, transparent=True)
 
 if RENDER in ("side", "sideA", "end"):
     lights(strength=0.9)

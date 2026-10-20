@@ -175,8 +175,8 @@
   "hook_zone": 300,
   "gap": 20,
   "plate": 4,
-  "front_top": 2000,
-  "back_top": 1900,
+  "front_top": 1900,
+  "back_top": 2000,
   "flap_bot": 1200,
   "pocket_bot": 300,
   "pocket_h": 100,
@@ -185,8 +185,8 @@
   "depth": 1150
  },
  "binDepthMm": 1150,
- "internalHeightFrontMm": 1592,
- "internalHeightBackMm": 1492,
+ "internalHeightFrontMm": 1492,
+ "internalHeightBackMm": 1592,
  "kgPerM2": {
   "low": 24.8,
   "central": 32.2,
