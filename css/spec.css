@@ -1,4 +1,4 @@
-/* BuildBin fabricator spec */
+/* BuildersBins fabricator spec */
 .specpage .sec-head h2{font-size:clamp(34px,4.4vw,60px)}
 .status-key{margin-top:26px;font-size:14px;color:var(--muted);line-height:2.2}
 .st{display:inline-block;font:700 11.5px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;padding:5px 8px;border-radius:3px;margin-right:10px;vertical-align:1px;white-space:nowrap}

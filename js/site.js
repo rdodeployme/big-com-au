@@ -1,4 +1,4 @@
-// BuildBin site — interactions
+// BuildersBins site — interactions
 const $ = (s, r = document) => r.querySelector(s);
 const fmt = (n, d = 0) => n.toLocaleString('en-AU', { maximumFractionDigits: d, minimumFractionDigits: d });
 const money = (n) => '$' + fmt(Math.round(n));
@@ -166,7 +166,7 @@ function initHouse() {
     $('#skips').innerHTML = Array.from({ length: Math.ceil(skips) }, (_, i) => `<i class="${i >= whole ? 'part' : ''}"></i>`).join('');
     const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen'];
     const n = Math.round(skips);
-    $('#skipsCap').textContent = `That's about ${words[n] || n} 6 m³ skips of mixed waste, or ${fmt(lifts, 1)} BuildBin change-overs, already sorted.`;
+    $('#skipsCap').textContent = `That's about ${words[n] || n} 6 m³ skips of mixed waste, or ${fmt(lifts, 1)} BuildersBins change-overs, already sorted.`;
   };
   r.addEventListener('input', upd); upd();
 }
@@ -194,5 +194,5 @@ $('#pilotForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const d = Object.fromEntries(new FormData(e.target));
   const body = `Name: ${d.name}\nCompany: ${d.company}\nEmail: ${d.email}\nPhone: ${d.phone || ''}\nHomes a year: ${d.homes}\nWhere we build: ${d.region || ''}\n\n${d.message || ''}`;
-  location.href = `mailto:${TO}?subject=${encodeURIComponent('BuildBin pilot request: ' + d.company)}&body=${encodeURIComponent(body)}`;
+  location.href = `mailto:${TO}?subject=${encodeURIComponent('BuildersBins pilot request: ' + d.company)}&body=${encodeURIComponent(body)}`;
 });

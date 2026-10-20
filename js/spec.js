@@ -1,4 +1,4 @@
-// BuildBin fabricator spec, Rev B: hook skid + 8 stand-alone bins -> drawings, schedule, BOM
+// BuildersBins fabricator spec, Rev B: hook skid + 8 stand-alone bins -> drawings, schedule, BOM
 const L = 6300, W = 2450, DECK = 100, RAIL_H = 100, RAIL_W = 50, CW = 50, REAR = 150, HOOKZ = 300;
 const MOD = 585, NMOD = 10, PER_SIDE = 4, GAP = 20, T = 4, DEPTH = 1150, MAXM = 6;
 const FT = 1900, BT = 2000, FB = 1200, PB = 300, PH = 100, FLOOR = 400;   // heights from the ground, bins on the skid
@@ -319,7 +319,7 @@ function schedule() {
     ['Controller, battery, keyed override', 1, 'On the hook frame. Runs locks, lights and alarm'],
     ['Motion-sensor LED security lights', 3, '2 on the hook-frame arm, 1 on the rear post'],
     ['Alarm siren', 1, 'Arms on a schedule set in the app'],
-    ['Rear post with sign panel', 1, 'BuildBin, alarmed after hours, no hazardous waste'],
+    ['Rear post with sign panel', 1, 'BuildersBins, alarmed after hours, no hazardous waste'],
     ['Bin sign plates (number, name, yes/no)', 8, 'Sized to each bin'],
   ];
   $('#bom').innerHTML = `<thead><tr><th>Component</th><th>Qty</th><th>Note</th></tr></thead><tbody>${bom.map(([a, q, n]) => `<tr><td>${a}</td><td class="n">${q}</td><td>${n}</td></tr>`).join('')}</tbody>`;

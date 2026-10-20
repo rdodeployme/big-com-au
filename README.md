@@ -1,4 +1,4 @@
-# BuildBin — Every material. Sorted on site.
+# BuildersBins — Build. Innovate. Gain.
 
 One recycling station per new home. Eight streams, each bay sized to what a house build actually throws out. A Recycle Group initiative.
 

@@ -20,7 +20,7 @@
   <div class="wrap">
     <div class="sec-head"><h2>How we got there.</h2><p>Six steps, all run in code. The same model drives the Blender station and the numbers on this site.</p></div>
     <ol class="steps" style="border-color:var(--line)">
-      <li style="border-color:var(--line)"><b>Collect the splits</b><p class="muted">Material shares by weight from three published sources, mapped onto the eight BuildBin streams.</p></li>
+      <li style="border-color:var(--line)"><b>Collect the splits</b><p class="muted">Material shares by weight from three published sources, mapped onto the eight BuildersBins streams.</p></li>
       <li style="border-color:var(--line)"><b>Blend for Australia</b><p class="muted">NZ builds are mostly timber-clad. Australian homes add brick veneer and more concrete, so we carry more rubble than the NZ studies show.</p></li>
       <li style="border-color:var(--line)"><b>Convert to space</b><p class="muted">Divide each stream's weight by its loose unit weight from the BRANZ REBRI conversion chart.</p></li>
       <li style="border-color:var(--line)"><b>Size the bays</b><p class="muted">Each bay gets its share of the station, so all eight fill at roughly the same rate over a build.</p></li>
@@ -32,13 +32,13 @@
 
 <section class="light">
   <div class="wrap">
-    <div class="sec-head"><h2>The sources, side by side.</h2><p>Percent by weight, mapped to BuildBin bays. None of these is a perfect match for an Australian new home, which is why the central estimate is a blend and the pilot measures the real thing.</p></div>
+    <div class="sec-head"><h2>The sources, side by side.</h2><p>Percent by weight, mapped to BuildersBins bays. None of these is a perfect match for an Australian new home, which is why the central estimate is a blend and the pilot measures the real thing.</p></div>
     <table class="tbl" id="srcTbl"><thead></thead><tbody></tbody></table>
     <p class="src" style="margin-top:10px">BRANZ lists five categories totalling 88%. Its 5% "packaging" is shown under cardboard and covers cardboard, plastic and polystyrene together; its 45% "other" is shown under general. Low et al.'s timber includes fence palings; its general includes builder's waste, fibre cement, fixtures and sweepings.</p>
     <div class="prose" style="margin-top:28px">
       <h3>How much a home produces</h3>
       <p>A study of New Zealand detached homes measured 32.2 kg of construction waste per m² of floor area for single-storey homes and 24.8 kg/m² for double-storey (Domingo and Batty 2021, as reported by Low et al. 2024). Auckland Council puts an average house build at 4.5 tonnes. BRANZ cites about 4 tonnes. We use 32.2 kg/m² as the central rate, which gives 7.7 tonnes for a 240 m² home. Brick-veneer homes on slabs may run higher, so the site also shows a high case of 45 kg/m² (an assumption, not a measurement).</p>
-      <p>At 5.34 m³ of loose volume per tonne of mixed new-home waste, 7.7 tonnes is about 41 m³: around seven 6 m³ skips, or about two and a half change-overs of a BuildBin station filled to 85% (about 20 m³ usable across its eight bins).</p>
+      <p>At 5.34 m³ of loose volume per tonne of mixed new-home waste, 7.7 tonnes is about 41 m³: around seven 6 m³ skips, or about two and a half change-overs of a BuildersBins station filled to 85% (about 20 m³ usable across its eight bins).</p>
       <h3>What we assumed</h3>
       <ul>
         <li>Rubble at 30% of weight, between the NZ studies (near zero) and Your Home's general building waste table (37%). <span class="tag tag-a">Assumption</span></li>
@@ -65,7 +65,7 @@ const m = await (await fetch('data/model.json')).json();
 const f=(n,d=0)=>n.toLocaleString('en-AU',{maximumFractionDigits:d,minimumFractionDigits:d});
 document.querySelector('#resultTbl tbody').innerHTML=m.streams.map(s=>`<tr><td><b>${String(s.n).padStart(2,'0')} ${s.name}</b></td><td class="n">${f(s.weight,1)}</td><td class="n">${f(s.range[0],1)}–${f(s.range[1],1)}</td><td class="n">${f(s.density)}</td><td class="n"><b>${f(s.volume,1)}</b></td><td class="n">${f(s.built,1)}</td><td class="n">${f(s.bayM3,1)}</td></tr>`).join('');
 const cols=[['low2024','Low et al. 2024 (measured, NZ)'],['branz','BRANZ Bulletin 671'],['yourhome','Your Home table (NSW 2007)']];
-document.querySelector('#srcTbl thead').innerHTML=`<tr><th>Bay</th>${cols.map(c=>`<th class="n">${c[1]}</th>`).join('')}<th class="n">BuildBin central</th></tr>`;
+document.querySelector('#srcTbl thead').innerHTML=`<tr><th>Bay</th>${cols.map(c=>`<th class="n">${c[1]}</th>`).join('')}<th class="n">BuildersBins central</th></tr>`;
 document.querySelector('#srcTbl tbody').innerHTML=m.streams.map(s=>`<tr><td>${String(s.n).padStart(2,'0')} ${s.name}</td>${cols.map(c=>`<td class="n">${f(m.sources[c[0]][s.id]||0,1)}</td>`).join('')}<td class="n"><b>${f(s.weight,1)}</b></td></tr>`).join('');
 document.querySelector('.menu')?.addEventListener('click',e=>{const o=document.getElementById('nav').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)});
 </script>

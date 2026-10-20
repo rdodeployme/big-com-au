@@ -1,4 +1,4 @@
-"""BuildBin Rev B — hook skid with 8 stand-alone bins.
+"""BuildersBins Rev B — hook skid with 8 stand-alone bins.
 Compartment lengths are driven by model/shares.json (volume share per stream).
 Run: python3 build_station.py [--render hero|plan|all] [--glb]
 """
@@ -224,7 +224,7 @@ box("Siren", (0.12, 0.24, 0.16), (fx + 0.11, 0.42, DECK + 1.15), M["sign"])
 cyl("SirenHorn", 0.065, 0.04, (fx + 0.19, 0.42, DECK + 1.15), M["ink"], rot=(0, math.pi/2, 0), verts=24)
 # hook-end brand plate
 box("HookBrand", (0.006, 0.9, 0.2), (fx + 0.075, 0, DECK + 0.45), M["cupaint"])
-fit("HookBrandT", "BUILDBIN", (fx + 0.08, 0, DECK + 0.40), (math.pi/2, 0, math.pi/2), 0.8, 0.12, M["ink"], align='CENTER')
+fit("HookBrandT", "BUILDERSBINS", (fx + 0.08, 0, DECK + 0.40), (math.pi/2, 0, math.pi/2), 0.8, 0.12, M["ink"], align='CENTER')
 # rear post: third sensor light and the security / no-hazardous sign
 box("RearPost", (0.06, 0.06, 1.85 - DECK), (-L/2 + 0.05, 0, DECK + (1.85 - DECK)/2), M["skid"])
 box("SensorLight2", (0.10, 0.24, 0.10), (-L/2 + 0.04, 0, 1.86), M["chassis"])
@@ -232,7 +232,7 @@ box("SensorLens2", (0.006, 0.18, 0.06), (-L/2 - 0.012, 0, 1.86), M["lamp"])
 RR = (math.pi/2, 0, -math.pi/2)
 box("RearSign", (0.006, 0.62, 0.52), (-L/2 + 0.017, 0, 1.18), M["sign"])
 box("RearSignBar", (0.004, 0.62, 0.13), (-L/2 + 0.012, 0, 1.375), M["cupaint"])
-fit("RearSignT0", "BUILDBIN", (-L/2 + 0.009, 0, 1.335), RR, 0.56, 0.085, M["ink"], align='CENTER')
+fit("RearSignT0", "BUILDERSBINS", (-L/2 + 0.009, 0, 1.335), RR, 0.56, 0.085, M["ink"], align='CENTER')
 fit("RearSignT1", "Alarmed after hours", (-L/2 + 0.012, 0, 1.22), RR, 0.56, 0.05, M["ink"], align='CENTER')
 fit("RearSignT2", "Sensor lights · Bays logged", (-L/2 + 0.012, 0, 1.14), RR, 0.56, 0.042, M["ink"], align='CENTER')
 fit("RearSignT3", "NO ASBESTOS", (-L/2 + 0.012, 0, 1.03), RR, 0.56, 0.055, M["cudeep"], align='CENTER')

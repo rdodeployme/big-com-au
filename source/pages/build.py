@@ -1,9 +1,9 @@
 import re
 head=open('_head.html').read(); hdr=open('_header.html').read(); ftr=open('_footer.html').read()
-pages={'standard.html':('_standard_body.html','The BuildBin Standard — recycle to standard','A model subcontract clause, stage checks and trade sheet for recycling on new home sites.','standard.html'),
-       'your-home.html':('_yourhome_body.html','Your Home and BuildBin','How the BuildBin system delivers the Australian Government Your Home waste minimisation guidance on site.','your-home.html'),
-       'method.html':('_method_body.html','How BuildBin bays are sized','The data, conversion and assumptions behind the size of each BuildBin bay.','method.html'),
-       'spec.html':('_spec_body.html','BuildBin fabricator spec','General arrangement, compartment schedule and component spec for the BuildBin station, with adjustable pod sizes.','spec.html')}
+pages={'standard.html':('_standard_body.html','The BuildersBins Standard — recycle to standard','A model subcontract clause, stage checks and trade sheet for recycling on new home sites.','standard.html'),
+       'your-home.html':('_yourhome_body.html','Your Home and BuildersBins','How the BuildersBins system delivers the Australian Government Your Home waste minimisation guidance on site.','your-home.html'),
+       'method.html':('_method_body.html','How BuildersBins bays are sized','The data, conversion and assumptions behind the size of each BuildersBins bay.','method.html'),
+       'spec.html':('_spec_body.html','BuildersBins fabricator spec','General arrangement, compartment schedule and component spec for the BuildersBins station, with adjustable pod sizes.','spec.html')}
 EXTRA={'spec.html':('<link rel="stylesheet" href="css/spec.css">\n','<script type="module" src="js/spec.js"></script>\n')}
 for out,(body,title,desc,href) in pages.items():
     h=re.sub(r'<title>.*?</title>',f'<title>{title}</title>',head)
