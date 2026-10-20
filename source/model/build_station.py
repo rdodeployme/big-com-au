@@ -55,6 +55,10 @@ M = {
     "chassis": mat("BIG Chassis", "#0B0D0F", 0.6, 0.5),
     "pod": mat("Pod", "#3A4148", 0.4, 0.5),
     "lamp": mat("Sensor lamp", "#F4F1E8", 0.0, 0.2, emit="#FFF6E0"),
+    "sign": mat("Sign plate", "#F4F6F7", 0.0, 0.55),
+    "ink": mat("Sign ink", "#0E1114", 0.0, 0.5),
+    "cupaint": mat("Copper paint", "#C2804F", 0.15, 0.45),
+    "cudeep": mat("Copper deep", "#5E3A22", 0.0, 0.5),
     "ground": mat("Ground", "#8C8478", 0.0, 0.95),
     # contents (true-to-material colours)
     "timber": mat("Timber", "#C8A06A", 0, 0.8),
@@ -97,6 +101,87 @@ def text(name, s, loc, rot, size, m, align='LEFT', extrude=0.004):
     o.data.materials.append(m)
     bpy.ops.object.convert(target='MESH')
     return link(bpy.context.active_object)
+
+def fit(name, s_, loc, rot, max_w, size, m, align='LEFT', extrude=0.0006):
+    o = text(name, s_, loc, rot, size, m, align=align, extrude=extrude)
+    w = o.dimensions.x
+    if w > max_w:
+        k = max_w / w; o.scale = (k, k, 1); bpy.ops.object.select_all(action='DESELECT'); o.select_set(True)
+        bpy.context.view_layer.objects.active = o; bpy.ops.object.transform_apply(scale=True)
+        return o, size * k
+    return o, size
+
+def join_as(objs, name):
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in objs: o.select_set(True)
+    bpy.context.view_layer.objects.active = objs[0]
+    bpy.ops.object.join(); objs[0].name = name; return objs[0]
+
+# bay sign content: what trades read at the flap
+SIGN = {
+    "plastic": (["PLASTICS"], ["Wrap and film", "Strapping", "Pipe offcuts"], ["Polystyrene", "Paint tins"]),
+    "timber":  (["TIMBER"], ["Framing offcuts", "Pallets", "Formwork"], ["Treated timber", "Painted timber"]),
+    "plaster": (["PLASTER-", "BOARD"], ["Clean offcuts", "Broken sheets"], ["Wet board", "Tape and tubs"]),
+    "card":    (["CARDBOARD"], ["Boxes, flattened", "Packaging"], ["Wet or waxed card"]),
+    "eps":     (["POLY-", "STYRENE"], ["White packaging", "Clean offcuts"], ["Food trays"]),
+    "rubble":  (["BRICKS &", "CONCRETE"], ["Bricks, concrete", "Tiles, pavers"], ["Soil", "Asbestos"]),
+    "general": (["GENERAL", "RUBBISH"], ["Mixed offcuts", "Sweepings"], ["Asbestos", "Chemicals"]),
+    "steel":   (["STEEL &", "METALS"], ["Offcuts, mesh", "Flashing"], ["Gas bottles", "Aerosols"]),
+}
+FLAPNAME = {"plastic": "Plastics", "timber": "Timber", "plaster": "Plaster", "card": "Cardboard", "eps": "Poly", "rubble": "Bricks", "general": "General", "steel": "Steel"}
+ONE_LINE = {"plaster": "PLASTERBOARD", "eps": "POLYSTYRENE", "rubble": "BRICKS & CONCRETE", "general": "GENERAL RUBBISH", "steel": "STEEL & METALS"}
+
+def bay_sign(s, cx, bl, sgn):
+    """White sign plate on the lower wall: copper header with the bay number, big name, yes/no lists."""
+    sid = s["id"]; pw_ = bl - 0.10; inner = pw_ - 0.12
+    rz = 0 if sgn < 0 else math.pi; tx = 1 if sgn < 0 else -1
+    rot = (math.pi/2, 0, rz); ylay = lambda d: sgn * (W/2 + d)
+    lx = cx - tx * (pw_/2 - 0.06)
+    z_top, z_bot = z0 + 0.94, z0 + 0.08; HDR = 0.23
+    parts = [box(f"Sp_{sid}", (pw_, 0.008, z_top - z_bot), (cx, ylay(0.004), (z_top + z_bot)/2), M["sign"]),
+             box(f"Sh_{sid}", (pw_, 0.004, HDR), (cx, ylay(0.010), z_top - HDR/2), M["cupaint"])]
+    parts.append(text(f"Sn_{sid}", f"{s['n']:02d}", (lx, ylay(0.013), z_top - HDR + 0.035), rot, 0.25, M["ink"], extrude=0.0006))
+    # name: one line if it reads big enough, otherwise the split lines
+    names, yes, no = SIGN[sid]
+    one = ONE_LINE.get(sid, names[0])
+    probe, sz = fit(f"Sx_{sid}", one, (lx, ylay(0.013), 0), rot, inner, 0.15 if inner >= 0.9 else 0.13, M["ink"])
+    if sz >= 0.085 or len(names) == 1:
+        probe.location.z = z_top - HDR - 0.035 - sz * 0.74; parts.append(probe); zc = probe.location.z
+    else:
+        bpy.data.objects.remove(probe)
+        sz = min([0.085] + [fit(f"Sy_{sid}_{k}", t_, (lx, ylay(0.013), -5), rot, inner, 0.13, M["ink"])[1] for k, t_ in enumerate(names)])
+        for o in [o for o in bpy.data.objects if o.name.startswith(f"Sy_{sid}_")]: bpy.data.objects.remove(o)
+        zc = z_top - HDR - 0.035 - sz * 0.74
+        for k, t_ in enumerate(names):
+            parts.append(text(f"Sz_{sid}_{k}", t_, (lx, ylay(0.013), zc), rot, sz, M["ink"], extrude=0.0006)); 
+            if k < len(names) - 1: zc -= sz * 0.95
+    # yes / no lists
+    zc -= 0.10
+    def lst(label, items, col, x0, w, z, isz):
+        out = [fit(f"Sl_{sid}_{label}", label, (x0, ylay(0.013), z), rot, w, isz, col)[0]]
+        for k, it in enumerate(items):
+            z -= isz * 1.32
+            out.append(fit(f"Si_{sid}_{label}_{k}", it, (x0, ylay(0.013), z), rot, w, isz, M["ink"])[0])
+        return out, z
+    if inner >= 0.9:  # two columns
+        colw = inner / 2 - 0.03; isz = 0.085
+        a, _ = lst("YES", yes, M["cupaint"], lx, colw, zc, isz)
+        b, _ = lst("NO", no, M["cudeep"], lx + tx * (inner / 2 + 0.03), colw, zc, isz)
+        parts += a + b
+    else:
+        # narrow plate: short lines, no labels, sized to read
+        NARROW = {"eps": (["Packaging", "Offcuts"], ["No food trays"]), "rubble": (["Bricks", "Concrete", "Tiles"], ["No soil"]),
+                  "steel": (["Offcuts", "Mesh", "Flashing"], ["No gas bottles"]), "plastic": (["Wrap, film", "Strapping"], ["No poly"]),
+                  "plaster": (["Offcuts"], ["No wet board"]), "card": (["Boxes, flat"], ["No wet card"]),
+                  "timber": (["Offcuts", "Pallets"], ["No treated"]), "general": (["Mixed"], ["No asbestos"])}
+        ys, ns = NARROW[sid]; rows = len(ys) + len(ns)
+        isz = min(0.072, (zc - z_bot - 0.035) / ((rows - 1) * 1.3 + 0.3)); z = zc
+        for k, it in enumerate(ys):
+            parts.append(fit(f"Sq_{sid}_{k}", it, (lx, ylay(0.013), z), rot, inner, isz, M["ink"])[0]); z -= isz * 1.3
+        z -= isz * 0.3
+        for k, it in enumerate(ns):
+            parts.append(fit(f"Sr_{sid}_{k}", it, (lx, ylay(0.013), z), rot, inner, isz, M["cudeep"])[0]); z -= isz * 1.3
+    return join_as(parts, f"Lbl_{sid}")
 
 # ---------- partition streams into two sides (4 + 4) with balanced volume ----------
 best = None
@@ -162,8 +247,26 @@ for i, (lx, ly, rz) in enumerate([(0.0, W/2 + 0.05, 0.0), (0.0, -W/2 - 0.05, 0.0
     cyl(f"SensorPIR{i}", 0.022, 0.03, (lx + dx * 1.2 + (0.1 if rz == 0 else 0), ly + dy * 1.2 + (0.1 if rz != 0 else 0), z0 + H - 0.06), M["white"], rot=(math.pi/2, 0, rz), verts=16)
 
 # rear end branding
-text("RearBrand", "BUILDBIN", (-L/2 - 0.006, 0.0, z0 + 0.75), (math.pi/2, 0, -math.pi/2), 0.34, M["white"], align='CENTER', extrude=0.006)
-text("RearTag", "EVERY MATERIAL. SORTED ON SITE.", (-L/2 - 0.006, 0.0, z0 + 0.5), (math.pi/2, 0, -math.pi/2), 0.09, M["copper"], align='CENTER')
+RR = (math.pi/2, 0, -math.pi/2)
+text("RearBrand", "BUILDBIN", (-L/2 - 0.006, 0.0, z0 + 1.32), RR, 0.36, M["white"], align='CENTER', extrude=0.006)
+text("RearTag", "EVERY MATERIAL. SORTED ON SITE.", (-L/2 - 0.006, 0.0, z0 + 1.14), RR, 0.095, M["cupaint"], align='CENTER')
+box("RearSign", (0.008, 2.05, 0.62), (-L/2 - 0.004, 0, z0 + 0.62), M["sign"])
+box("RearSignBar", (0.004, 2.05, 0.16), (-L/2 - 0.010, 0, z0 + 0.85), M["cupaint"])
+fit("RearSignT0", "SECURITY", (-L/2 - 0.013, 0, z0 + 0.80), RR, 1.9, 0.10, M["ink"], align='CENTER')
+fit("RearSignT1", "Alarmed after hours  ·  Sensor lights  ·  Bays logged", (-L/2 - 0.013, 0, z0 + 0.62), RR, 1.9, 0.075, M["ink"], align='CENTER')
+fit("RearSignT2", "NO ASBESTOS  ·  NO CHEMICALS  ·  NO GAS BOTTLES", (-L/2 - 0.013, 0, z0 + 0.45), RR, 1.9, 0.08, M["cudeep"], align='CENTER')
+# BUILDBIN on each long-side top band
+for yb, rzb in ((W/2 + 0.0135, math.pi), (-W/2 - 0.0135, 0)):
+    for xb in (-2.1, 2.1):
+        text(f"BandMark{yb:+.0f}{xb:+.0f}", "BUILDBIN", (xb, yb, z0 + H - 0.072), (math.pi/2, 0, rzb), 0.058, M["ink"], align='CENTER', extrude=0.002)
+# hook end: lock and alarm controller box, siren
+CB = (math.pi/2, 0, math.pi/2)
+box("CtrlBox", (0.14, 0.44, 0.36), (L/2 + 0.07, -0.82, z0 + 1.15), M["chassis"])
+box("CtrlBand", (0.006, 0.44, 0.05), (L/2 + 0.143, -0.82, z0 + 1.305), M["cupaint"])
+cyl("CtrlKey", 0.022, 0.03, (L/2 + 0.15, -0.70, z0 + 1.05), M["copper"], rot=(0, math.pi/2, 0), verts=16)
+fit("CtrlLbl", "LOCK · ALARM", (L/2 + 0.146, -0.82, z0 + 1.17), CB, 0.38, 0.045, M["white"], align='CENTER')
+box("Siren", (0.11, 0.26, 0.17), (L/2 + 0.055, 0.82, z0 + H - 0.28), M["sign"])
+cyl("SirenHorn", 0.07, 0.04, (L/2 + 0.125, 0.82, z0 + H - 0.28), M["ink"], rot=(0, math.pi/2, 0), verts=24)
 
 inner_L = L - 2 * WALL
 half_W = (W - 3 * WALL) / 2
@@ -197,16 +300,15 @@ for side_name, order_idx, sgn in sides:
             f.scale = (fw - 0.03, WALL, fh); bpy.ops.object.transform_apply(scale=True)
             for v in f.data.vertices: v.co.z -= fh / 2   # origin on the hinge (top edge)
             f.location = hinge
-            f.rotation_euler = Euler((sgn * open_a, 0, 0))
             f.data.materials.append(M["flap"]); link(f)
-        # number + name on lower wall
-        face_y = sgn * (W/2 + 0.003)
-        rz = 0 if sgn < 0 else math.pi
-        tx_dir = 1 if sgn < 0 else -1
-        left_x = cx - tx_dir * (bl/2 - 0.12)
-        text(f"Num_{s['id']}", f"{s['n']:02d}", (left_x, face_y, z0 + 0.42), (math.pi/2, 0, rz), 0.42 if bl > 0.55 else 0.3, M["copper"], align='LEFT')
-        lbl_size = min(0.13, max(0.07, bl / (len(s["short"]) * 0.75)))
-        text(f"Lbl_{s['id']}", s["short"].upper(), (left_x, face_y, z0 + 0.22), (math.pi/2, 0, rz), lbl_size, M["white"], align='LEFT')
+            # bay number and name on every flap, so each opening reads from across the site
+            rzf = 0 if sgn < 0 else math.pi; fy = y_out + sgn * (WALL/2 + 0.003)
+            t1 = text(f"Fn_{s['id']}_{fk}", f"{s['n']:02d}", (fcx, fy, hinge.z - fh + 0.30), (math.pi/2, 0, rzf), 0.26, M["white"], align='CENTER', extrude=0.002)
+            t2, _ = fit(f"Fs_{s['id']}_{fk}", FLAPNAME.get(s["id"], s["short"]).upper(), (fcx, fy, hinge.z - fh + 0.14), (math.pi/2, 0, rzf), fw - 0.14, 0.11, M["cupaint"], align='CENTER')
+            f = join_as([f, t1, t2], f"Flap_{s['id']}_{fk}")
+            f.rotation_euler = Euler((sgn * open_a, 0, 0))
+        # bay sign plate on the lower wall
+        bay_sign(s, cx, bl, sgn)
         bays.append({"id": s["id"], "side": side_name, "x0": round(x, 3), "len": round(bl, 3),
                      "vol_m3": round(bl * half_W * inner_H, 2)})
         # removable pod: thin liner inside the bay, open top, with forklift pockets
@@ -331,6 +433,12 @@ if RENDER in ("hero", "all"):
     g = bpy.context.active_object; g.data.materials.append(mat("Floor", "#1A1E22", 0.0, 0.85))
     lights()
     setup_render("hero.png", (8.6, -7.4, 3.3), (math.radians(78), 0, math.radians(49)), lens=38)
+
+if RENDER == "signs":
+    bpy.ops.mesh.primitive_plane_add(size=80, location=(0, 0, 0))
+    bpy.context.active_object.data.materials.append(mat("Floor", "#2A3036", 0.0, 0.85))
+    lights(world_hex="#4A525A", strength=1.0)
+    setup_render("signs.png", (3.4, -4.9, 1.35), (math.radians(86), 0, math.radians(24)), lens=28)
 
 if RENDER == "sideA":
     lights(strength=0.9)

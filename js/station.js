@@ -10,7 +10,7 @@ export function mountStation(el, { onPick, streams } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.3;
   el.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
@@ -30,10 +30,12 @@ export function mountStation(el, { onPick, streams } = {}) {
 
   const key = new THREE.DirectionalLight(0xfff3e6, 2.4); key.position.set(6, 10, 7); scene.add(key);
   const rim = new THREE.DirectionalLight(0xdfe8ff, 1.2); rim.position.set(-8, 5, -6); scene.add(rim);
-  scene.add(new THREE.HemisphereLight(0xeef1f3, 0x1c2126, 0.6));
+  scene.add(new THREE.HemisphereLight(0xeef1f3, 0x2a3036, 0.9));
+  // soft fills on both long sides so the bay signs read from any angle
+  for (const z of [12, -12]) { const f = new THREE.DirectionalLight(0xffffff, 1.1); f.position.set(0, 3, z); scene.add(f); }
 
   // ground disc
-  const ground = new THREE.Mesh(new THREE.CircleGeometry(9, 64), new THREE.MeshStandardMaterial({ color: 0x1c2126, roughness: 0.95 }));
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(9, 64), new THREE.MeshStandardMaterial({ color: 0x353c43, roughness: 0.95 }));
   ground.rotation.x = -Math.PI / 2; scene.add(ground);
 
   const groups = {};     // stream id -> meshes

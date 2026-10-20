@@ -190,18 +190,26 @@ function drawSide(side) {
     if (k < used_) rect(svg, Math.min(x1, x2), Y(flapTop), Math.abs(x2 - x1), flapTop - flapBot, 'flapleaf');
     else rect(svg, Math.min(x1, x2), Y(flapTop), Math.abs(x2 - x1), flapTop - flapBot, 'free').setAttribute('fill', svg._hx);
   }
+  // bay sign plate on the lower wall, number and name on every flap
   for (const p of placed(side)) {
-    const xl = X(WALL + p.start * MOD + (side === 'A' ? p.n * MOD : 0)) + 110;
-    txt(svg, xl, Y(RAIL + 470), nn(p.id), 'elno', 'start');
-    txt(svg, xl, Y(RAIL + 260), (p.n > 1 ? S[p.id].name : S[p.id].short).toUpperCase(), 'elname', 'start');
+    const a = X(WALL + p.start * MOD + 50), b = X(WALL + (p.start + p.n) * MOD - 50), xl = Math.min(a, b), w = Math.abs(b - a);
+    rect(svg, xl, Y(RAIL + 940), w, 860, 'sign');
+    rect(svg, xl, Y(RAIL + 940), w, 230, 'band');
+    txt(svg, xl + 60, Y(RAIL + 745), nn(p.id), 'signno', 'start');
+    const nm = p.n > 1 ? S[p.id].name.toUpperCase() : S[p.id].short.toUpperCase();
+    txt(svg, xl + 60, Y(RAIL + 590), nm, p.n > 1 ? 'signname' : 'signname sm', 'start');
+    for (let r = 0; r < 3; r++) rect(svg, xl + 60, Y(RAIL + 450 - r * 110), Math.min(w * 0.38, 520), 28, 'listbar');
+    if (p.n > 1) for (let r = 0; r < 2; r++) rect(svg, xl + w / 2 + 30, Y(RAIL + 450 - r * 110), Math.min(w * 0.3, 420), 28, 'listbar no');
+    for (let k = 0; k < p.n; k++) {
+      const fx = X(WALL + (p.start + k + 0.5) * MOD);
+      txt(svg, fx, Y(flapBot + 260), nn(p.id), 'flapno');
+    }
   }
   if (side === 'B') { txt(svg, -60, Y(RAIL + 800), 'BUILDBIN', 'note', 'end'); }
   // sensor light centred on the band, controller and siren box at the hook end
   rect(svg, L / 2 - 130, Y(top - 2), 260, 86, 'lamp');
   txt(svg, L / 2, Y(g.roofTop + 150), 'SENSOR LIGHT', 'note');
-  const cbx = side === 'A' ? X(L - 120) : X(L - 120) - 380;
-  rect(svg, cbx, Y(RAIL + 760), 380, 300, 'ctrl');
-  txt(svg, cbx + 190, Y(RAIL + 560), 'LOCK · ALARM', 'tiny');
+
   // dims
   for (const p of placed(side)) { const a = X(WALL + p.start * MOD), b = X(WALL + (p.start + p.n) * MOD); dimH(svg, Math.min(a, b), Math.max(a, b), 200, fmt(p.n * MOD), 0, true); }
   dimH(svg, 0, L, 430, '6,300', 0);
@@ -309,7 +317,8 @@ function schedule() {
     ['Motion-sensor LED security lights', 3, 'One each long side, one rear end, on the top band'],
     ['Alarm siren', 1, 'Arms on a schedule set in the app'],
     ['Flap-open sensors', mods, '1 per flap, or built into the latch'],
-    ['Bay number and stream name plates', pods, 'Movable, clip to sill rail'],
+    ['Bay sign plates (number, name, yes/no)', pods, 'Sized to each pod, slide on lower-wall rails'],
+    ['Sign plate rails', 4, '2 per side, full length'],
   ];
   $('#bom').innerHTML = `<thead><tr><th>Component</th><th>Qty</th><th>Note</th></tr></thead><tbody>${bom.map(([a, q, n, isMap]) => `<tr><td>${a}</td><td class="n">${q}</td><td>${isMap ? Object.entries(n).sort().map(([k, v]) => `${v} × ${k}`).join(', ') : n}</td></tr>`).join('')}</tbody>`;
 }

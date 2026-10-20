@@ -290,3 +290,8 @@ footer .mark b{color:var(--text)}
 .howgrid h3{font-size:22px;font-stretch:106%;margin-bottom:8px}
 .howgrid p{color:var(--muted);font-size:15.5px}
 @media (max-width:860px){.howgrid{grid-template-columns:1fr}}
+
+.signshot{margin-top:34px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--steel)}
+.signshot img{width:100%;aspect-ratio:1800/1116;object-fit:cover}
+.signshot figcaption{padding:16px 20px;font-size:15.5px;color:var(--muted)}
+.signshot figcaption b{color:var(--text);font-weight:600}
