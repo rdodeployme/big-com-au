@@ -82,6 +82,15 @@
 .sheet .signname.sm{font-size:calc(70px * var(--k))}
 .sheet .flapno{font:800 calc(150px * var(--k)) var(--display);fill:#EEF1F3}
 .sheet .listbar{fill:#9aa3ab;stroke:none} .sheet .listbar.no{fill:#C2804F}
+.sheet .pockethid{fill:none;stroke:#59626a;stroke-width:6;stroke-dasharray:30 20}
+.sheet .pocket{fill:#14181C;stroke:none;opacity:.85}
+.sheet .door{stroke:#C2804F;stroke-width:30}
+.sheet .doorface{fill:none;stroke:#8F603F;stroke-width:8;stroke-dasharray:40 24}
+.sheet .doorface.solid{fill:#3A4148;stroke:#0E1114;stroke-dasharray:none}
+.sheet .hingeline{stroke:#C2804F;stroke-width:22}
+.sheet .lidline{fill:#2A3036;stroke:#0E1114;stroke-width:6}
+.sheet .ledge{stroke:#3A4148;stroke-width:14;stroke-dasharray:40 24}
+.sheet .lockdot{fill:#C2804F;stroke:#0E1114;stroke-width:6}
 .sheet .lamp{fill:#FFF3D6;stroke:#0E1114;stroke-width:10}
 .sheet .lampdot{fill:#FFF3D6;stroke:#0E1114;stroke-width:12}
 .sheet .ctrl{fill:#14181C;stroke:#C2804F;stroke-width:10}

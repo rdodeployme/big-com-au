@@ -39,28 +39,25 @@ export function mountStation(el, { onPick, streams } = {}) {
   ground.rotation.x = -Math.PI / 2; scene.add(ground);
 
   const groups = {};     // stream id -> meshes
-  const flaps = {};      // stream id -> [{obj, closed, target}] (one flap per module)
-  const roof = [];       // roof, ridge and lifting eyes: lift off as one piece
-  const pods = {};       // stream id -> [pod, contents, flaps] that lift out together (flaps are mounted on the pod)
-  let roofUp = false;
+  const parts = {};      // stream id -> { bin, lid, flap, door, lbl, contents }
   let model;
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
   loader.load(el.dataset.model, (gltf) => {
     model = gltf.scene;
-    // Blender Z-up -> glTF Y-up is handled by the exporter
     model.traverse((o) => {
-      const m = o.name.match(/^(Contents|Flap|Wall|Num|Lbl|Pod)_([a-z]+)(?:_\d+)?(?:\.\d+)?$/);
+      const m = o.name.match(/^(Bin|Lid|Flap|Door|Lbl|Contents)_([a-z]+)(?:\.\d+)?$/);
       if (m) {
-        const id = m[2];
-        (groups[id] ||= []).push(o);
-        o.userData.stream = id;
-        if (m[1] === 'Flap') (flaps[id] ||= []).push({ obj: o, closed: o.rotation.x, target: o.rotation.x });
-        if (m[1] === 'Pod' || m[1] === 'Contents' || m[1] === 'Flap') (pods[id] ||= []).push({ obj: o, y0: o.position.y, target: o.position.y });
+        const id = m[2], kind = m[1].toLowerCase();
+        (groups[id] ||= []).push(o); o.userData.stream = id;
+        (parts[id] ||= {})[kind] = o;
       }
-      if (/^Roof/.test(o.name) && o.parent === gltf.scene) roof.push({ obj: o, y0: o.position.y, target: o.position.y });
-      if (o.isMesh) { o.material = o.material.clone(); o.userData.baseEmissive = o.material.emissive?.clone(); }
+      if (o.isMesh) { o.material = o.material.clone(); }
     });
+    for (const p of Object.values(parts)) {
+      p.flap.userData.closed = p.flap.rotation.x; p.flap.userData.target = p.flap.rotation.x;
+      p.door.userData.target = 0; p.side = p.flap.position.z < 0 ? 1 : -1;   // 1 = side A (faces -z), -1 = side B
+    }
     scene.add(model);
     el.classList.add('is-loaded');
   });
@@ -73,49 +70,56 @@ export function mountStation(el, { onPick, streams } = {}) {
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ptr, camera);
-    const hit = ray.intersectObject(model, true).find((h) => {
-      let o = h.object; while (o && !o.userData.stream) o = o.parent; return o;
-    });
+    const hit = ray.intersectObject(model, true).find((h) => { let o = h.object; while (o && !o.userData.stream) o = o.parent; return o; });
     if (hit) { let o = hit.object; while (!o.userData.stream) o = o.parent; select(o.userData.stream); onPick?.(o.userData.stream); }
   });
 
   let selected = null; let camGoal = null;
   function select(id) {
-    selected = id;
-    controls.autoRotate = false;
-    const c = groups[id]?.find((o) => o.name.startsWith('Contents'));
+    selected = id; controls.autoRotate = false;
+    const c = parts[id]?.bin;
     if (c) {
-      const box = new THREE.Box3().setFromObject(c); const ctr = box.getCenter(new THREE.Vector3());
+      const ctr = new THREE.Box3().setFromObject(c).getCenter(new THREE.Vector3());
       const dist = camera.position.distanceTo(controls.target);
-      const dir = new THREE.Vector3(ctr.x * 0.35, 0.55, Math.sign(ctr.z) || 1).normalize();
+      const dir = new THREE.Vector3(ctr.x * 0.35, 0.5, Math.sign(ctr.z) || 1).normalize();
       camGoal = controls.target.clone().add(dir.multiplyScalar(dist));
     }
-    for (const [sid, list] of Object.entries(groups)) {
-      for (const o of list) if (!/^(Num|Lbl)_/.test(o.name)) o.traverse((m) => {
-        if (!m.isMesh || !m.material.emissive) return;
-        m.material.emissive.set(sid === id ? 0x5e3a22 : 0x000000);
-        m.material.emissiveIntensity = sid === id ? 0.6 : 0;
-      });
-    }
-    // GLB is exported with every flap closed; open the picked bay's flap outward
-    for (const [sid, list] of Object.entries(flaps)) for (const f of list) {
-      f.target = sid === id ? f.closed + (f.obj.position.z > 0 ? -1.2 : 1.2) : f.closed;
-    }
+    for (const [sid, list] of Object.entries(groups)) for (const o of list) if (!/^(Lbl)_/.test(o.name)) o.traverse((m) => {
+      if (!m.isMesh || !m.material.emissive) return;
+      m.material.emissive.set(sid === id ? 0x5e3a22 : 0x000000); m.material.emissiveIntensity = sid === id ? 0.45 : 0;
+    });
+    // drop the picked bin's front flap down to a loading ledge
+    for (const [sid, p] of Object.entries(parts)) p.flap.userData.target = p.flap.userData.closed + (sid === id && !p.pivot ? -p.side * Math.PI / 2 : 0);
   }
 
-  // facility view: the roof lifts off in one piece, then any pod lifts straight out
-  function setRoof(up) {
-    roofUp = up;
-    for (const r of roof) r.target = r.y0 + (up ? 2.2 : 0);
-    if (!up) for (const list of Object.values(pods)) for (const p of list) p.target = p.y0;
-    controls.autoRotate = false;
-    return roofUp;
+  // forklift moves: lift a bin off the skid, then tip it to its right so the top-hinged trap door swings open
+  function rig(id) {
+    const p = parts[id]; if (!p || p.pivot) return p;
+    const bx = new THREE.Box3().setFromObject(p.bin); const ctr = bx.getCenter(new THREE.Vector3()); p.w = bx.max.x - bx.min.x;
+    const piv = new THREE.Object3D(); piv.position.copy(ctr); scene.add(piv);
+    for (const k of ['bin', 'lid', 'flap', 'door', 'lbl', 'contents']) piv.attach(p[k]);
+    p.pivot = piv; p.home = ctr.clone(); p.goal = { pos: ctr.clone(), rot: 0, door: 0 };
+    p.flap.userData.target = p.flap.userData.closed;
+    return p;
   }
-  function liftPod(id) {
-    if (!roofUp) setRoof(true);
-    for (const [sid, list] of Object.entries(pods)) for (const p of list) p.target = p.y0 + (sid === id && p.target === p.y0 ? 2.6 : 0);
-    select(id);
+  function liftBin(id) {
+    const p = rig(id); if (!p) return false;
+    const out = !p.out; p.out = out; p.tipped = false;
+    p.goal.pos = p.home.clone().add(new THREE.Vector3(0, out ? 0.9 : 0, out ? -p.side * 2.4 : 0));
+    p.goal.rot = 0; p.goal.door = 0; p.contents.visible = true;
+    controls.autoRotate = false; return out;
   }
+  function tipBin(id) {
+    const p = rig(id); if (!p) return false;
+    if (!p.out) liftBin(id);
+    p.tipped = !p.tipped;
+    const th = p.tipped ? 1.75 : 0;                 // ~100 degrees
+    p.goal.pos = p.home.clone().add(new THREE.Vector3(0, p.tipped ? 0.9 + Math.max(0.5, p.w * 0.5) : 0.9, -p.side * 2.4));
+    p.goal.rot = p.side * th; p.goal.door = -p.side * th;
+    if (!p.tipped) p.contents.visible = true;
+    controls.autoRotate = false; return p.tipped;
+  }
+  function resetAll() { for (const [id, p] of Object.entries(parts)) if (p.out) { p.out = true; liftBin(id); } }
 
   function resize() {
     const w = el.clientWidth, h = el.clientHeight;
@@ -129,11 +133,16 @@ export function mountStation(el, { onPick, streams } = {}) {
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(el);
   renderer.setAnimationLoop(() => {
     if (!visible) return;
-    for (const list of Object.values(flaps)) for (const f of list) f.obj.rotation.x += (f.target - f.obj.rotation.x) * 0.12;
-    for (const r of roof) r.obj.position.y += (r.target - r.obj.position.y) * 0.08;
-    for (const list of Object.values(pods)) for (const p of list) p.obj.position.y += (p.target - p.obj.position.y) * 0.08;
+    for (const p of Object.values(parts)) {
+      p.flap.rotation.x += (p.flap.userData.target - p.flap.rotation.x) * 0.12;
+      if (!p.pivot) continue;
+      p.pivot.position.lerp(p.goal.pos, 0.06);
+      p.pivot.rotation.z += (p.goal.rot - p.pivot.rotation.z) * 0.05;
+      p.door.rotation.z += (p.goal.door - p.door.rotation.z) * 0.05;
+      if (p.tipped && Math.abs(p.pivot.rotation.z) > 1.2) p.contents.visible = false;
+    }
     if (camGoal) { camera.position.lerp(camGoal, 0.08); if (camera.position.distanceTo(camGoal) < 0.05) camGoal = null; }
     controls.update(); renderer.render(scene, camera);
   });
-  return { select, setRoof, liftPod, isRoofUp: () => roofUp };
+  return { select, liftBin, tipBin, resetAll };
 }

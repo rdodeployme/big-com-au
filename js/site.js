@@ -54,13 +54,15 @@ function initBays() {
 let current = 'timber';
 document.getElementById('roofBtn')?.addEventListener('click', (e) => {
   if (!viewer) return;
-  const up = viewer.setRoof(!viewer.isRoofUp());
-  e.currentTarget.textContent = up ? 'Put the roof back' : 'Lift the roof off';
+  const out = viewer.liftBin(current);
+  e.currentTarget.textContent = out ? 'Put it back' : 'Lift this bin out';
+  const tb = document.getElementById('podBtn'); if (tb) tb.textContent = 'Tip it to empty';
 });
-document.getElementById('podBtn')?.addEventListener('click', () => {
+document.getElementById('podBtn')?.addEventListener('click', (e) => {
   if (!viewer) return;
-  viewer.liftPod(current);
-  const rb = document.getElementById('roofBtn'); if (rb) rb.textContent = 'Put the roof back';
+  const tipped = viewer.tipBin(current);
+  e.currentTarget.textContent = tipped ? 'Stand it back up' : 'Tip it to empty';
+  const rb = document.getElementById('roofBtn'); if (rb) rb.textContent = 'Put it back';
 });
 function pick(id, from3d) {
   current = id;
@@ -120,7 +122,7 @@ function initPlan() {
 function drawPlan(mode) {
   const svg = $('#planSvg'); if (!svg || !BAYS) return;
   const pxm = 1800 / 7.4, cx = 900, cy = 558;
-  const rowY = { A: [0.04, 1.185], B: [-1.185, -0.04] };
+  const rowY = { A: [0.025, 1.175], B: [-1.175, -0.025] };
   const tot = MODEL.streams.reduce((a, s) => a + s[mode === 'weight' ? 'weight' : 'built'], 0);
   let html = '';
   for (const b of BAYS) {
@@ -141,7 +143,7 @@ function drawPlan(mode) {
       const Y = cy - (side === 'A' ? y0 : y1) * pxm + (side === 'A' ? -16 : 4);
       for (const b of row) {
         const s = MODEL.streams.find((q) => q.id === b.id);
-        const w = 6.22 * pxm * (s.weight / rowTot);
+        const w = 5.85 * pxm * (s.weight / rowTot);
         html += `<rect x="${x + 2}" y="${Y}" width="${Math.max(0, w - 4)}" height="12" rx="2" fill="#C2804F" opacity=".95"/>`;
         x += w;
       }
@@ -149,8 +151,8 @@ function drawPlan(mode) {
   }
   svg.innerHTML = html;
   $('.plan-cap').textContent = mode === 'weight'
-    ? 'Copper bars show how long each bay would be if sized by weight. The rubble bay would take a third of the station and fill a fraction of it, while cardboard and timber overflowed.'
-    : 'Lid off, from above. Each bay\'s length is its share of the loose volume a new home produces. The smallest bays are held at a 0.6 m minimum so they can still be loaded by hand.';
+    ? 'Copper bars show how wide each bin would be if sized by weight. The rubble bin would take a third of the station and fill a fraction of it, while cardboard and timber overflowed.'
+    : 'Lids off, from above. Each bin\'s width is its share of the loose volume a new home produces, rounded to whole 585 mm modules. The smallest bins are one module wide so they can still be loaded by hand.';
 }
 
 // ---------- house size ----------

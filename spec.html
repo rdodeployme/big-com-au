@@ -33,17 +33,17 @@
 </header>
 <main id="main" class="specpage">
 <div class="page-hero"><div class="wrap">
-  <p class="kicker">Fabricator spec · Rev A · 19 October 2026</p>
+  <p class="kicker">Fabricator spec · Rev B · 20 October 2026</p>
   <h1>Build it to this.</h1>
-  <p>The general arrangement, compartment schedule and component spec for one BuildBin station. Change the pod sizes below and every drawing, dimension and quantity updates. Print it or save it as a PDF to send with a quote request.</p>
+  <p>A low hook-lift skid carrying eight stand-alone 4 mm steel bins, four per side, no higher than 2 m and no longer than 6.3 m. Each bin has a hard lid, a drop-down front flap and a trap door on its right-hand side for emptying. Change the bin sizes below and every drawing, dimension and quantity updates. Print it or save it as a PDF to send with a quote request.</p>
   <div class="cta-row" style="margin-top:28px"><button type="button" class="btn btn-cu" id="printBtn">Print / Save as PDF</button><button type="button" class="btn btn-ghost" id="linkBtn">Copy link to this layout</button></div>
   <p class="status-key"><span class="st st-b">Design basis</span> set by this design &nbsp; <span class="st st-p">Proposed</span> our starting point, the fabricator can improve it &nbsp; <span class="st st-t">To confirm</span> needs the fabricator, engineer or operator</p>
 </div></div>
 
 <section class="cfg-sec" aria-labelledby="cfgTitle">
   <div class="wrap">
-    <div class="sec-head"><h2 id="cfgTitle">1. Set the compartment sizes</h2>
-    <p>Each side is ten 622 mm modules. A pod is one to six modules long. Use + and − to resize a pod, the arrows to move it along its side, and A/B to move it to the other side. Free modules show as gaps until you give them to a pod.</p></div>
+    <div class="sec-head"><h2 id="cfgTitle">1. Set the bin sizes</h2>
+    <p>Four bins per side. Each side of the skid is ten 585 mm modules, and a bin is one to six modules wide. Use + and − to resize a bin, the arrows to move it along its side, and ⇄ to swap it with the bin opposite. Free modules show as gaps until you give them to a bin.</p></div>
     <div class="cfg-top">
       <div class="presets" role="group" aria-label="Layouts">
         <button type="button" data-preset="default" class="chip is-on">Data-sized (default)</button>
@@ -51,8 +51,7 @@
         <button type="button" data-preset="plaster" class="chip">Plaster-heavy</button>
       </div>
       <div class="opts">
-        <label>Body height <select id="hSel"><option value="2200">2,200 mm (standard)</option><option value="2400">2,400 mm (+ about 2.5 m³)</option></select></label>
-        <label>Pod rated load <select id="swlSel"><option value="1000">1,000 kg</option><option value="1500" selected>1,500 kg</option><option value="2000">2,000 kg</option></select></label>
+        <label>Bin rated load <select id="swlSel"><option value="1000">1,000 kg</option><option value="1500" selected>1,500 kg</option><option value="2000">2,000 kg</option></select></label>
       </div>
     </div>
     <div class="cfg" id="cfg"></div>
@@ -62,120 +61,106 @@
 
 <section class="paper-sec" aria-labelledby="gaTitle">
   <div class="wrap">
-    <div class="sec-head"><h2 id="gaTitle">2. General arrangement</h2><p>Drawn to scale from the layout above. All dimensions in millimetres. Not for construction until the fabricator's shop drawings are approved.</p></div>
-    <figure class="sheet"><svg id="dPlan" role="img" aria-label="Plan view, roof off"></svg><figcaption><b>GA-01</b> Plan, roof off <span>Hook end on the right</span></figcaption></figure>
+    <div class="sec-head"><h2 id="gaTitle">2. General arrangement</h2><p>Drawn to scale from the layout above. All dimensions in millimetres. Heights are from the ground with the bins on the skid; a bin standing on the ground is 100 lower. Not for construction until the fabricator's shop drawings are approved.</p></div>
+    <figure class="sheet"><svg id="dPlan" role="img" aria-label="Plan view, lids off"></svg><figcaption><b>GA-01</b> Plan, lids off <span>Hook end on the right</span></figcaption></figure>
     <figure class="sheet"><svg id="dSideA" role="img" aria-label="Side A elevation"></svg><figcaption><b>GA-02</b> Side A elevation <span>As seen standing at side A</span></figcaption></figure>
     <figure class="sheet"><svg id="dSideB" role="img" aria-label="Side B elevation"></svg><figcaption><b>GA-03</b> Side B elevation <span>As seen standing at side B</span></figcaption></figure>
     <div class="sheet-row">
-      <figure class="sheet"><svg id="dSection" role="img" aria-label="Cross section through the bays"></svg><figcaption><b>GA-04</b> Section through bays <span>Looking toward the hook end</span></figcaption></figure>
-      <figure class="sheet"><svg id="dPod" role="img" aria-label="Typical pod"></svg><figcaption><b>GA-05</b> Typical pod <span id="podCap"></span></figcaption></figure>
+      <figure class="sheet"><svg id="dSection" role="img" aria-label="Cross section through two bins"></svg><figcaption><b>GA-04</b> Section across the skid <span>Looking toward the hook end</span></figcaption></figure>
+      <figure class="sheet"><svg id="dPod" role="img" aria-label="Typical bin"></svg><figcaption><b>GA-05</b> Typical bin <span id="podCap"></span></figcaption></figure>
     </div>
   </div>
 </section>
 
 <section class="paper-sec" aria-labelledby="schTitle">
   <div class="wrap">
-    <div class="sec-head"><h2 id="schTitle">3. Compartment schedule</h2><p>Pod sizes follow from the module count. Indicative full load uses loose densities from BRANZ REBRI (see <a href="method.html">how it's sized</a>). Where a full pod would pass its rated load, the schedule gives a painted fill line.</p></div>
+    <div class="sec-head"><h2 id="schTitle">3. Bin schedule</h2><p>Bin sizes follow from the module count. Tare is an estimate from 4 mm plate plus 25% for the base, pockets and frames. Full load uses loose densities from BRANZ REBRI (see <a href="method.html">how it's sized</a>). Where a full bin would pass its rated load, the schedule gives a painted fill line.</p></div>
     <div class="tscroll"><table class="sched" id="sched"></table></div>
-    <p class="src" style="margin-top:12px">Pod external = modules × 622 − 70 (35 mm clearance each end) by 1,095 by body internal height − 120. Pod internal deducts a 20 mm wall and floor allowance. Gross bay = modules × 622 × 1,165 × internal height.</p>
+    <p class="src" style="margin-top:12px">Bin width = modules × 585 − 20 (10 mm clearance each side). Depth 1,150. Height from the bin base: 1,900 at the front, 1,800 at the back. Internal: less 4 mm plate each side, floor 400 above the ground on the skid.</p>
   </div>
 </section>
 
 <section class="paper-sec" aria-labelledby="specTitle">
   <div class="wrap">
-    <div class="sec-head"><h2 id="specTitle">4. Specification</h2><p>What each part has to do. Materials and sections are proposed starting points. The fabricator and a structural engineer set the final ones.</p></div>
+    <div class="sec-head"><h2 id="specTitle">4. Specification</h2><p>What each part has to do. Sections and details are proposed starting points. The fabricator and a structural engineer set the final ones.</p></div>
     <div class="clauses" id="clauses">
 
-<article><h3>4.1 Status and scope</h3><ul>
-<li><span class="st st-b">Design basis</span>One hook-lift station per new home, eight source-separated streams, delivered at slab and collected at handover or when full.</li>
-<li><span class="st st-b">Design basis</span>Concept design modelled in Blender. Dimensions here are design intent. The fabricator prepares shop drawings for approval before cutting steel.</li>
-<li><span class="st st-t">To confirm</span>Prototype quantity, then pilot run size.</li>
+<article class="wide"><h3>4.1 Fixed requirements and how this design meets them</h3><ul>
+<li><span class="st st-b">Design basis</span><b>No higher than 2,000.</b> Top of every bin is 2,000 at the front and 1,900 at the back. Hook frame, lights and siren stay under 2,000.</li>
+<li><span class="st st-b">Design basis</span><b>No longer than 6,300, four bins per side.</b> Skid 6,300 overall: 150 rear zone for the rollers, 5,850 of bins (ten 585 mm modules), 300 hook zone.</li>
+<li><span class="st st-b">Design basis</span><b>Drop-down front flap from 1,200 to the 2,000 mark.</b> Bottom-hinged at 1,200, closes against the lid lip at 2,000.</li>
+<li><span class="st st-b">Design basis</span><b>Fork pockets 200 off the ground, bins behind a 100 rail.</b> Pocket underside 200 above the bin base: 200 off the ground when a bin stands on the ground, and 300 on the skid, so forks pass 100 clear over the skid's 100 rail.</li>
+<li><span class="st st-b">Design basis</span><b>Hard lid and a side trap door to empty.</b> Fixed 4 mm lid. Trap door on the right-hand side as you face the flap, hinged along its top edge.</li>
+<li><span class="st st-b">Design basis</span><b>100 mm fall so the lid can't hold water.</b> The fall runs from 2,000 at the front down to 1,900 at the back, into the gap between the two rows. A rise toward the back would take the lid over 2,000 with the flap at 2,000, so the fall runs the other way. It also keeps run-off away from the trades at the flaps.</li>
+<li><span class="st st-b">Design basis</span><b>4 mm all sides.</b> Floor, front, back, both sides, lid, flap and trap door in 4 mm plate.</li>
 </ul></article>
 
 <article><h3>4.2 Overall dimensions</h3><ul id="dimList"></ul></article>
 
-<article><h3>4.3 Body and chassis</h3><ul>
-<li><span class="st st-b">Design basis</span>Steel body 6,300 × 2,450 on two longitudinal chassis rails 220 high, with rear rollers and a hook A-frame at the front, as for a standard hook-lift bin.</li>
-<li><span class="st st-t">To confirm</span>Hook height, A-frame geometry, rail centres and roller size to suit the operator's hook-lift trucks. The station must load and unload exactly like the fleet's existing bins.</li>
-<li><span class="st st-p">Proposed</span>Floor plate on cross-members, lower side walls and end walls in plate on a welded frame, and a full-height centre spine wall 40 thick splitting side A from side B. Plate thickness and sections by the engineer for the loads in 4.6.</li>
-<li><span class="st st-p">Proposed</span>No internal fixed dividers. The pods form the compartments, so the body never changes when bay sizes change.</li>
-<li><span class="st st-p">Proposed</span>Drain holes at the low corners of the body floor so rain that gets past a flap runs out rather than ponding under the pods.</li>
+<article><h3>4.3 Hook skid</h3><ul>
+<li><span class="st st-b">Design basis</span>Low skid 6,300 × 2,450, deck top 100 above the ground, with a hook A-frame in the front 300 and rear rollers in the back 150.</li>
+<li><span class="st st-b">Design basis</span>A 100 high retaining rail along both outer edges and down the centre, the full length of the bin zone, plus a rear end stop. Bins sit inside the rails and can't slide or walk off.</li>
+<li><span class="st st-p">Proposed</span>Two longitudinal runners and cross-members under a plate deck, with drain holes along the centre so lid run-off between the rows drains through.</li>
+<li><span class="st st-t">To confirm</span>Runner spacing, hook height (about 1,450 shown), roller size and whether a 100 deck suits the operator's hook trucks. If the fleet needs taller runners, every height on this sheet rises by the same amount, so the bins would have to drop to stay under 2,000.</li>
 </ul></article>
 
-<article><h3>4.4 Module grid and side frame</h3><ul>
-<li><span class="st st-b">Design basis</span>Each side is 6,220 internal, divided into ten 622 mm modules. Module lines are the same on both sides.</li>
-<li><span class="st st-b">Design basis</span>Lower side wall is solid to a sill 1,000 above the underside of the body (1,220 above the ground). Above the sill the side is an open frame: a post at every module line, a sill rail and a top rail, so any module can sit behind any pod.</li>
-<li><span class="st st-p">Proposed</span>Posts in square hollow section, clear opening between posts about 570 wide. A drip hood or lip over each opening sheds rain past the flap.</li>
-<li><span class="st st-p">Proposed</span>Two horizontal rails along the lower wall carry the bay sign plates (4.10), so plates slide to any module when pods move.</li>
+<article><h3>4.4 Bins</h3><ul>
+<li><span class="st st-b">Design basis</span>Eight stand-alone steel bins, 1,150 deep, one to six modules wide. Any bin can be swapped for a spare of the same width.</li>
+<li><span class="st st-b">Design basis</span>Base 300 high: two runners under the side walls, then two fork pockets 200 wide × 100 high running front to back, underside 200 above the bin base. Floor 300 above the bin base (400 above the ground on the skid).</li>
+<li><span class="st st-p">Proposed</span>4 mm plate on a folded or light angle frame at the corners and openings so the walls stay flat when full. Fork pocket centres about 55% of the bin width, between 300 and 1,000.</li>
+<li><span class="st st-p">Proposed</span>Every bin rated to the same load (selected above), so any bin can take any stream. Rated load and fill line painted inside.</li>
+<li><span class="st st-t">To confirm</span>Stability of one-module bins (565 wide, 1,900 high) on forks and when tipping. A wider fork carriage or a clamp may be needed.</li>
 </ul></article>
 
-<article><h3>4.5 Lift-off roof</h3><ul>
-<li><span class="st st-b">Design basis</span>The roof is one piece and lifts straight off at the facility so every pod can be lifted out vertically.</li>
-<li><span class="st st-p">Proposed</span>Four lifting eyes, inset about 350 from each end and 300 from each side, sized for a four-leg chain sling. Fold-down or low-profile eyes so they don't snag.</li>
-<li><span class="st st-p">Proposed</span>Four locating cones or pins so the roof drops back on in the right place, plus four over-centre latches to hold it down on the road and in wind. Compressible seal on the body top rail.</li>
-<li><span class="st st-p">Proposed</span>Copper top band and centre ridge strip (see 4.10). Roof falls to both sides with a drip edge past the side frame.</li>
-<li><span class="st st-t">To confirm</span>Roof weight, eye rating and proof test, and whether the roof should also carry a small solar panel for the locks, lights and alarm (see 4.8).</li>
+<article><h3>4.5 Hard lid and water</h3><ul>
+<li><span class="st st-b">Design basis</span>Fixed 4 mm lid, welded, falling 100 from the front edge (2,000) to the back edge (1,900).</li>
+<li><span class="st st-p">Proposed</span>Lid lip over the flap top so rain can't drive in at the flap. Back edge overhangs the back wall so water drips into the centre gap, not down the wall.</li>
+<li><span class="st st-p">Proposed</span>Floor drain hole with a plug at the lowest corner so plasterboard and cardboard can be drained before tipping.</li>
 </ul></article>
 
-<article><h3>4.6 Pods (removable compartments)</h3><ul>
-<li><span class="st st-b">Design basis</span>Each bay is a removable, open-top steel pod, one to six modules long. Pod sizes are listed in the schedule. Clearance to the body is 35 at each end, each side and the spine; 120 above the pod to the roof.</li>
-<li><span class="st st-b">Design basis</span>Each pod carries its own front flaps (4.7). A full pod lifts out with its flaps closed, so nothing spills on the way to the tip floor.</li>
-<li><span class="st st-p">Proposed</span>Four lifting lugs at the top corners for a four-leg sling, and two forklift pockets under the floor running front to back. The front wall is solid up to the sill line and open above it behind the flaps.</li>
-<li><span class="st st-p">Proposed</span>Pod rated load as selected above for every pod size, so any pod can take any stream. The rated load and a fill line, where the schedule gives one, are painted inside the pod.</li>
-<li><span class="st st-p">Proposed</span>Sealed floor with a screw-in drain plug, so plasterboard and cardboard stay dry and can be drained before tipping.</li>
-<li><span class="st st-t">To confirm</span>How the facility tips pods: forklift with a rotating carriage, or crane with a tipping frame. This sets the lug and pocket details.</li>
+<article><h3>4.6 Drop-down front flap</h3><ul>
+<li><span class="st st-b">Design basis</span>One flap per bin, bottom-hinged at 1,200, closing to 2,000. Clear opening the bin width less 70, about 780 high.</li>
+<li><span class="st st-p">Proposed</span>Two check chains or stays hold the flap level as a loading ledge for sheets and offcuts. Unclip them and the flap hangs straight down against the front.</li>
+<li><span class="st st-p">Proposed</span>Folded edges for stiffness, rubber buffers where it meets the front, and no pinch point at the hinge.</li>
 </ul></article>
 
-<article><h3>4.7 Loading flaps</h3><ul>
-<li><span class="st st-b">Design basis</span>One top-hinged flap per module, mounted on the pod's front wall and sitting just inside the body frame, so it swings out through the frame opening. Gravity closes it.</li>
-<li><span class="st st-p">Proposed</span>Clear opening about 1,000 high from the sill. Flap leaf laps the opening by about 25 all round. Hold-open stay or gas strut that releases before the pod is lifted.</li>
-<li><span class="st st-p">Proposed</span>No pinch point at the hinge or closing edge. Rubber closing strip on the leaf.</li>
-<li><span class="st st-t">To confirm</span>Leaf material and thickness, hinge type and how the leaf fits in the 35 clearance. The fabricator can propose a different flap if it keeps the two rules above: one per module, and it lifts out with the pod.</li>
+<article><h3>4.7 Trap door and emptying</h3><ul>
+<li><span class="st st-b">Design basis</span>Trap door in the right-hand side wall (as you face the flap), hinged along its top edge, about 1,030 wide × 1,340 high, from 460 to 1,800 above the ground.</li>
+<li><span class="st st-b">Design basis</span>To empty, a forklift with a rotator takes the bin off the skid by its fork pockets and turns it to the right. The trap door swings open under gravity and the load slides out onto its own pile. The lid never comes off.</li>
+<li><span class="st st-p">Proposed</span>Two over-centre latches with safety pins along the bottom edge. Released only at the facility. On site the doors face the next bin, so they can't be opened. Doors on end bins face outward and need a keyed latch.</li>
+<li><span class="st st-t">To confirm</span>The facility's forklift, rotator rating and fork spread for the narrowest and heaviest bins.</li>
 </ul></article>
 
 <article class="wide"><h3>4.8 Locking, lights and alarm</h3><ul>
-<li><span class="st st-b">Design basis</span>One security system run from one phone app over Bluetooth: central locking, three motion-sensor lights and an alarm that arms itself on a schedule. No rods, bars or padlocks.</li>
-<li><span class="st st-b">Design basis</span><b>Locking.</b> One electric latch per module on the body sill rail engages a keeper on the flap's bottom edge. One tap locks or unlocks every bay. Every lock and unlock is logged with time and user.</li>
-<li><span class="st st-b">Design basis</span><b>Sensor lights.</b> Three LED floodlights with built-in motion sensors: one centred on each long side and one on the rear end, mounted on the body's top band (not the roof, which lifts off). Any movement near the station after dark turns them on.</li>
-<li><span class="st st-b">Design basis</span><b>Alarm.</b> A siren set to arm for chosen hours, for example 6 pm to 6 am on weekdays and all weekend. While armed, a flap opening, a forced latch or a tamper on the controller box sets it off, and all three lights flash. The supervisor can arm, disarm or change the hours from the app, and a scheduled unlock disarms it.</li>
-<li><span class="st st-p">Proposed</span>Lights angled down at the station and its surrounds so they don't shine into neighbours' windows, with adjustable sensitivity, on-time and a light-level setting so they only work after dark.</li>
-<li><span class="st st-p">Proposed</span>Siren run time limited and the alarm resets itself after it stops, so it can't sound all night in a street of new homes.</li>
-<li><span class="st st-p">Proposed</span>One sealed controller and battery in a lockable box at the hook end, wired through the body to the latches, lights, siren and flap sensors. Keyed manual override at the box for a flat phone or battery. Latches release when unlocked at the facility so pods lift straight out.</li>
+<li><span class="st st-b">Design basis</span>One system run from one phone app over Bluetooth: a lock on every flap, three motion-sensor lights and an alarm that arms itself on a schedule. No rods, bars or padlocks.</li>
+<li><span class="st st-b">Design basis</span><b>Locks.</b> A battery smart latch on each bin's lid lip holds the flap shut. Bins come off the skid, so the locks are self-contained with no wiring. One tap locks or unlocks all eight, and every opening is logged.</li>
+<li><span class="st st-b">Design basis</span><b>Sensor lights.</b> Two LED floodlights on an arm at the top of the hook frame, one raking along each side, and one on a rear post. All under 2,000 and fixed to the skid, so they stay when bins are lifted off.</li>
+<li><span class="st st-b">Design basis</span><b>Alarm.</b> The siren arms for chosen hours, for example 6 pm to 6 am on weekdays and all weekend. While armed, a flap opening, a forced lock or a tamper on the controller sets it off and the lights flash.</li>
+<li><span class="st st-p">Proposed</span>Controller, battery, siren and keyed override on the hook frame. Lights angled down so they don't shine into neighbours' windows. Siren run time limited, with automatic reset.</li>
 <li><span class="st st-t">To confirm</span>Bluetooth only reaches a phone nearby. For alarm alerts to the supervisor's phone when nobody is on site, the controller needs a 4G module and a data plan.</li>
-<li><span class="st st-t">To confirm</span>Latch, light, siren and controller hardware and IP ratings. Battery size for lights and alarm between change-overs, charging (at the facility on each change-over, or a solar panel on the body), and whether latches fail locked or unlocked.</li>
-<li><span class="st st-t">To confirm</span>Siren volume and maximum run time against the state's noise rules for alarms in residential areas.</li>
+<li><span class="st st-t">To confirm</span>Lock, light, siren and controller hardware, IP ratings, battery life and charging, siren volume and run time against the state's noise rules.</li>
 </ul></article>
 
-<article><h3>4.9 Weather and site</h3><ul>
-<li><span class="st st-b">Design basis</span>Closed station keeps rain and wind off every stream. Polystyrene and wrap can't blow out.</li>
-<li><span class="st st-p">Proposed</span>Seals at the roof, drip hoods over the flaps, drain holes in the body floor, drain plugs in the pods.</li>
-<li><span class="st st-p">Proposed</span>The sensor lights and alarm in 4.8 deter theft and after-hours dumping.</li>
-<li><span class="st st-p">Proposed</span>No footholds on the outside. Signage on both ends: no climbing, no asbestos, chemicals or hazardous waste.</li>
+<article><h3>4.9 Finish and marking</h3><ul>
+<li><span class="st st-p">Proposed</span>Bins, lids, flaps and doors charcoal <span class="sw" style="background:#2A3036"></span>. Skid rails and accents copper <span class="sw" style="background:#C2804F"></span>#C2804F.</li>
+<li><span class="st st-b">Design basis</span><b>Bin sign plate</b> on the lower front of each bin, the bin width less 80 and about 840 high. Copper header with the bin number in black, the stream name in black capitals, then what goes in and what stays out.</li>
+<li><span class="st st-b">Design basis</span><b>Flap marking.</b> Bin number in white and stream name in copper on every flap.</li>
+<li><span class="st st-p">Proposed</span>Plates in aluminium composite with UV-stable printed vinyl, list text at least 50 high and names 80 to 140 high. "BUILDBIN" on the hook-end plate. Rear post sign: BUILDBIN, alarmed after hours, no asbestos, chemicals or gas bottles.</li>
+<li><span class="st st-t">To confirm</span>Paint system and corrosion protection for site and facility use.</li>
 </ul></article>
 
-<article><h3>4.10 Finish and marking</h3><ul>
-<li><span class="st st-p">Proposed</span>Body, roof, frame and flaps: charcoal, to match BuildBin steel <span class="sw" style="background:#14181C"></span>#14181C as closely as the paint system allows.</li>
-<li><span class="st st-p">Proposed</span>Top band, roof ridge strip, lifting eyes and bay numbers: copper <span class="sw" style="background:#C2804F"></span>#C2804F.</li>
-<li><span class="st st-b">Design basis</span><b>Bay sign plates.</b> One white plate per pod on the lower wall, the full width of the pod less 50 each end and about 860 high. Copper header with the bay number in black, then the stream name in black capitals, then what goes in and what stays out. Readable from across the site.</li>
-<li><span class="st st-b">Design basis</span><b>Flap marking.</b> Every flap carries its bay number in white and the stream name in copper, so each opening is identified even when the plate is out of view.</li>
-<li><span class="st st-p">Proposed</span>Plates in aluminium composite or similar with UV-stable printed vinyl, black text at least 50 high for the lists and 85 to 150 high for stream names. Plates hang on two horizontal rails along the lower wall so they slide to any module when pods are resized.</li>
-<li><span class="st st-p">Proposed</span>"BUILDBIN" in black on the copper top band, twice on each side. Rear end: "BUILDBIN" and "EVERY MATERIAL. SORTED ON SITE.", plus a white panel: "SECURITY: alarmed after hours, sensor lights, bays logged" and "NO ASBESTOS, NO CHEMICALS, NO GAS BOTTLES".</li>
-<li><span class="st st-p">Proposed</span>Stream name and bay number also painted inside each pod's front wall, so a pod is identified once it's lifted out.</li>
-<li><span class="st st-t">To confirm</span>Paint system (prime and topcoat or powder coat) and corrosion protection for site and facility use.</li>
+<article><h3>4.10 Safety and compliance</h3><ul>
+<li><span class="st st-t">To confirm</span>Skid, hook interface, fork pockets and trap door hinges and latches designed and certified by a qualified structural engineer to the relevant Australian Standards, with rated loads marked.</li>
+<li><span class="st st-t">To confirm</span>Loaded mass within the truck's hook-lift rating. Eight 4 mm bins come to about the tare shown in section 1, before the skid.</li>
+<li><span class="st st-p">Proposed</span>Trap door latches that can't release on the skid or under a forklift until a safety pin is pulled. No sharp edges, guarded pinch points, no footholds.</li>
 </ul></article>
 
-<article><h3>4.11 Safety and compliance</h3><ul>
-<li><span class="st st-t">To confirm</span>The structure, hook-lift interface, roof lifting eyes and pod lifting lugs designed and certified by a qualified structural engineer to the relevant Australian Standards, with rated loads marked and proof-load testing as the engineer requires.</li>
-<li><span class="st st-t">To confirm</span>Loaded travel height on the operator's truck within the 4.3 m general access limit, and loaded mass within the truck's hook-lift rating.</li>
-<li><span class="st st-p">Proposed</span>No sharp edges, guarded pinch points, and loading flap sill at a height trades can reach from the ground without a step.</li>
-</ul></article>
-
-<article><h3>4.12 What we need back with the quote</h3><ul>
+<article><h3>4.11 What we need back with the quote</h3><ul>
 <li>Shop drawings or a marked-up GA, with materials and sections.</li>
-<li>Tare weight of the body, the roof and each pod size.</li>
-<li>Rated load per pod and per station, and the engineer's certification approach.</li>
-<li>Locking, sensor light and alarm hardware proposal and price, including a 4G option.</li>
-<li>Unit price for 1 prototype, 10 and 50 stations, plus spare pods by size.</li>
+<li>Tare weight of the skid and of each bin width.</li>
+<li>Rated load per bin and per station, and the engineer's certification approach.</li>
+<li>Lock, light and alarm hardware proposal and price, including a 4G option.</li>
+<li>Unit price for 1 prototype, 10 and 50 stations, plus spare bins by width.</li>
 <li>Lead time for the prototype and for a pilot run.</li>
 </ul></article>
 

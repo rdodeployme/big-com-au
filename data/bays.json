@@ -3,59 +3,58 @@
   {
    "id": "general",
    "side": "A",
-   "x0": -3.11,
-   "len": 2.488,
-   "vol_m3": 6.26
+   "x0": -2.99,
+   "len": 2.32,
+   "modules": 4
   },
   {
    "id": "plastic",
    "side": "A",
-   "x0": -0.622,
-   "len": 1.244,
-   "vol_m3": 3.13
+   "x0": -0.65,
+   "len": 1.15,
+   "modules": 2
   },
   {
    "id": "eps",
    "side": "A",
-   "x0": 0.622,
-   "len": 0.622,
-   "vol_m3": 1.57
+   "x0": 0.52,
+   "len": 0.565,
+   "modules": 1
   },
   {
    "id": "card",
    "side": "A",
-   "x0": 1.244,
-   "len": 1.866,
-   "vol_m3": 4.7
+   "x0": 1.105,
+   "len": 1.735,
+   "modules": 3
   },
   {
    "id": "timber",
    "side": "B",
-   "x0": -3.11,
-   "len": 3.732,
-   "vol_m3": 9.39
+   "x0": -2.99,
+   "len": 3.49,
+   "modules": 6
   },
   {
    "id": "rubble",
    "side": "B",
-   "x0": 0.622,
-   "len": 0.622,
-   "vol_m3": 1.57
+   "x0": 0.52,
+   "len": 0.565,
+   "modules": 1
   },
   {
    "id": "steel",
    "side": "B",
-   "x0": 1.244,
-   "len": 0.622,
-   "vol_m3": 1.57
+   "x0": 1.105,
+   "len": 0.565,
+   "modules": 1
   },
   {
    "id": "plaster",
    "side": "B",
-   "x0": 1.866,
-   "len": 1.244,
-   "vol_m3": 3.13
+   "x0": 1.69,
+   "len": 1.15,
+   "modules": 2
   }
- ],
- "internal_m3_each_bay_total": 31.32
+ ]
 }

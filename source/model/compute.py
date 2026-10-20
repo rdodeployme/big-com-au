@@ -77,13 +77,21 @@ for lab, r in KG_PER_M2.items():
     t = ex_area * r / 1000
     print(f"{lab:>8}: {ex_area} m2 house -> {t:.1f} t, {t*tot_v:.0f} m3 loose, ~{t*tot_v/(internal*0.85):.1f} station lifts")
 
-# ---------- modular grid: each side split into equal modules; each bay is a pod of whole modules ----------
+# ---------- skid + 8 stand-alone bins (Rev B, 20 Oct 2026) ----------
+# Hard rules from Andy: max 2.0 m high, max 6.3 m long, 4 bins per side, drop-down front flap 1.2 -> 2.0 m,
+# fork pockets 200 mm off the ground, bins sit behind a 100 mm rail on the hook skid, hard lid,
+# top-hinged trap door on the right-hand side to empty, 100 mm fall on the lid, 4 mm plate throughout.
+# All heights are from the ground with the bins on the skid. Lengths in metres.
+GEO = {
+    "L": 6.3, "W": 2.45, "deck": 0.10, "rail_h": 0.10, "rail_w": 0.05, "centre_w": 0.05,
+    "rear_zone": 0.15, "hook_zone": 0.30, "gap": 0.02, "plate": 0.004,
+    "front_top": 2.00, "back_top": 1.90, "flap_bot": 1.20, "pocket_bot": 0.30, "pocket_h": 0.10, "floor": 0.40,
+}
 MODULES_PER_SIDE = 10
-WALL = 0.04
-int_L = BODY["length"] - 2 * WALL
-mod_len = int_L / MODULES_PER_SIDE
-side_w = (BODY["width"] - 3 * WALL) / 2
-int_H = BODY["height"] - WALL
+bin_zone = GEO["L"] - GEO["rear_zone"] - GEO["hook_zone"]
+mod_len = bin_zone / MODULES_PER_SIDE
+depth = (GEO["W"] - 2 * GEO["rail_w"] - GEO["centre_w"]) / 2
+GEO.update({"module": mod_len, "depth": depth})
 SIDES = {"A": ["general", "plastic", "eps", "card"], "B": ["timber", "rubble", "steel", "plaster"]}
 modules = {}
 for side, ids in SIDES.items():
@@ -95,20 +103,30 @@ for side, ids in SIDES.items():
     while sum(alloc.values()) > MODULES_PER_SIDE:
         k = min((k for k in alloc if alloc[k] > 1), key=lambda k: tgt[k] - alloc[k]); alloc[k] -= 1
     modules.update(alloc)
-GAP, POD_WALL, POD_TOP = 0.035, 0.02, 0.12
-def bay_dims(n):
-    bl = n * mod_len
-    gross = bl * side_w * int_H
-    pod = (bl - 2 * GAP) * (side_w - 2 * GAP) * (int_H - POD_TOP)
-    pod_net = (bl - 2 * GAP - 2 * POD_WALL) * (side_w - 2 * GAP - 2 * POD_WALL) * (int_H - POD_TOP - POD_WALL)
-    return bl, gross, pod_net
-print(f"\nModule {mod_len*1000:.0f} mm; per side {MODULES_PER_SIDE}; side width {side_w*1000:.0f} mm; internal height {int_H*1000:.0f} mm")
+t = GEO["plate"]
+int_d = depth - 2 * t
+int_h_front = GEO["front_top"] - t - (GEO["floor"] + t)
+int_h_back = GEO["back_top"] - t - (GEO["floor"] + t)
+int_h = (int_h_front + int_h_back) / 2
+def bin_dims(n):
+    w = n * mod_len - GEO["gap"]
+    iw = w - 2 * t
+    net = iw * int_d * int_h
+    # 4 mm plate: front, back, two sides, floor, lid (sloped) + 25% for base frame, pockets, flap and door frames
+    h_avg = (GEO["front_top"] + GEO["back_top"]) / 2 - GEO["floor"]
+    lid = w * (depth ** 2 + (GEO["front_top"] - GEO["back_top"]) ** 2) ** 0.5
+    area = 2 * w * h_avg + 2 * depth * h_avg + w * depth + lid
+    tare = area * t * 7850 * 1.25
+    return w, net, tare
+print(f"\nRev B: module {mod_len*1000:.0f} mm, bin depth {depth*1000:.0f} mm, internal height {int_h_front*1000:.0f} front / {int_h_back*1000:.0f} back")
 for side, ids in SIDES.items():
     for k in ids:
-        bl, g, pn = bay_dims(modules[k])
-        print(f"{side} {k:<8} {modules[k]:>2} mod  {bl*1000:>5.0f} mm  gross {g:4.2f} m3  pod net {pn:4.2f} m3  data {vshare[k]*internal:4.2f}")
+        w, net, tare = bin_dims(modules[k])
+        print(f"{side} {k:<8} {modules[k]:>2} mod  {w*1000:>5.0f} mm wide  net {net:4.2f} m3  tare ~{tare:4.0f} kg")
+station_net = sum(bin_dims(modules[k])[1] for k in modules)
+print(f"Station net {station_net:.1f} m3; 240 m2 home {240*32.2/1000*tot_v:.0f} m3 -> {240*32.2/1000*tot_v/(station_net*0.85):.1f} change-overs at 85% full")
 
-cfg = {"body": BODY, "open_flaps": {"timber": 70, "card": 70, "general": 62, "rubble": 62, "steel": 62},
+cfg = {"geo": GEO, "open_flaps": {"timber": 90, "card": 90, "general": 90, "rubble": 90, "steel": 90},
        "modular": {"modules_per_side": MODULES_PER_SIDE, "sides": SIDES},
        "streams": [{"n": n, "id": k, "name": name, "short": short, "share": round(modules[k] / (2 * MODULES_PER_SIDE), 4), "kind": kind, "modules": modules[k]}
                    for n, k, name, short, kind in STREAMS]}
@@ -120,9 +138,13 @@ os.makedirs(os.path.join(HERE, "..", "site", "data"), exist_ok=True)
 json.dump({
     "streams": [{"n": n, "id": k, "name": name, "weight": CENTRAL[k], "range": RANGE[k], "density": DENSITY[k],
                  "densityNote": DENS_NOTE.get(k, ""), "volume": round(vshare[k] * 100, 1),
-                 "built": round(modules[k] / (2 * MODULES_PER_SIDE) * 100, 1), "bayM3": round(bay_dims(modules[k])[1], 2),
-                 "modules": modules[k], "side": next(sd for sd, ids in SIDES.items() if k in ids), "lengthMm": round(bay_dims(modules[k])[0] * 1000), "podNetM3": round(bay_dims(modules[k])[2], 2)} for n, k, name, *_ in STREAMS],
+                 "built": round(modules[k] / (2 * MODULES_PER_SIDE) * 100, 1), "bayM3": round(bin_dims(modules[k])[1], 2),
+                 "modules": modules[k], "side": next(sd for sd, ids in SIDES.items() if k in ids),
+                 "lengthMm": round(bin_dims(modules[k])[0] * 1000), "podNetM3": round(bin_dims(modules[k])[1], 2),
+                 "tareKg": round(bin_dims(modules[k])[2], -1)} for n, k, name, *_ in STREAMS],
     "m3PerTonne": round(tot_v, 3), "moduleMm": round(mod_len * 1000), "modulesPerSide": MODULES_PER_SIDE,
-    "sideWidthMm": round(side_w * 1000), "internalHeightMm": round(int_H * 1000), "gapMm": GAP * 1000, "podWallMm": POD_WALL * 1000, "podTopMm": POD_TOP * 1000, "kgPerM2": KG_PER_M2, "stationInternalM3": round(sum(bay_dims(modules[k])[2] for k in modules), 1), "stationGrossM3": round(internal, 1),
+    "geo": {k: round(v * 1000) for k, v in GEO.items()},
+    "binDepthMm": round(depth * 1000), "internalHeightFrontMm": round(int_h_front * 1000), "internalHeightBackMm": round(int_h_back * 1000),
+    "kgPerM2": KG_PER_M2, "stationInternalM3": round(station_net, 1), "stationGrossM3": round(station_net, 1),
     "sources": {k: {kk: (round(vv, 2) if isinstance(vv, float) else vv) for kk, vv in s.items()} for k, s in SOURCES.items()},
 }, open(os.path.join(HERE, "..", "site", "data", "model.json"), "w"), indent=1)

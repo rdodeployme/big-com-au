@@ -295,3 +295,6 @@ footer .mark b{color:var(--text)}
 .signshot img{width:100%;aspect-ratio:1800/1116;object-fit:cover}
 .signshot figcaption{padding:16px 20px;font-size:15.5px;color:var(--muted)}
 .signshot figcaption b{color:var(--text);font-weight:600}
+.shotpair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
+.shotpair .signshot{margin-top:0}
+@media (max-width:860px){.shotpair{grid-template-columns:1fr}}

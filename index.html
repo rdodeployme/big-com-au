@@ -73,7 +73,7 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Eight bays. One station. Every home.</h2>
-      <p>A weatherproof, hook-lift station that sits on the lot from slab to handover. Trades drop each material into its numbered bay. Spin it, or tap a bay to see what goes in.</p>
+      <p>A low hook-lift skid carrying eight lidded steel bins, on the lot from slab to handover. Trades drop each material into its numbered bin. Spin it, tap a bin to see what goes in, then lift it out and tip it the way the facility empties it.</p>
     </div>
     <div class="station">
       <div class="viewer" id="viewer" data-model="model/big-station.glb">
@@ -84,25 +84,31 @@
       <div class="bays">
         <ul class="bay-list" id="bayList"></ul>
         <div class="bay-detail" id="bayDetail" aria-live="polite"></div>
-        <div class="viewer-tools"><button type="button" class="btn btn-ghost" id="roofBtn">Lift the roof off</button><button type="button" class="btn btn-cu" id="podBtn">Lift out this pod</button></div>
+        <div class="viewer-tools"><button type="button" class="btn btn-ghost" id="roofBtn">Lift this bin out</button><button type="button" class="btn btn-cu" id="podBtn">Tip it to empty</button></div>
       </div>
     </div>
     <dl class="specs">
-      <div><dt>Footprint</dt><dd>6.3 × 2.45 m</dd></div>
-      <div><dt>Usable volume</dt><dd>About 25 m³ in 8 pods</dd></div>
-      <div><dt>Loading height</dt><dd>Flap sill 1.22 m off the ground</dd></div>
+      <div><dt>Footprint</dt><dd>6.3 × 2.45 m, 2 m high</dd></div>
+      <div><dt>Usable volume</dt><dd>About 20 m³ in 8 bins</dd></div>
+      <div><dt>Loading</dt><dd>Drop-down flaps, 1.2 m to 2 m</dd></div>
       <div><dt>Change-over</dt><dd>One hook-lift truck</dd></div>
       <div><dt>Security</dt><dd>One-tap locks, 3 sensor lights, scheduled alarm</dd></div>
     </dl>
     <div class="howgrid">
-      <div><h3>How it's emptied</h3><p>At the facility the roof lifts off in one piece on four lifting eyes. Every bay is a removable pod that carries its own flaps, so it lifts out closed, gets weighed, tipped onto its own pile and dropped back in. Nothing spills and the streams never meet.</p></div>
-      <div><h3>Change the bay sizes</h3><p>Each side is a grid of ten 622 mm modules, and a pod can be one to six modules long. To give an estate more room for bricks or cardboard, swap the pods around and slide the sign plates along. The body stays the same.</p></div>
-      <div><h3>Locked, lit and alarmed</h3><p>The supervisor locks or unlocks all eight bays at once from a phone over Bluetooth, and every opening is logged. Three motion-sensor lights cover both sides and the rear after dark, and an alarm arms itself for the hours you set, say 6 pm to 6 am and weekends. A manual override covers a flat phone or battery.</p></div>
+      <div><h3>How it's emptied</h3><p>A forklift lifts each bin off the skid by its fork pockets, weighs it and turns it on its side. The trap door on the bin's right-hand side swings open and the load slides out onto its own pile. The lid stays on and the streams never meet.</p></div>
+      <div><h3>Change the bay sizes</h3><p>Each side of the skid is ten 585 mm modules and holds four bins, each one to six modules wide. To give an estate more room for bricks or cardboard, swap in a wider bin. The skid stays the same.</p></div>
+      <div><h3>Locked, lit and alarmed</h3><p>The supervisor locks or unlocks all eight bins at once from a phone over Bluetooth, and every opening is logged. Three motion-sensor lights on the skid cover both sides and the rear after dark, and an alarm arms itself for the hours you set, say 6 pm to 6 am and weekends. A manual override covers a flat phone or battery.</p></div>
     </div>
+    <div class="shotpair">
     <figure class="signshot">
-      <img src="img/station-signs.jpg" alt="Close-up of the station's side: each bay has a white sign plate with a copper header showing the bay number, the stream name in large black capitals and what goes in and what stays out, and every flap shows its bay number" loading="lazy">
-      <figcaption><b>Signed so nobody has to guess.</b> Every bay has a white plate with its number, its name in big capitals, and what goes in and what stays out. Every flap carries the bay number too, so the right opening is obvious from across the site.</figcaption>
+      <img src="img/station-signs.jpg" alt="Close-up of the station's side: each bin has a white sign plate with a copper header showing the bay number, the stream name in large black capitals and what goes in and what stays out, and every flap shows its bay number" loading="lazy">
+      <figcaption><b>Signed so nobody has to guess.</b> Every bin has a white plate with its number, its name in big capitals, and what goes in and what stays out. Every flap carries the number too, so the right bin is obvious from across the site.</figcaption>
     </figure>
+    <figure class="signshot">
+      <img src="img/station-empty.jpg" alt="A forklift with a rotator has lifted the plasterboard bin off the skid and turned it on its side; the top-hinged trap door hangs open and the plasterboard has slid out onto its own pile" loading="lazy">
+      <figcaption><b>Emptied without taking the lid off.</b> The forklift lifts a bin off the skid by its fork pockets and turns it to the right. The trap door swings open and the load slides onto its own pile.</figcaption>
+    </figure>
+    </div>
     <p class="muted" style="margin-top:22px;font-size:14px">Concept design, modelled in Blender. Final dimensions, hook height, weight limits and the lock, light and alarm hardware are confirmed with the fabricator. <a href="spec.html">Read the fabricator spec</a>.</p>
   </div>
 </section>
@@ -122,8 +128,8 @@
         <svg class="slope" id="slope" viewBox="0 0 560 420" role="img" aria-label="Each stream's share of waste by weight compared with its share by volume"></svg>
       </div>
       <div>
-        <div class="plan" id="plan"><img src="img/plan.jpg" alt="Top-down view of the station with the lid off, showing the eight bays at their sized lengths" loading="lazy"><svg viewBox="0 0 1800 1116" preserveAspectRatio="none" aria-hidden="true" id="planSvg"></svg></div>
-        <p class="plan-cap">Lid off, from above. Each bay's length is its share of the loose volume a new home produces, rounded to whole 622 mm modules so bays can be resized by swapping pods. The smallest bays are one module long so they can still be loaded by hand.</p>
+        <div class="plan" id="plan"><img src="img/plan.jpg" alt="Top-down view of the station with the lids off, showing the eight bins at their sized widths" loading="lazy"><svg viewBox="0 0 1800 1116" preserveAspectRatio="none" aria-hidden="true" id="planSvg"></svg></div>
+        <p class="plan-cap">Lids off, from above. Each bin's width is its share of the loose volume a new home produces, rounded to whole 585 mm modules. The smallest bins are one module wide so they can still be loaded by hand.</p>
       </div>
     </div>
 
@@ -134,12 +140,12 @@
         <div class="readout">
           <div><b id="tOut">7.7 t</b><span>surplus material</span></div>
           <div><b id="vOut">41 m³</b><span>loose volume</span></div>
-          <div><b id="lOut">2.0</b><span>station change-overs</span></div>
+          <div><b id="lOut">2.4</b><span>station change-overs</span></div>
         </div>
       </div>
       <div>
         <div class="skips" id="skips" aria-hidden="true"></div>
-        <p class="skips-cap" id="skipsCap">That's about seven 6 m³ skips of mixed waste, or about two BuildBin change-overs, already sorted.</p>
+        <p class="skips-cap" id="skipsCap">That's about seven 6 m³ skips of mixed waste, or 2.4 BuildBin change-overs, already sorted.</p>
       </div>
     </div>
     <p style="margin-top:28px"><a class="btn btn-ink" href="method.html">See the full method and sources</a></p>
@@ -275,7 +281,7 @@
     </div>
     <div class="yh">
       <div class="yh-row"><q>Plan for waste separation and sorting on site during construction.</q><p><b>BuildBin separates at the source.</b> Eight streams are sorted where they're made, never mixed.</p></div>
-      <div class="yh-row"><q>Provide recycling skips and colour code or label waste skips and protect them from contamination, rain and wind.</q><p><b>One station does all of that.</b> Numbered, labelled bays under a weatherproof lid, on one footprint.</p></div>
+      <div class="yh-row"><q>Provide recycling skips and colour code or label waste skips and protect them from contamination, rain and wind.</q><p><b>One station does all of that.</b> Numbered, labelled bins with hard lids, on one footprint.</p></div>
       <div class="yh-row"><q>Use written contracts with all trades that include clauses requiring waste minimisation.</q><p><b>The BuildBin Standard</b> is a ready-made subcontract clause.</p></div>
       <div class="yh-row"><q>Negotiate recycling paybacks with local resource recovery firms.</q><p><b>Recycle Group processes the streams.</b> Who gets the value of recovered material is set out in the pilot agreement.</p></div>
     </div>
@@ -294,7 +300,7 @@
       <li><b>Baseline</b><p>We record what your current skips cost and recover, so there's something to compare with.</p></li>
       <li><b>Station on at slab</b><p>The station arrives with the slab pour and stays until handover.</p></li>
       <li><b>Trade induction</b><p>A one-page sheet and a five-minute walk-through for supervisors and trades.</p></li>
-      <li><b>Weighed change-overs</b><p>Each bay is weighed at our facility, so every tonne is recorded by stream.</p></li>
+      <li><b>Weighed change-overs</b><p>Each bin is weighed at our facility, so every tonne is recorded by stream.</p></li>
       <li><b>Pilot report</b><p>Tonnes recovered, contamination, cost against your baseline, and what to change.</p></li>
     </ol>
     <div class="pilot-form">
