@@ -463,4 +463,4 @@ if RENDER == "tip":
         box("pile", (rng.uniform(0.3, 0.8), rng.uniform(0.3, 0.6), 0.013), (bx + 1.9 + rng.uniform(-0.5, 0.5), ym - 2.6 + rng.uniform(-0.55, 0.55), rng.uniform(0.01, 0.35) * (1 - p / 90)),
             M["plaster"], (rng.uniform(-0.5, 0.5), rng.uniform(-0.5, 0.5), rng.uniform(0, 3.1)))
     floor_plane(); lights()
-    setup_render("tip.png", (10.2, -0.9, 3.3), (math.radians(76), 0, math.radians(103)), lens=32)
+    setup_render("tip.png", (8.6, -6.4, 2.7), (math.radians(78), 0, math.radians(58)), lens=33)
