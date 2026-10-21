@@ -196,3 +196,24 @@ $('#pilotForm')?.addEventListener('submit', (e) => {
   const body = `Name: ${d.name}\nCompany: ${d.company}\nEmail: ${d.email}\nPhone: ${d.phone || ''}\nHomes a year: ${d.homes}\nWhere we build: ${d.region || ''}\n\n${d.message || ''}`;
   location.href = `mailto:${TO}?subject=${encodeURIComponent('BuildersBins pilot request: ' + d.company)}&body=${encodeURIComponent(body)}`;
 });
+
+// ---------- ledger: count up and fill when it scrolls into view ----------
+(() => {
+  const led = document.getElementById('ledger'); if (!led) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nums = [...led.querySelectorAll('.count')];
+  const show = (el, v) => { const d = +(el.dataset.dec || 0); el.textContent = (el.dataset.prefix || '') + v.toLocaleString('en-AU', { minimumFractionDigits: d, maximumFractionDigits: d }) + (el.dataset.suffix || ''); };
+  if (reduce) { led.classList.add('in'); return; }
+  nums.forEach((el) => show(el, 0));
+  const run = () => {
+    led.classList.add('in');
+    const t0 = performance.now(), dur = 1600;
+    const tick = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      nums.forEach((el) => show(el, +el.dataset.to * e));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  new IntersectionObserver((es, io) => { if (es.some((x) => x.isIntersecting)) { run(); io.disconnect(); } }, { threshold: 0.4 }).observe(led);
+})();

@@ -46,11 +46,11 @@
   </div>
 </section>
 
-<div class="ledger">
+<div class="ledger" id="ledger">
   <div class="wrap">
-    <div><b>44%</b><p>of Australia's waste comes from construction and demolition.</p><small>Your Home, Australian Government</small></div>
-    <div><b>$177.19</b><p>a tonne. Victoria's metro landfill levy from 1 July 2026, on top of the gate fee.</p><small>EPA Victoria</small></div>
-    <div><b>8 in 1</b><p>Eight separated streams, one station, one hook-lift truck to change it over.</p><small>BuildersBins station design</small></div>
+    <div><b class="count" data-to="44" data-suffix="%">44%</b><span class="meter" aria-hidden="true"><i style="--v:.44"></i></span><p>of Australia's waste comes from construction and demolition.</p><small>Your Home, Australian Government</small></div>
+    <div><b class="count" data-to="177.19" data-prefix="$" data-dec="2">$177.19</b><span class="meter tonne" aria-hidden="true"><i style="--v:1"></i></span><p>a tonne. Victoria's metro landfill levy from 1 July 2026, on top of the gate fee.</p><small>EPA Victoria</small></div>
+    <div><b><span class="count" data-to="8">8</span> in 1</b><span class="mini" aria-hidden="true"><span class="r"><i style="flex:4"></i><i style="flex:2"></i><i style="flex:1"></i><i style="flex:3"></i></span><span class="r"><i style="flex:6"></i><i style="flex:1"></i><i style="flex:1"></i><i style="flex:2"></i></span></span><p>Eight separated streams, one station, one hook-lift truck to change it over.</p><small>BuildersBins station design</small></div>
   </div>
 </div>
 
@@ -58,7 +58,7 @@
   <div class="wrap problem">
     <div>
       <p class="kicker">The problem with one big skip</p>
-      <h2>A mixed skip is a sorting job you pay someone else to do. Or nobody does.</h2>
+      <h2>With one mixed skip, you pay someone else to sort it. Or it never gets sorted.</h2>
       <ul>
         <li><b>It all gets mixed</b><span>Plasterboard, timber, cardboard and brick go in together. Once it's mixed, every tonne is harder and dearer to recover.</span></li>
         <li><b>It gets wet</b><span>An open skip in the rain ruins plasterboard and cardboard for recycling. Polystyrene and wrap blow down the street.</span></li>

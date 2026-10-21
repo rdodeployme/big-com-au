@@ -306,3 +306,18 @@ footer .mark b{color:var(--text)}
 .hero-sub .tagline{white-space:nowrap;font-size:clamp(16px,5.3vw,58px);text-shadow:0 2px 24px rgba(14,17,20,.85),0 1px 3px rgba(14,17,20,.6)}
 @media (min-width:761px){.hero-sub .tagline{font-size:clamp(34px,3.9vw,58px)}}
 @media (max-width:400px){.top .mark b{font-size:21px}.top .logo-mark{width:32px;height:19px}.hero h1{font-size:clamp(34px,10.4vw,44px)}}
+/* ledger animation */
+.ledger b{font-size:clamp(36px,4.2vw,58px);font-variant-numeric:tabular-nums}
+.ledger .meter{display:block;height:6px;margin-top:14px;max-width:260px;background:var(--steel3);border-radius:3px;overflow:hidden}
+.ledger .meter i{display:block;height:100%;width:calc(var(--v) * 100%);background:var(--copper);border-radius:3px;transform-origin:left;transform:scaleX(0);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.ledger .meter.tonne i{background:repeating-linear-gradient(90deg,var(--copper) 0 22px,transparent 22px 26px)}
+.ledger .mini{display:grid;gap:3px;margin-top:14px;max-width:260px;padding:3px;border:1.5px solid var(--copper);border-radius:4px}
+.ledger .mini .r{display:flex;gap:3px;height:9px}
+.ledger .mini i{background:var(--steel3);border-radius:1.5px;opacity:0;transform:translateY(-8px);transition:opacity .4s, transform .5s cubic-bezier(.2,.7,.2,1), background .6s}
+.ledger.in .meter i{transform:scaleX(1)}
+.ledger.in .mini i{opacity:1;transform:none;background:var(--copper)}
+.ledger.in .mini .r:nth-child(1) i:nth-child(1){transition-delay:.1s}.ledger.in .mini .r:nth-child(1) i:nth-child(2){transition-delay:.25s}
+.ledger.in .mini .r:nth-child(1) i:nth-child(3){transition-delay:.4s}.ledger.in .mini .r:nth-child(1) i:nth-child(4){transition-delay:.55s}
+.ledger.in .mini .r:nth-child(2) i:nth-child(1){transition-delay:.7s}.ledger.in .mini .r:nth-child(2) i:nth-child(2){transition-delay:.85s}
+.ledger.in .mini .r:nth-child(2) i:nth-child(3){transition-delay:1s}.ledger.in .mini .r:nth-child(2) i:nth-child(4){transition-delay:1.15s}
+@media (prefers-reduced-motion:reduce){.ledger .meter i,.ledger .mini i{transform:none!important;opacity:1!important;background:var(--copper)}}
