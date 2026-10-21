@@ -321,3 +321,11 @@ footer .mark b{color:var(--text)}
 .ledger.in .mini .r:nth-child(2) i:nth-child(1){transition-delay:.7s}.ledger.in .mini .r:nth-child(2) i:nth-child(2){transition-delay:.85s}
 .ledger.in .mini .r:nth-child(2) i:nth-child(3){transition-delay:1s}.ledger.in .mini .r:nth-child(2) i:nth-child(4){transition-delay:1.15s}
 @media (prefers-reduced-motion:reduce){.ledger .meter i,.ledger .mini i{transform:none!important;opacity:1!important;background:var(--copper)}}
+/* problem section: headline across the top, list and photo side by side at equal height */
+.problem{grid-template-columns:1fr 1fr;grid-template-areas:"head head" "list fig";gap:36px clamp(28px,4vw,64px);align-items:stretch}
+.problem-head{grid-area:head}.problem-list{grid-area:list}.problem figure{grid-area:fig}
+.problem h2{max-width:22ch}
+.problem ul{margin-top:0}
+.problem figure{aspect-ratio:auto;height:100%;min-height:380px;border-radius:8px}
+.problem figcaption{background:rgba(14,17,20,.6);padding:3px 8px;border-radius:4px}
+@media (max-width:860px){.problem{grid-template-areas:"head" "fig" "list";grid-template-columns:1fr}.problem figure{min-height:0;aspect-ratio:4/3}}
